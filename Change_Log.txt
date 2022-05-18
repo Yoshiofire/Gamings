@@ -1,0 +1,7 @@
+Hello, this is the change log to uh describe details.
+
+
+Current date: 5/18/2022
+
+    Changed speeds for People.java.
+    'Entity.Java had it's hitbox creator +2' on all sides so it isn't so cut into the pictures when the collide
