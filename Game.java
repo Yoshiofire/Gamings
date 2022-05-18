@@ -116,8 +116,8 @@ public class Game extends JPanel implements Runnable{
       switch(gameState){
         case 1: // default playing thing
           CD.checkObj(people, player);
-          CD.checkObj(player, people);
           player.playerMove();
+          CD.checkObj(player, people);
           people.peopleMove(); //need this to move less, moving 60 times per second
           
           break;
@@ -143,12 +143,13 @@ public class Game extends JPanel implements Runnable{
 
       switch(gameState){
         case 1: // default playing thing
-          people.draw(g2); //need this to move less, moving 60 times per second
-          player.draw(g2);
-          break;
-        case 2: // pause
+
           people.drawHitboxes(g2);
           player.drawHitboxes(g2);
+          break;
+        case 2: // pause
+          people.draw(g2); //need this to move less, moving 60 times per second
+          player.draw(g2);
 
 
           break;

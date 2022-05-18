@@ -19,57 +19,47 @@ public class CollisionDetect{ // this is going t
             // entity.collides = false;
             entity2.collides = false;
             System.out.println(entity2.movement);
-            switch(entity2.movement){
-                case 87: //up
-                    entity2.hitbox.y -= entity2.eSpeed;
-                    if(entity2.hitbox.intersects(entity.hitbox)){
-                        entity2.hitbox.y += entity2.eSpeed;
-                        // entity.posY -= entity.eSpeed;
-                        // entity.collides = true;
-                        entity2.collides = true;
-                    }
-                    break;
-                case 83: //down
-                    entity2.hitbox.y += entity2.eSpeed;
-                    if(entity2.hitbox.intersects(entity.hitbox)){
+                switch(entity2.movement){
+                    case 87: //up
                         entity2.hitbox.y -= entity2.eSpeed;
-                        // entity.posY += entity.eSpeed;
-                        // entity.collides = true;
-                        entity2.collides = true;
-                    }
-                    break;
-                case 65: //left
-                    entity2.hitbox.x -= entity2.eSpeed;
-                    if(entity2.hitbox.intersects(entity.hitbox)){
-                        entity2.hitbox.x += entity2.eSpeed;
-                        // entity.posX -= entity.eSpeed;
-                        // entity.collides = true;
-                        entity2.collides = true;
-                    }
-                    break;
-                case 68: //right
-                    entity2.hitbox.x += entity2.eSpeed;
-                    if(entity2.hitbox.intersects(entity.hitbox)){
+                        if(entity2.hitbox.intersects(entity.hitbox)){
+                            // entity.posY -= entity.eSpeed;
+                            // entity.collides = true;
+                            entity2.collides = true;
+                        }
+                        entity2.hitbox.y += entity2.eSpeed;
+                        break;
+                    case 83: //down
+                        entity2.hitbox.y += entity2.eSpeed;
+                        if(entity2.hitbox.intersects(entity.hitbox)){
+                            // entity.posY += entity.eSpeed;
+                            // entity.collides = true;
+                            entity2.collides = true;
+                        }
+                        entity2.hitbox.y -= entity2.eSpeed;
+                        break;
+                    case 65: //left
                         entity2.hitbox.x -= entity2.eSpeed;
-                        // entity.posX += entity.eSpeed;
-                        // entity.collides = true;
-                        entity2.collides = true;
-                    }
-                    break;
-
-
-
+                        if(entity2.hitbox.intersects(entity.hitbox)){
+                            // entity.posX -= entity.eSpeed;
+                            // entity.collides = true;
+                            entity2.collides = true;
+                        }
+                        entity2.hitbox.x += entity2.eSpeed;
+                        break;
+                    case 68: //right
+                        entity2.hitbox.x += entity2.eSpeed;
+                        if(entity2.hitbox.intersects(entity.hitbox)){
+                            // entity.posX += entity.eSpeed;
+                            // entity.collides = true;
+                            entity2.collides = true;
+                        }
+                        entity2.hitbox.x -= entity2.eSpeed;
+                        break;
+            }
+            
         }
+        
          
     }//We want to check the parameter rather than the area of the hit box?
 
-
-
-
-
-
-
-
-
-
-}

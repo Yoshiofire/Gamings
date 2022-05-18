@@ -20,6 +20,7 @@ public class Entity{
     public Rectangle hitbox;
     public boolean collides;
     public int movement;
+    public boolean moved;
 
     // public String direction; 
 
@@ -29,8 +30,9 @@ public class Entity{
         eSpeed = 10;
         sizeX = 200;
         sizeY = 200;
-        hitbox = new Rectangle(posX+2, posY+2, sizeX+2, sizeY+2);
+        hitbox = new Rectangle(posX+1, posY+1, sizeX+1, sizeY+1);
         collides = false;
+        moved = false;
         //FILE PATH TO DEFUALT SPRITE TEXTURE
         //WHAT NEEDS TO BE ADDED IS DEFAULT HITBOX
         try{
