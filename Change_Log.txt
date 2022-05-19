@@ -3,14 +3,16 @@ Hello, this is the change log to uh describe details.
 
 Current date: 5/18/2022
 
-    Changed speeds 0-20 for People.java.
-    'Entity.Java had it's hitbox creator +2' on all sides so it isn't so cut into the pictures when the collide.
+    Changed speeds 0-20 for People.java. (Set to a standard speed)
+    'Entity.Java had it's hitbox creator +2' on all sides so it isn't so cut into the pictures when the collide. (Removed)
     In Game.java actually checked if people obj collided with player obj.
-    In Game.java when you press escape it freezes the game and shows hitboxes.
+    In Game.java when you press escape it freezes the game and shows hitboxes. (Swapped it for press esc to see skins)
     In CollsionDetect.java fixed a problem where the hitboxes were only being updated to their original positions
-        when they collide.
+        when they collide. (Still having a problem with hitboxes overlapping and freezing both characters)
 
     Kind of need a timer to fix the problem that people.java is moving too much, thus colliding to far into the player  
-        and getting stuck.
+        and getting stuck. (Fixed)
     
     Only added InvisWalls.java and initalized the invisible walls on the play screen as "up, down, left, right"
+
+    To make it less annoying, I make it so People.java only changes directions after 5 frames.
