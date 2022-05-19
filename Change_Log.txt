@@ -12,3 +12,5 @@ Current date: 5/18/2022
 
     Kind of need a timer to fix the problem that people.java is moving too much, thus colliding to far into the player  
         and getting stuck.
+    
+    Only added InvisWalls.java and initalized the invisible walls on the play screen as "up, down, left, right"
