@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 // import java.io.IOException;
 // import java.awt.image.BufferedImage;
 // import javax.imageio.ImageIO;
@@ -7,17 +9,19 @@
 public class People extends Entity{
     int count = 0;
     int direction = 0;
+    public static ArrayList <People> peopleList = new ArrayList<>();
     // public BufferedImage sprite; // this one for the "character frames" ig
     
     
     public People(String filePath){ //DOESNT NEED TO BE A STRING, I AM JUST LAZY SO INSTEAD OF SENDING A BUFFEREDIMAGE I FORCE PEOPLE TO SEND IN STRING
         super(
-            500,
-            500,
+            500 + (int) (Math.random() * 100),
+            500 + (int) (Math.random() * 100),
             0,
             100,
             100);
         this.setSprite(filePath);
+        peopleList.add(this);
     }
 
 
@@ -27,7 +31,7 @@ public class People extends Entity{
             count = 0;
         }
         
-        int amount = (int) (Math.random() * 10);
+        int amount = (int) (Math.random() * 5);
         // int amount = 0;
         switch(direction){
             case 0:

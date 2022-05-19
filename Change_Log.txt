@@ -3,7 +3,7 @@ Hello, this is the change log to uh describe details.
 
 Current date: 5/18/2022
 
-    Changed speeds 0-20 for People.java. (Set to a standard speed)
+    Changed speeds 0-20 for People.java. (Set to a random speed between 0->5)
     'Entity.Java had it's hitbox creator +2' on all sides so it isn't so cut into the pictures when the collide. (Removed)
     In Game.java actually checked if people obj collided with player obj.
     In Game.java when you press escape it freezes the game and shows hitboxes. (Swapped it for press esc to see skins)
@@ -16,3 +16,15 @@ Current date: 5/18/2022
     Only added InvisWalls.java and initalized the invisible walls on the play screen as "up, down, left, right"
 
     To make it less annoying, I make it so People.java only changes directions after 5 frames.
+
+
+Current date: 5/19/2022
+
+    Game.java
+        -Finally understood why my ArrayList idea wasn't working. So I added some ArrayLists
+        
+    InvisWalls.java
+        -Added a static ArrayList
+
+    People.java
+        -Same as above

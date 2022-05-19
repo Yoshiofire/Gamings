@@ -13,15 +13,22 @@ public class Game extends JPanel implements Runnable{
   private final int screenHeight = 768;
 
   //Changable Variables, mostly consisting of player stuff and setting data?
-  int FPS = 60;// can also be changed
+  int FPS = 30;// can also be changed
 
   Thread gameThread; // why we need a thread is because of the fact that if we dont use a thread then it will become more akin to a turn based rpg where we do our thing then another person will do their thing.
   // With a thread what happens is that is runs through it top to bottom while we have another thing also running I think?
   KeyHandler keyChecker = new KeyHandler(this);
   
+
+
   PlayerData player = new PlayerData(keyChecker, this);
 
+
+
   CollisionDetect CD = new CollisionDetect(this);
+
+
+
 
   InvisWall top = new InvisWall(0, 0, screenWidth, 0);
   InvisWall left = new InvisWall(0, 0, 0, screenHeight);
@@ -33,6 +40,9 @@ public class Game extends JPanel implements Runnable{
 
 
   People people = new People("/People_Images/People.jpg");
+  People people2 = new People("/People_Images/People.jpg");
+  People people3 = new People("/People_Images/People.jpg");
+
   
 
 
@@ -121,21 +131,44 @@ public class Game extends JPanel implements Runnable{
 
       switch(gameState){
         case 1: // default playing thing
-          player.collides = false;
-          CD.checkObj(people, player);
-          CD.checkObj(top, player);
-          CD.checkObj(bottom, player);
-          CD.checkObj(left, player);
-          CD.checkObj(right, player);
-          player.playerMove();
 
-          people.collides = false;
-          CD.checkObj(player, people);
-          CD.checkObj(top, people);
-          CD.checkObj(bottom, people);
-          CD.checkObj(left, people);
-          CD.checkObj(right, people);
-          people.peopleMove(); //need this to move less, moving 60 times per second
+
+        //CHECK COLLISION BETWEEN PLAYER AND CURRENT OBJECTS (INVISIBLE WALLS, PEOPLE)
+
+        player.collides = false;
+        for(People peoples: People.peopleList){
+          CD.checkObj(peoples, player);
+        }
+        for(InvisWall walls: InvisWall.wallList){
+          CD.checkObj(walls, player);
+        }
+        player.playerMove();
+
+
+          // CD.checkObj(people, player);
+          // CD.checkObj(top, player);
+          // CD.checkObj(bottom, player);
+          // CD.checkObj(left, player);
+          // CD.checkObj(right, player);
+
+          
+
+          // CHECKS COLLISION BETWEEN PEOPLE AND OTHER OBJECTS CURRENTLY CREATED (INVISIBLE WALLS, PLAYER)
+        
+          for(People peoples: People.peopleList){
+            peoples.collides = false;
+            CD.checkObj(player, peoples);
+            for(InvisWall walls: InvisWall.wallList){
+              CD.checkObj(walls, peoples);
+            }
+            peoples.peopleMove();
+          }
+
+          // CD.checkObj(top, people);
+          // CD.checkObj(bottom, people);
+          // CD.checkObj(left, people);
+          // CD.checkObj(right, people);
+           //need this to move less, moving 60 times per second
 
 
           
@@ -163,11 +196,17 @@ public class Game extends JPanel implements Runnable{
       switch(gameState){
         case 1: // default playing thing
 
-          people.drawHitboxes(g2);
+          
+          for(People peoples: People.peopleList){
+            peoples.drawHitboxes(g2);
+          }
           player.drawHitboxes(g2);
           break;
         case 2: // pause
-          people.draw(g2); //need this to move less, moving 60 times per second
+        for(People peoples: People.peopleList){
+          peoples.draw(g2);
+        }
+           //need this to move less, moving 60 times per second
           player.draw(g2);
 
 
