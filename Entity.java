@@ -30,7 +30,7 @@ public class Entity{
         eSpeed = 10;
         sizeX = 200;
         sizeY = 200;
-        hitbox = new Rectangle(posX+1, posY+1, sizeX+1, sizeY+1);
+        hitbox = new Rectangle(posX-1, posY-1, sizeX-1, sizeY-1);
         collides = false;
         moved = false;
         //FILE PATH TO DEFUALT SPRITE TEXTURE

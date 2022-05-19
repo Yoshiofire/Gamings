@@ -5,7 +5,8 @@
 
 
 public class People extends Entity{
-
+    int count = 0;
+    int direction = 0;
     // public BufferedImage sprite; // this one for the "character frames" ig
     
     
@@ -21,7 +22,11 @@ public class People extends Entity{
 
 
     public void peopleMove(){
-        int direction = (int) (Math.random() * 4);
+        if(count == 5){
+            direction = (int) (Math.random() * 4);
+            count = 0;
+        }
+        
         int amount = (int) (Math.random() * 10);
         // int amount = 0;
         switch(direction){
@@ -41,25 +46,23 @@ public class People extends Entity{
         if(!collides){
             switch(direction){
                     case 87: // W 1
-                        posY -= amount;
-                        eSpeed = amount;
+                        posY -= eSpeed;
                         break;
                     case 83: //S 0
-                        posY += amount;
-                        eSpeed = amount;
+                        posY += eSpeed;
                         break;
                     case 65: // A 3
-                        posX -= amount;
-                        eSpeed = amount;
+                        posX -= eSpeed;
                         break;
                     case 68: //D 2
-                        posX += amount;
-                        eSpeed = amount;
+                        posX += eSpeed;
                         break;
                 }
         }
         hitbox.setLocation(posX, posY);
         movement = direction;
+        eSpeed = amount;
+        count++;
         
         
             /*            switch(direction){
