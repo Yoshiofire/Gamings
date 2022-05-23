@@ -28,3 +28,20 @@ Current date: 5/19/2022
 
     People.java
         -Same as above
+
+
+Current date: 5/23/2022
+
+    (New)Game.java
+        -I added a frameCount and a seconds, where it will be used as a score (how long you survived) and as a 
+        cooldown system for abilities and movements, so its not 1 movement every frame for the enemy.
+
+        -Changed InvisWalls bounds because I need the player to not move, but the keyinputs would move all other entities.
+
+        -Set player's starting location to center of screen?
+
+    (New)People.java
+        -Changed count method to determine direction and changed it to Game.frameCount
+
+    (Notes)PlayerData, People, Game
+        -You have to make the player NOT move but instead move the entities.

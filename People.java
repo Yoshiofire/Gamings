@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 
 public class People extends Entity{
-    int count = 0;
     int direction = 0;
     public static ArrayList <People> peopleList = new ArrayList<>();
     // public BufferedImage sprite; // this one for the "character frames" ig
@@ -26,9 +25,8 @@ public class People extends Entity{
 
 
     public void peopleMove(){
-        if(count == 5){
+        if(Game.frameCount % 5 == 0){
             direction = (int) (Math.random() * 4);
-            count = 0;
         }
         
         int amount = (int) (Math.random() * 5);
@@ -66,7 +64,6 @@ public class People extends Entity{
         hitbox.setLocation(posX, posY);
         movement = direction;
         eSpeed = amount;
-        count++;
         
         
             /*            switch(direction){

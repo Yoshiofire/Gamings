@@ -32,7 +32,6 @@ public class Entity{
         sizeY = 200;
         hitbox = new Rectangle(posX-1, posY-1, sizeX-1, sizeY-1);
         collides = false;
-        moved = false;
         //FILE PATH TO DEFUALT SPRITE TEXTURE
         //WHAT NEEDS TO BE ADDED IS DEFAULT HITBOX
         try{

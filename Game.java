@@ -15,25 +15,32 @@ public class Game extends JPanel implements Runnable{
   //Changable Variables, mostly consisting of player stuff and setting data?
   int FPS = 30;// can also be changed
 
+  public static int seconds = 0;
+  public static int frameCount = 0;
+
   Thread gameThread; // why we need a thread is because of the fact that if we dont use a thread then it will become more akin to a turn based rpg where we do our thing then another person will do their thing.
   // With a thread what happens is that is runs through it top to bottom while we have another thing also running I think?
   KeyHandler keyChecker = new KeyHandler(this);
   
 
-
-  PlayerData player = new PlayerData(keyChecker, this);
+  int playerSizeX = 100;
+  int playerSizeY = 100;
+  PlayerData player = new PlayerData(keyChecker, this, (int) (screenWidth/1.9) - playerSizeX, (int) (screenHeight/1.77) - playerSizeY, 10, playerSizeX, playerSizeY);
 
 
 
   CollisionDetect CD = new CollisionDetect(this);
 
+  //Garbage names, but they are the equivalent of uh height and width.
+  final int topBounds = screenHeight * 2;
+  final int leftBounds = screenWidth * 2;
 
 
 
-  InvisWall top = new InvisWall(0, 0, screenWidth, 0);
-  InvisWall left = new InvisWall(0, 0, 0, screenHeight);
-  InvisWall bottom = new InvisWall(0, screenHeight+20, screenWidth, 0);
-  InvisWall right = new InvisWall(screenWidth+15, 0, 0, screenHeight);
+  InvisWall top = new InvisWall(0, 0, topBounds, 0);
+  InvisWall left = new InvisWall(0, 0, 0, leftBounds);
+  InvisWall bottom = new InvisWall(0, topBounds+20, leftBounds, 0);
+  InvisWall right = new InvisWall(topBounds+15, 0, 0, leftBounds);
 
 
   
@@ -120,6 +127,8 @@ public class Game extends JPanel implements Runnable{
           }
 
           nextRefresh += bootlegFPS;
+          frameCount ++;
+          seconds = frameCount/FPS;
 
 
           

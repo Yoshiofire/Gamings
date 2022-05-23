@@ -25,6 +25,13 @@ public class PlayerData extends Entity{
         this.setSprite("/Player_Images/JermaUp.png");
     }
 
+    public PlayerData(KeyHandler k, Game g, int startingX, int startingY, int playerS, int sizeX, int sizeY){
+        super(startingX, startingY, playerS, sizeX, sizeY);
+        game = g;
+        key = k;
+        this.setSprite("/Player_Images/JermaUp.png");
+    }
+
     public void playerMove(){
 
 
