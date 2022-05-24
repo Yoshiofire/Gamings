@@ -133,6 +133,25 @@ public class Entity{
 
 
         }
+        public void playerInfluencedMovement(int playerSpeed, KeyHandler key){
+            if(!collides){// doesn't really matetr because in PlayerData if it collides it returns a speed of 0;
+                if(key.upKey){
+                    posY += playerSpeed;
+                }
+                if(key.downKey){
+                    posY -= playerSpeed;
+                }
+                if(key.rightKey){
+                    posX -= playerSpeed;
+                }
+                if(key.leftKey){
+                    posX += playerSpeed;
+                }
+            }
+            hitbox.setLocation(posX, posY);
+        }
+
+
 
 
 

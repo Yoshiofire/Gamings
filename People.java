@@ -12,7 +12,7 @@ public class People extends Entity{
     // public BufferedImage sprite; // this one for the "character frames" ig
     
     
-    public People(String filePath){ //DOESNT NEED TO BE A STRING, I AM JUST LAZY SO INSTEAD OF SENDING A BUFFEREDIMAGE I FORCE PEOPLE TO SEND IN STRING
+    public People(String filePath, KeyHandler k){ //DOESNT NEED TO BE A STRING, I AM JUST LAZY SO INSTEAD OF SENDING A BUFFEREDIMAGE I FORCE PEOPLE TO SEND IN STRING
         super(
             500 + (int) (Math.random() * 100),
             500 + (int) (Math.random() * 100),
@@ -64,6 +64,7 @@ public class People extends Entity{
         hitbox.setLocation(posX, posY);
         movement = direction;
         eSpeed = amount;
+    
         
         
             /*            switch(direction){
@@ -93,11 +94,15 @@ public class People extends Entity{
         //     e.getStackTrace();
 
         // }
-    }
 
     // public void draw(Graphics2D g1){
     //     super.draw(g1, sprite);
     // }
+    }
+
+
+
+
 
 
 }

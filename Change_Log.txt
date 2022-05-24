@@ -1,6 +1,34 @@
 Hello, this is the change log to uh describe details.
 
 
+
+Bugs that need to be fixed:
+    -When any entity that has a stop movement collides corner to corner they are permanently stuck and are
+    unable to move in that direction, or in some cases not able to move at all.
+
+
+Things to add:
+    -Fix the calculations for center of screen, when constucting the player's location.
+
+    -Why do we need to have a collisiondection thing for the InvisWall, and how did that fix the problem of Entities intersecting??
+
+    -Entity AI, where they move towards the player.
+
+    -Projectiles.java
+
+    -I guess we remake or add onto the entity class, with a string displaying the type of entity it is because we need to have dmg
+    for player vs enemies and player vs projectiles and enemies vs player projectiles. Currently we have no idea else than
+    "yes this entity is colliding with this entity".
+
+    -Item.class which will be extending Entity.java, also with that we'll have another collision detect method I guess.
+
+    -Add display of the time currently on the top center of the screen.
+
+    -Title and end screen.
+
+    -When you die, it takes that time and puts it into a txt file or a json file and thats the leaderbaord I guess.
+
+
 Current date: 5/18/2022
 
     Changed speeds 0-20 for People.java. (Set to a random speed between 0->5)
@@ -21,7 +49,7 @@ Current date: 5/18/2022
 Current date: 5/19/2022
 
     Game.java
-        -Finally understood why my ArrayList idea wasn't working. So I added some ArrayLists
+        -Finally understood why my ArrayList idea wasn't working. So I added some ArrayLists.
         
     InvisWalls.java
         -Added a static ArrayList
@@ -32,7 +60,7 @@ Current date: 5/19/2022
 
 Current date: 5/23/2022
 
-    (New)Game.java
+    (New/Changed)Game.java
         -I added a frameCount and a seconds, where it will be used as a score (how long you survived) and as a 
         cooldown system for abilities and movements, so its not 1 movement every frame for the enemy.
 
@@ -40,8 +68,23 @@ Current date: 5/23/2022
 
         -Set player's starting location to center of screen?
 
-    (New)People.java
+    (Changed)People.java
         -Changed count method to determine direction and changed it to Game.frameCount
+    
+    (Changed)PlayerData.java
+        -Made it so when playerMove is used it now returns an int, the int being the speed of the player. If it collides
+        with something the speed returned is 0, but the player speed is still 10 to not mess with the collisionDetect.
+
+    (New) Entity.java
+        -Added a playerInfluencedMovement Method, where depending on the collision status and the speed of the player it moves
+        the inserted entity. This makes the player always be on the center of the screen I guess.
+
+    (Changed)InvisWall.java
+        -Sort of updaed the x,y,sizex,sizey when constructing a InvisWall
+
+    (Removed) KeyHandler.java
+        -I removed he lastPressed due to the fact that I finally understand what keyreleased actually did and its pretty
+        cool.
 
     (Notes)PlayerData, People, Game
-        -You have to make the player NOT move but instead move the entities.
+        -You have to make the player NOT move but instead move the entities. (Done-ish)

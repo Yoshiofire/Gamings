@@ -39,16 +39,16 @@ public class Game extends JPanel implements Runnable{
 
   InvisWall top = new InvisWall(0, 0, topBounds, 0);
   InvisWall left = new InvisWall(0, 0, 0, leftBounds);
-  InvisWall bottom = new InvisWall(0, topBounds+20, leftBounds, 0);
-  InvisWall right = new InvisWall(topBounds+15, 0, 0, leftBounds);
+  InvisWall bottom = new InvisWall(0, topBounds+50, leftBounds, 0);
+  InvisWall right = new InvisWall(topBounds+45, 0, 0, leftBounds);
 
 
   
 
 
-  People people = new People("/People_Images/People.jpg");
-  People people2 = new People("/People_Images/People.jpg");
-  People people3 = new People("/People_Images/People.jpg");
+  People people = new People("/People_Images/People.jpg", keyChecker);
+  People people2 = new People("/People_Images/People.jpg", keyChecker);
+  People people3 = new People("/People_Images/People.jpg", keyChecker);
 
   
 
@@ -151,7 +151,7 @@ public class Game extends JPanel implements Runnable{
         for(InvisWall walls: InvisWall.wallList){
           CD.checkObj(walls, player);
         }
-        player.playerMove();
+        int pSpeed = player.playerMove();
 
 
           // CD.checkObj(people, player);
@@ -168,8 +168,12 @@ public class Game extends JPanel implements Runnable{
             peoples.collides = false;
             CD.checkObj(player, peoples);
             for(InvisWall walls: InvisWall.wallList){
+              walls.collides = false;
               CD.checkObj(walls, peoples);
+              CD.checkObj(walls, player);
+              walls.playerInfluencedMovement(pSpeed, keyChecker);
             }
+            peoples.playerInfluencedMovement(pSpeed, keyChecker);
             peoples.peopleMove();
           }
 
@@ -210,6 +214,10 @@ public class Game extends JPanel implements Runnable{
             peoples.drawHitboxes(g2);
           }
           player.drawHitboxes(g2);
+
+          for(InvisWall walls: InvisWall.wallList){
+            walls.drawHitboxes(g2);
+          }
           break;
         case 2: // pause
         for(People peoples: People.peopleList){

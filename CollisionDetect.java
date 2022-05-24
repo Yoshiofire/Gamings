@@ -23,7 +23,7 @@ public class CollisionDetect{ // this is going t
                         entity2.hitbox.y -= entity2.eSpeed;
                         if(entity2.hitbox.intersects(entity.hitbox)){
                             // entity.posY -= entity.eSpeed;
-                            // entity.collides = true;
+                            entity.collides = true;
                             entity2.collides = true;
                         }
                         entity2.hitbox.y += entity2.eSpeed;
@@ -32,7 +32,7 @@ public class CollisionDetect{ // this is going t
                         entity2.hitbox.y += entity2.eSpeed;
                         if(entity2.hitbox.intersects(entity.hitbox)){
                             // entity.posY += entity.eSpeed;
-                            // entity.collides = true;
+                            entity.collides = true;
                             entity2.collides = true;
                         }
                         entity2.hitbox.y -= entity2.eSpeed;
@@ -41,7 +41,7 @@ public class CollisionDetect{ // this is going t
                         entity2.hitbox.x -= entity2.eSpeed;
                         if(entity2.hitbox.intersects(entity.hitbox)){
                             // entity.posX -= entity.eSpeed;
-                            // entity.collides = true;
+                            entity.collides = true;
                             entity2.collides = true;
                         }
                         entity2.hitbox.x += entity2.eSpeed;
@@ -50,7 +50,7 @@ public class CollisionDetect{ // this is going t
                         entity2.hitbox.x += entity2.eSpeed;
                         if(entity2.hitbox.intersects(entity.hitbox)){
                             // entity.posX += entity.eSpeed;
-                            // entity.collides = true;
+                            entity.collides = true;
                             entity2.collides = true;
                         }
                         entity2.hitbox.x -= entity2.eSpeed;

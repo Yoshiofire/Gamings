@@ -6,7 +6,6 @@ public class KeyHandler implements KeyListener{
   
   public Game game;
   public boolean upKey, downKey, leftKey, rightKey, pauseKey;
-  public int lastPressed;
 
   public KeyHandler(Game g){
     game = g;
@@ -25,7 +24,6 @@ public class KeyHandler implements KeyListener{
     // imo we use if statements because of the fact if we were to use switch it would only detect one key and not two keys pressed at once????
 
     int code = e.getKeyCode();
-    lastPressed = code;
     // System.out.print(lastPressed);
 
     // if(code == KeyEvent.VK_W){
