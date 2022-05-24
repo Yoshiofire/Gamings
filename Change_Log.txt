@@ -25,6 +25,8 @@ Things to add:
 
             -Teleport if collides with wall? Or just stops and the entites build up?
 
+            -Fix/Revamp the collision checks in Game.java
+
 
 
 
