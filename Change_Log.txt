@@ -19,6 +19,15 @@ Bugs that need to be fixed:
 
 
 Things to add:
+
+        IMPORTANT
+            -People vs people collision
+
+            -Teleport if collides with wall? Or just stops and the entites build up?
+
+
+
+
     -Fix the calculations for center of screen, when constucting the player's location.
 
     -Why do we need to have a collisiondection thing for the InvisWall, and how did that fix the problem of Entities intersecting??
