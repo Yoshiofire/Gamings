@@ -3,8 +3,19 @@ Hello, this is the change log to uh describe details.
 
 
 Bugs that need to be fixed:
-    -When any entity that has a stop movement collides corner to corner they are permanently stuck and are
-    unable to move in that direction, or in some cases not able to move at all.
+    !!!!!!When any entity that has a stop movement collides corner to corner they are permanently stuck and areunable to move in that direction, or in some cases not able to move at all.
+
+    (FIXED ABOVE) What the problem was is that player movements were unqiue because they could move in 8 directions compared to the CollsionDetect's method which checks 4.
+    So I fixed it by making a player specifc detect, checking what keys are currently being pressed. Meaning it can check up+right at the same time instead of two instances of
+    up then right, which might cause a perma collision.
+
+    What causes this issue is if direction/movement is being chaged too fast, which happened when I set People.java's drection to be changed every frame.
+    Also because of the nature of player the same thing happned above. So if you want to make a thing move really sparatically you need to make a unquie method and use the same
+    idea behind the player check in CollsionDetect.java.
+
+    !!!! When you spam two directions and are colliding with a wall, the wall moves.
+
+    (NOTICE) Not as important as it is only the player that influences something, like that and it doesn't happen to much.
 
 
 Things to add:
@@ -78,6 +89,7 @@ Current date: 5/23/2022
     (New) Entity.java
         -Added a playerInfluencedMovement Method, where depending on the collision status and the speed of the player it moves
         the inserted entity. This makes the player always be on the center of the screen I guess.
+        -Added a type variable, that is this.type set in all other object classes.
 
     (Changed)InvisWall.java
         -Sort of updaed the x,y,sizex,sizey when constructing a InvisWall

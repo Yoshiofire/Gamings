@@ -32,14 +32,14 @@ public class Game extends JPanel implements Runnable{
   CollisionDetect CD = new CollisionDetect(this);
 
   //Garbage names, but they are the equivalent of uh height and width.
-  final int topBounds = screenHeight * 2;
-  final int leftBounds = screenWidth * 2;
+  final int topBounds = screenHeight * 4;
+  final int leftBounds = screenWidth * 4;
 
 
 
   InvisWall top = new InvisWall(0, 0, topBounds, 0);
-  InvisWall left = new InvisWall(0, 0, 0, leftBounds);
   InvisWall bottom = new InvisWall(0, topBounds+50, leftBounds, 0);
+  InvisWall left = new InvisWall(0, 0, 0, leftBounds);
   InvisWall right = new InvisWall(topBounds+45, 0, 0, leftBounds);
 
 
@@ -143,24 +143,16 @@ public class Game extends JPanel implements Runnable{
 
 
         //CHECK COLLISION BETWEEN PLAYER AND CURRENT OBJECTS (INVISIBLE WALLS, PEOPLE)
-
+        
         player.collides = false;
         for(People peoples: People.peopleList){
-          CD.checkObj(peoples, player);
+          CD.checkPlay(peoples, player);
         }
         for(InvisWall walls: InvisWall.wallList){
-          CD.checkObj(walls, player);
+          CD.checkPlay(walls, player);
+          // CD.checkObj(player, walls);
         }
         int pSpeed = player.playerMove();
-
-
-          // CD.checkObj(people, player);
-          // CD.checkObj(top, player);
-          // CD.checkObj(bottom, player);
-          // CD.checkObj(left, player);
-          // CD.checkObj(right, player);
-
-          
 
           // CHECKS COLLISION BETWEEN PEOPLE AND OTHER OBJECTS CURRENTLY CREATED (INVISIBLE WALLS, PLAYER)
         
@@ -168,20 +160,14 @@ public class Game extends JPanel implements Runnable{
             peoples.collides = false;
             CD.checkObj(player, peoples);
             for(InvisWall walls: InvisWall.wallList){
-              walls.collides = false;
               CD.checkObj(walls, peoples);
-              CD.checkObj(walls, player);
+              CD.checkPlay(walls, player);
               walls.playerInfluencedMovement(pSpeed, keyChecker);
+              walls.collides = false;
             }
-            peoples.playerInfluencedMovement(pSpeed, keyChecker);
             peoples.peopleMove();
+            peoples.playerInfluencedMovement(pSpeed, keyChecker);
           }
-
-          // CD.checkObj(top, people);
-          // CD.checkObj(bottom, people);
-          // CD.checkObj(left, people);
-          // CD.checkObj(right, people);
-           //need this to move less, moving 60 times per second
 
 
           

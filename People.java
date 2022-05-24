@@ -20,6 +20,7 @@ public class People extends Entity{
             100,
             100);
         this.setSprite(filePath);
+        this.type = "enemy1";
         peopleList.add(this);
     }
 
@@ -29,7 +30,7 @@ public class People extends Entity{
             direction = (int) (Math.random() * 4);
         }
         
-        int amount = (int) (Math.random() * 5);
+        int amount = 10;
         // int amount = 0;
         switch(direction){
             case 0:

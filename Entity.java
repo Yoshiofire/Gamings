@@ -21,6 +21,7 @@ public class Entity{
     public boolean collides;
     public int movement;
     public boolean moved;
+    public String type;
 
     // public String direction; 
 
