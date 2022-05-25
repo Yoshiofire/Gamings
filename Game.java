@@ -18,6 +18,7 @@ public class Game extends JPanel implements Runnable{
   public static int seconds = 0;
   public static int frameCount = 0;
 
+
   Thread gameThread; // why we need a thread is because of the fact that if we dont use a thread then it will become more akin to a turn based rpg where we do our thing then another person will do their thing.
   // With a thread what happens is that is runs through it top to bottom while we have another thing also running I think?
   KeyHandler keyChecker = new KeyHandler(this);
@@ -25,7 +26,7 @@ public class Game extends JPanel implements Runnable{
 
   int playerSizeX = 100;
   int playerSizeY = 100;
-  PlayerData player = new PlayerData(keyChecker, this, (int) (screenWidth/1.9) - playerSizeX, (int) (screenHeight/1.77) - playerSizeY, 10, playerSizeX, playerSizeY);
+  PlayerData player = new PlayerData(keyChecker, this, (int) (screenWidth/1.9) - playerSizeX, (int) (screenHeight/1.77) - playerSizeY, 20, playerSizeX, playerSizeY);
 
 
 
@@ -129,9 +130,8 @@ public class Game extends JPanel implements Runnable{
           nextRefresh += bootlegFPS;
           frameCount ++;
           seconds = frameCount/FPS;
-
-
-          
+          if(frameCount % FPS == 0)
+            System.out.println(seconds);
         }
       }
 
@@ -145,30 +145,50 @@ public class Game extends JPanel implements Runnable{
         //CHECK COLLISION BETWEEN PLAYER AND CURRENT OBJECTS (INVISIBLE WALLS, PEOPLE)
         
         player.collides = false;
-        for(People peoples: People.peopleList){
-          CD.checkPlay(peoples, player);
+        for(People peoples: People.peopleList){ 
+          CD.checkObj(peoples, player);
         }
         for(InvisWall walls: InvisWall.wallList){
-          CD.checkPlay(walls, player);
-          // CD.checkObj(player, walls);
+          CD.checkObj(walls, player);
         }
         int pSpeed = player.playerMove();
 
           // CHECKS COLLISION BETWEEN PEOPLE AND OTHER OBJECTS CURRENTLY CREATED (INVISIBLE WALLS, PLAYER)
         
-          for(People peoples: People.peopleList){
-            peoples.collides = false;
-            CD.checkObj(player, peoples);
-            for(InvisWall walls: InvisWall.wallList){
-              CD.checkObj(walls, peoples);
-              CD.checkPlay(walls, player);
-              walls.playerInfluencedMovement(pSpeed, keyChecker);
-              walls.collides = false;
-            }
-            peoples.peopleMove();
-            peoples.playerInfluencedMovement(pSpeed, keyChecker);
-          }
+        // for(People peoples: People.peopleList){
+        //   peoples.collides = false;
+        //   CD.checkObj(player, peoples);
+        //   for(InvisWall walls: InvisWall.wallList){
+        //     CD.checkObj(walls, peoples);
+        //     CD.checkPlay(walls, player);
+        //     walls.playerInfluencedMovement(pSpeed, keyChecker);
+        //     walls.collides = false;
+        //   }
+        //   peoples.peopleMove();
+        //   peoples.playerInfluencedMovement(pSpeed, keyChecker);
+        // }
 
+        for(People peoples: People.peopleList){
+          peoples.collides = false;
+          CD.checkObj(player, peoples);
+          for(InvisWall walls: InvisWall.wallList){
+            CD.checkObj(walls, peoples); //People vs walls
+          }
+          peoples.peopleMove();
+          peoples.playerInfluencedMovement(pSpeed, keyChecker);
+        }
+
+
+        for(InvisWall walls: InvisWall.wallList){
+          walls.collides = false;
+          CD.checkObj(player, walls); //walls currently does not have a speed so i think it is useless AND has no movement direction!!! <- Made a defualt case. <- bugged
+          for(People peoples: People.peopleList){
+            CD.checkObj(peoples, walls);
+          }
+          walls.playerInfluencedMovement(pSpeed, keyChecker);
+        }
+
+          
 
           
           break;

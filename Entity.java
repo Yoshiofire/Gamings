@@ -135,7 +135,13 @@ public class Entity{
 
         }
         public void playerInfluencedMovement(int playerSpeed, KeyHandler key){
-            if(!this.collides){// doesn't really matetr because in PlayerData if it collides it returns a speed of 0;
+            // if(!collides){// doesn't really matetr because in PlayerData if it collides it returns a speed of 0; <--- adding this if statement made OTHER ENTITIES MOVE THROUGH THE INVISIBLE WALL WHY?
+            /* I think that this is because of the fact that when it collides it stays sill (the entity), but everything else moves therefore at a certain point it escapes due to the fact that
+                it is no longer colliding because everything is moving due to the player??
+
+                Also you APE, How the hell does the collisions against people vs walls work when this if statement is out???????
+                IT WORKS WHY?
+                */
                 if(key.upKey){
                     posY += playerSpeed;
                 }
@@ -149,7 +155,7 @@ public class Entity{
                     posX += playerSpeed;
                 }
                 hitbox.setLocation(posX, posY);
-            }
+            // }
         }
 
 

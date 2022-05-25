@@ -3,19 +3,22 @@ Hello, this is the change log to uh describe details.
 
 
 Bugs that need to be fixed:
+{   (FIXED, CHECK <>) 
     !!!!!!When any entity that has a stop movement collides corner to corner they are permanently stuck and areunable to move in that direction, or in some cases not able to move at all.
 
-    (FIXED ABOVE) What the problem was is that player movements were unqiue because they could move in 8 directions compared to the CollsionDetect's method which checks 4.
+    < What the problem was is that player movements were unqiue because they could move in 8 directions compared to the CollsionDetect's method which checks 4.
     So I fixed it by making a player specifc detect, checking what keys are currently being pressed. Meaning it can check up+right at the same time instead of two instances of
     up then right, which might cause a perma collision.
 
-    What causes this issue is if direction/movement is being chaged too fast, which happened when I set People.java's drection to be changed every frame.
+    What causes this issue is if direction/movement is being changed too fast, which happened when I set People.java's drection to be changed every frame.
     Also because of the nature of player the same thing happned above. So if you want to make a thing move really sparatically you need to make a unquie method and use the same
-    idea behind the player check in CollsionDetect.java.
+    idea behind the player check in CollsionDetect.java. >
+}
 
-    !!!! When you spam two directions and are colliding with a wall, the wall moves.
 
-    (NOTICE) Not as important as it is only the player that influences something, like that and it doesn't happen to much.
+{ (NEEDS TO BE FIXED) (PROBLEM IS A MINOR/MEDIUM INCONVIENCE)
+    !!!! When you spam two directions and are colliding with a wall, the wall moves. -> When you spam two opposite directions you have a chance to be perma stuck in said entity.
+}
 
 
 Things to add:
@@ -23,9 +26,36 @@ Things to add:
         IMPORTANT
             -People vs people collision
 
-            -Teleport if collides with wall? Or just stops and the entites build up?
+            *Teleport if collides with wall? Or just stops and the entites build up?
+                As of the notes of 5/25, the current build(?) has people vs wall and player vs wall collisions.
 
-            -Fix/Revamp the collision checks in Game.java
+            *Fix/Revamp the collision checks in Game.java
+                Done as of 5/25.
+
+            -Timer/Scoring system
+                < In this order, because if the projectiles and the more fun aspect of the game CANT be completed in like 2 weeks, then it can just be a
+                "How long can you survive dodging people" >
+
+            -Projectiles
+            -HP,XP,Abilities
+                -For Abilities, do we want them to be active or passive
+                    -Meaning does the player dictate when they use them, and what keys or how will they be activated?
+            -Collision aginst projectiles
+            -Animimations?????
+
+        
+        WISHES
+            -Settings for screen resolutions, maybe opacity, maybe changing the assets, maybe change keybinds?
+
+            -Fix minor Bugs
+            
+            -A nice looking title and end screen
+
+            -A personal best local database?
+
+            -Screen for abilites (Nah wait we can do that with the ESC key)
+
+            -Abilites using mouse coords and clicks (Probably easy, but takes time as usual)
 
 
 
@@ -111,3 +141,34 @@ Current date: 5/23/2022
 
     (Notes)PlayerData, People, Game
         -You have to make the player NOT move but instead move the entities. (Done-ish)
+
+
+Current date: 5/25/2022
+
+    (Changed)Game.java
+        In update() method, changed or fixed collision thing. Where now it somehow allows for the people collision, WHICH, keep in mind I thought would be its own seperate issue.
+
+        Along with that sort of created a new bug?
+
+    (New) Entity.java
+        A new comment rant about a bug that I somehow fixed by smashing my head against this metaphorical rock. 
+
+    (Changes)CollsionDetect.java
+        Changed a bit of things to understand my code a bit more, and come to the conclusion that if something collides with another thing both things DONT need to have their 
+        collides variable = true.
+
+        Why is that the case? I think, no rather I have no idea.
+        ^
+        Actually its because in Game.java we reset the collides variable to false before checking it against other Entities, therefore if we ran a collision detection (Player vs walls)
+        and made both true when colliding. In the next check (walls vs Player), before that check happens the walls.collides = false; already occured, therefore it can be modified to
+        make minor FPS improvements?
+
+    
+
+
+
+    GENERAL NOTES AND TODAYS RANT 
+        WHY DOES ANY OF MY CODE WORK?
+        HOW DOES IT EVEN WORK?
+        IT IS SOMEWHAT ORGANIZED I CAN UNDERSTAND TO AN EXTENT WHAT EVERYTHING DOES AND HOW IT COMES TOGETHER ON THE MAIN BOARD, BUT WHY DOES IT WORK?
+        I AM LOSING IT.

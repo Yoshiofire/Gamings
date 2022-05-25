@@ -26,8 +26,7 @@ public class CollisionDetect{ // this is going t
                     case 87: //up
                         entity2.hitbox.y -= entity2.eSpeed;
                         if(entity2.hitbox.intersects(entity.hitbox)){
-                            // entity.posY -= entity.eSpeed;
-                            entity.collides = true;
+                            // entity.collides = true;
                             entity2.collides = true;
                         }
                         entity2.hitbox.y += entity2.eSpeed;
@@ -35,8 +34,7 @@ public class CollisionDetect{ // this is going t
                     case 83: //down
                         entity2.hitbox.y += entity2.eSpeed;
                         if(entity2.hitbox.intersects(entity.hitbox)){
-                            // entity.posY += entity.eSpeed;
-                            entity.collides = true;
+                            // entity.collides = true;
                             entity2.collides = true;
                         }
                         entity2.hitbox.y -= entity2.eSpeed;
@@ -44,8 +42,7 @@ public class CollisionDetect{ // this is going t
                     case 65: //left
                         entity2.hitbox.x -= entity2.eSpeed;
                         if(entity2.hitbox.intersects(entity.hitbox)){
-                            // entity.posX -= entity.eSpeed;
-                            entity.collides = true;
+                            // entity.collides = true;
                             entity2.collides = true;
                         }
                         entity2.hitbox.x += entity2.eSpeed;
@@ -53,17 +50,21 @@ public class CollisionDetect{ // this is going t
                     case 68: //right
                         entity2.hitbox.x += entity2.eSpeed;
                         if(entity2.hitbox.intersects(entity.hitbox)){
-                            // entity.posX += entity.eSpeed;
-                            entity.collides = true;
+                            // entity.collides = true;
                             entity2.collides = true;
                         }
                         entity2.hitbox.x -= entity2.eSpeed;
                         break;
+                    // default:
+                        // if(entity2.hitbox.intersects(entity.hitbox)){
+                        //     entity2.collides = true;
+                        // }
+                        // break;
             }
             // entity2.hitbox.setLocation(originalEntity2HitboxX, originalEntity2HitboxY);
         }
         public void checkPlay(Entity entity, PlayerData player){
-            
+
             int originalPlayerHitboxX = player.hitbox.x;
             int originalPlayerHitboxY = player.hitbox.y;
 
@@ -71,33 +72,33 @@ public class CollisionDetect{ // this is going t
                 player.hitbox.y -= player.eSpeed;
                 if(player.hitbox.intersects(entity.hitbox)){
                     player.collides = true;
-                    entity.collides = true;
+                    // entity.collides = true;
                 }
-                // player.hitbox.y += player.eSpeed;
+                player.hitbox.y += player.eSpeed;
             }
             if(player.key.downKey == true){
                 player.hitbox.y += player.eSpeed;
                 if(player.hitbox.intersects(entity.hitbox)){
                     player.collides = true;
-                    entity.collides = true;
+                    // entity.collides = true;
                 }
-                // player.hitbox.y -= player.eSpeed;
+                player.hitbox.y -= player.eSpeed;
             }
-            if(player.key.leftKey == true){
+            if(player.key.leftKey == true ){
                 player.hitbox.x -= player.eSpeed;
                 if(player.hitbox.intersects(entity.hitbox)){
                     player.collides = true;
-                    entity.collides = true;
+                    // entity.collides = true;
                 }
-                // player.hitbox.x += player.eSpeed;
+                player.hitbox.x += player.eSpeed;
             }
-            if(player.key.rightKey == true){
+            if(player.key.rightKey == true ){
                 player.hitbox.x += player.eSpeed;
                 if(player.hitbox.intersects(entity.hitbox)){
                     player.collides = true;
-                    entity.collides = true;
+                    // entity.collides = true;
                 }
-                // player.hitbox.x -= player.eSpeed;
+                player.hitbox.x -= player.eSpeed;
             } 
             player.hitbox.setLocation(originalPlayerHitboxX, originalPlayerHitboxY);
 
