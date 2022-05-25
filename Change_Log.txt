@@ -150,8 +150,14 @@ Current date: 5/25/2022
 
         Along with that sort of created a new bug?
 
+        Tested the Item.java's rotate for a bit.
+
     (New) Entity.java
         A new comment rant about a bug that I somehow fixed by smashing my head against this metaphorical rock. 
+
+        Removed a useless variable "Moved"
+
+        Removed hitbox draw during the normal skin draw.
 
     (Changes)CollsionDetect.java
         Changed a bit of things to understand my code a bit more, and come to the conclusion that if something collides with another thing both things DONT need to have their 
@@ -163,6 +169,9 @@ Current date: 5/25/2022
         and made both true when colliding. In the next check (walls vs Player), before that check happens the walls.collides = false; already occured, therefore it can be modified to
         make minor FPS improvements?
 
+
+    (New)Item.java
+        Working on a couple of ideas on how to implement something like a sword swing.
     
 
 
@@ -172,3 +181,6 @@ Current date: 5/25/2022
         HOW DOES IT EVEN WORK?
         IT IS SOMEWHAT ORGANIZED I CAN UNDERSTAND TO AN EXTENT WHAT EVERYTHING DOES AND HOW IT COMES TOGETHER ON THE MAIN BOARD, BUT WHY DOES IT WORK?
         I AM LOSING IT.
+
+        Also, I believe that on wall collision we teleport the player to the other side, so it feels infinite and it won't really mess up player movement as you can
+        get stuck on the I-walls.

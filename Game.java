@@ -26,7 +26,7 @@ public class Game extends JPanel implements Runnable{
 
   int playerSizeX = 100;
   int playerSizeY = 100;
-  PlayerData player = new PlayerData(keyChecker, this, (int) (screenWidth/1.9) - playerSizeX, (int) (screenHeight/1.77) - playerSizeY, 20, playerSizeX, playerSizeY);
+  PlayerData player = new PlayerData(keyChecker, this, (int) (screenWidth/1.9) - playerSizeX, (int) (screenHeight/1.77) - playerSizeY, 15, playerSizeX, playerSizeY);
 
 
 
@@ -52,7 +52,7 @@ public class Game extends JPanel implements Runnable{
   People people3 = new People("/People_Images/People.jpg", keyChecker);
 
   
-
+  // Item sword = new Item((player.posX/2) + player.posX, (player.posY/2) + player.posY);
 
 
   //Game states
@@ -144,6 +144,7 @@ public class Game extends JPanel implements Runnable{
 
         //CHECK COLLISION BETWEEN PLAYER AND CURRENT OBJECTS (INVISIBLE WALLS, PEOPLE)
         
+
         player.collides = false;
         for(People peoples: People.peopleList){ 
           CD.checkObj(peoples, player);
@@ -152,6 +153,7 @@ public class Game extends JPanel implements Runnable{
           CD.checkObj(walls, player);
         }
         int pSpeed = player.playerMove();
+        // sword.rotate();
 
           // CHECKS COLLISION BETWEEN PEOPLE AND OTHER OBJECTS CURRENTLY CREATED (INVISIBLE WALLS, PLAYER)
         
@@ -181,12 +183,13 @@ public class Game extends JPanel implements Runnable{
 
         for(InvisWall walls: InvisWall.wallList){
           walls.collides = false;
-          CD.checkObj(player, walls); //walls currently does not have a speed so i think it is useless AND has no movement direction!!! <- Made a defualt case. <- bugged
+          // CD.checkObj(player, walls); //walls currently does not have a speed so i think it is useless AND has no movement direction!!! <- Made a defualt case. <- bugged
           for(People peoples: People.peopleList){
             CD.checkObj(peoples, walls);
           }
           walls.playerInfluencedMovement(pSpeed, keyChecker);
         }
+
 
           
 
@@ -224,6 +227,9 @@ public class Game extends JPanel implements Runnable{
           for(InvisWall walls: InvisWall.wallList){
             walls.drawHitboxes(g2);
           }
+
+          // sword.drawHitboxes(g2);
+
           break;
         case 2: // pause
         for(People peoples: People.peopleList){
