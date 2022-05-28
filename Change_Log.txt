@@ -190,14 +190,32 @@ Current date: 5/25/2022
 
 Current date: 5/28/2022
 
+
+    IMPORTANT - ALL METHODS RELATING TO Item.java's animationHitbox, NEEDS TO HAVE IT CHECK IF IT IS CURRENTLY NULL.
+        -BECAUSE IF IT IS AN 'ACTIVE ABILITY' ITS HITBOX WILL BE NON-EXISTANT IF THE PLAYER DOES NOT CLICK THE ACTIVATION BUTTON.
+
+
     (Changed)Game.java
         Working on adding items, so the items obj is called test currently.
 
+        You can't do a for(OBJ a: OBJLIST) when removing objects while a thread is running, meaning you gotta do it the old way. for(int x = list.length(); x > 0; x--)
+
     (New)KeyHandler.java
         Added a test attack key it being Q.
-        ^ Currently doing nothing with it.
+        -^ Currently doing nothing with it.-
+        I fixed up the method in Item.java for it
+
+    (Changes)CollsionDetect.java
+        -Added an checkItem or something similar of name, method. (Which sents a true if collides and false if not.)
+        ^Added a null checker
 
     Item.java
         Item class that uses polygons instead of rectangles and is seperate from entity.
+
         Created a test rotation metod, which rotates the polygon and took me forever to figure out how to rotate the image alongside it.
+
         Created 3 draw methods: Imagedraw, starting hitboxdraw, animation hitbox draw.
+        ^added a null checker for all I guess.
+
+        Modified rotationTest method thing to do the full do the animation on key press and off CD.
+

@@ -103,6 +103,14 @@ public class CollisionDetect{ // this is going t
             player.hitbox.setLocation(originalPlayerHitboxX, originalPlayerHitboxY);
 
         }
+        public boolean checkItem(Entity entity, Item item){
+            if(item.animationHitbox != null && item.animationHitbox.intersects(entity.hitbox.getBounds2D())){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
         
          
     }//We want to check the parameter rather than the area of the hit box?

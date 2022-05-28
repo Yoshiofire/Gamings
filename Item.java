@@ -20,11 +20,15 @@ public class Item{
     private AffineTransform at = new AffineTransform();
     private AffineTransform spriteAt = new AffineTransform();
     //Add stats like size and dmg later
-
+    //temp variable
+    boolean doRotate = false;
+    int startFrame;
+    int endFrame = 0;
+    int rotation;
 
     public Item(int[] x, int[] y){
         hitbox = new Polygon(x, y, x.length);
-        cooldown = 5;
+        cooldown = 4;
         try{
 
             sprite = ImageIO.read(getClass().getResourceAsStream("/download.jpg"));
@@ -37,7 +41,7 @@ public class Item{
         }
 
         
-        itemList.add(this);
+
         /* I AM THE WORLDS SMARTEST MAN TO EVER EXIST ON THIS PLANET
         The problem with the code was that when initalizing 'sprite' it put its starting coords at (0,0).
         Then when we used at to rotate it or something, it was rotating it correctly, but was using the distance from the pivot point to (0,0).
@@ -52,22 +56,53 @@ public class Item{
 
         AffineTransformOp a = new AffineTransformOp(spriteAt, AffineTransformOp.TYPE_BILINEAR);
         sprite = a.filter(sprite, null);
+        itemList.add(this);
     }
 
 
     public void testHitboxRotate(PlayerData p){
-        int sFrame = 3;
-        if(animationHitbox == null || Game.frameCount % (cooldown*sFrame) == 0){ //Resets the rotation to the hitbox
-            at.setToRotation(Math.toRadians(90), hitbox.xpoints[0], hitbox.ypoints[0] + (p.hitbox.getHeight()/2));
+        int sFrame = 5;
+        startFrame = Game.frameCount;
+        if(p.key.attackKey && startFrame > endFrame){
+            doRotate = true;
+            endFrame = startFrame + cooldown*sFrame;
+            at.setToRotation(Math.toRadians(rotation + 90), hitbox.xpoints[0], hitbox.ypoints[0] + (p.hitbox.getHeight()/2));
+            animationHitbox = at.createTransformedShape(this.hitbox);
         }
-        else{//Rotates it 45 deg until cooldown is over.
+        if(doRotate){
             if(Game.frameCount % sFrame == 0){
                 at.rotate(Math.toRadians(45), hitbox.xpoints[0], hitbox.ypoints[0] + (p.hitbox.getHeight()/2));
+                animationHitbox = at.createTransformedShape(this.hitbox);
             }
         }
-        animationHitbox = at.createTransformedShape(this.hitbox);
-
+        if(Game.frameCount > endFrame){
+            doRotate = false;
+            // at.setToRotation(Math.toRadians(rotation), hitbox.xpoints[0], hitbox.ypoints[0] + (p.hitbox.getHeight()/2));
+            animationHitbox = null;
+        }
     }
+
+
+
+
+    //RATHER THAN DO THIS, ON THE ROTATE IT NEEDS TO ROTATE DEPENDING ON WHAT DIRECTION THE PLAYER IS MOVING?
+    // public void directionMovement(PlayerData p){
+
+    //     if(p.key.upKey == true){
+    //         rotation = 90;
+    //     }
+    //     if(p.key.downKey == true){
+    //         rotation = 270;
+    //     }
+    //     if(p.key.leftKey == true){
+    //         rotation = 0;
+    //     }
+    //     if(p.key.rightKey == true){
+    //         rotation = 180;
+    //     } 
+    // }
+        
+
 
     public void draw(Graphics2D g3){
 
@@ -81,7 +116,9 @@ public class Item{
     }
 
     public void drawAniHitbox(Graphics2D g3){
-        g3.draw(this.animationHitbox);
+        if(animationHitbox != null){
+            g3.draw(this.animationHitbox);
+        }
 
     }
 

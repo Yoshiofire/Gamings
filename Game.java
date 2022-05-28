@@ -152,7 +152,20 @@ public class Game extends JPanel implements Runnable{
           CD.checkObj(walls, player);
         }
         int pSpeed = player.playerMove();
+
+
+        for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+          for(Item a: Item.itemList){
+            if(CD.checkItem(People.peopleList.get(x), a)){
+              System.out.println("YES");
+              People.peopleList.remove(x);
+            }
+          }
+        }
         test.testHitboxRotate(player);
+
+
+
 
           // CHECKS COLLISION BETWEEN PEOPLE AND OTHER OBJECTS CURRENTLY CREATED (INVISIBLE WALLS, PLAYER)
 
@@ -204,7 +217,7 @@ public class Game extends JPanel implements Runnable{
       switch(gameState){
         case 1: // default playing thing
 
-          test.drawPolyHitbox(g2);
+          // test.drawPolyHitbox(g2);
           test.drawAniHitbox(g2);
           for(People peoples: People.peopleList){
             peoples.drawHitboxes(g2);
@@ -214,7 +227,7 @@ public class Game extends JPanel implements Runnable{
           for(InvisWall walls: InvisWall.wallList){
             walls.drawHitboxes(g2);
           }
-          test.draw(g2);
+          // test.draw(g2);
           
 
 
