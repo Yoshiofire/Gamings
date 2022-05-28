@@ -38,10 +38,14 @@ Things to add:
 
             -Projectiles
             -HP,XP,Abilities
-                -For Abilities, do we want them to be active or passive
+                -For Abilities, do we want them to be active or passive <- BOTH (5/28)
                     -Meaning does the player dictate when they use them, and what keys or how will they be activated?
             -Collision aginst projectiles
-            -Animimations?????
+            -Animimations????? <- BY ANIMATIONS I MEAN NOT AN INSTANT ONE -> TWO FRAME THING. also sort of done (5/28)
+
+            -Fix the calculations for center of screen, when constucting the player's location.
+
+            -Entity AI, where they move towards the player.
 
         
         WISHES
@@ -60,25 +64,23 @@ Things to add:
 
 
 
-    -Fix the calculations for center of screen, when constucting the player's location.
 
-    -Why do we need to have a collisiondection thing for the InvisWall, and how did that fix the problem of Entities intersecting??
 
-    -Entity AI, where they move towards the player.
+                -Why do we need to have a collisiondection thing for the InvisWall, and how did that fix the problem of Entities intersecting??
 
-    -Projectiles.java
+                -Projectiles.java
 
-    -I guess we remake or add onto the entity class, with a string displaying the type of entity it is because we need to have dmg
-    for player vs enemies and player vs projectiles and enemies vs player projectiles. Currently we have no idea else than
-    "yes this entity is colliding with this entity".
+                -I guess we remake or add onto the entity class, with a string displaying the type of entity it is because we need to have dmg
+                for player vs enemies and player vs projectiles and enemies vs player projectiles. Currently we have no idea else than
+                "yes this entity is colliding with this entity".
 
-    -Item.class which will be extending Entity.java, also with that we'll have another collision detect method I guess.
+                -Item.class which will be extending Entity.java, also with that we'll have another collision detect method I guess.
 
-    -Add display of the time currently on the top center of the screen.
+                -Add display of the time currently on the top center of the screen.
 
-    -Title and end screen.
+                -Title and end screen.
 
-    -When you die, it takes that time and puts it into a txt file or a json file and thats the leaderbaord I guess.
+                -When you die, it takes that time and puts it into a txt file or a json file and thats the leaderbaord I guess.
 
 
 Current date: 5/18/2022
@@ -184,3 +186,18 @@ Current date: 5/25/2022
 
         Also, I believe that on wall collision we teleport the player to the other side, so it feels infinite and it won't really mess up player movement as you can
         get stuck on the I-walls.
+
+
+Current date: 5/28/2022
+
+    (Changed)Game.java
+        Working on adding items, so the items obj is called test currently.
+
+    (New)KeyHandler.java
+        Added a test attack key it being Q.
+        ^ Currently doing nothing with it.
+
+    Item.java
+        Item class that uses polygons instead of rectangles and is seperate from entity.
+        Created a test rotation metod, which rotates the polygon and took me forever to figure out how to rotate the image alongside it.
+        Created 3 draw methods: Imagedraw, starting hitboxdraw, animation hitbox draw.

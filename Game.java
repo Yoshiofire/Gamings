@@ -27,7 +27,7 @@ public class Game extends JPanel implements Runnable{
   int playerSizeX = 100;
   int playerSizeY = 100;
   PlayerData player = new PlayerData(keyChecker, this, (int) (screenWidth/1.9) - playerSizeX, (int) (screenHeight/1.77) - playerSizeY, 15, playerSizeX, playerSizeY);
-
+  Item test = new Item(new int[] {player.posX, player.posX + playerSizeX+100, player.posX + playerSizeX+100, player.posX}, new int[] {player.posY, player.posY, player.posY + playerSizeY, player.posY + playerSizeY} );
 
 
   CollisionDetect CD = new CollisionDetect(this);
@@ -52,7 +52,6 @@ public class Game extends JPanel implements Runnable{
   People people3 = new People("/People_Images/People.jpg", keyChecker);
 
   
-  // Item sword = new Item((player.posX/2) + player.posX, (player.posY/2) + player.posY);
 
 
   //Game states
@@ -144,7 +143,7 @@ public class Game extends JPanel implements Runnable{
 
         //CHECK COLLISION BETWEEN PLAYER AND CURRENT OBJECTS (INVISIBLE WALLS, PEOPLE)
         
-
+        
         player.collides = false;
         for(People peoples: People.peopleList){ 
           CD.checkObj(peoples, player);
@@ -153,22 +152,9 @@ public class Game extends JPanel implements Runnable{
           CD.checkObj(walls, player);
         }
         int pSpeed = player.playerMove();
-        // sword.rotate();
+        test.testHitboxRotate(player);
 
           // CHECKS COLLISION BETWEEN PEOPLE AND OTHER OBJECTS CURRENTLY CREATED (INVISIBLE WALLS, PLAYER)
-        
-        // for(People peoples: People.peopleList){
-        //   peoples.collides = false;
-        //   CD.checkObj(player, peoples);
-        //   for(InvisWall walls: InvisWall.wallList){
-        //     CD.checkObj(walls, peoples);
-        //     CD.checkPlay(walls, player);
-        //     walls.playerInfluencedMovement(pSpeed, keyChecker);
-        //     walls.collides = false;
-        //   }
-        //   peoples.peopleMove();
-        //   peoples.playerInfluencedMovement(pSpeed, keyChecker);
-        // }
 
         for(People peoples: People.peopleList){
           peoples.collides = false;
@@ -218,7 +204,8 @@ public class Game extends JPanel implements Runnable{
       switch(gameState){
         case 1: // default playing thing
 
-          
+          test.drawPolyHitbox(g2);
+          test.drawAniHitbox(g2);
           for(People peoples: People.peopleList){
             peoples.drawHitboxes(g2);
           }
@@ -227,8 +214,10 @@ public class Game extends JPanel implements Runnable{
           for(InvisWall walls: InvisWall.wallList){
             walls.drawHitboxes(g2);
           }
+          test.draw(g2);
+          
 
-          // sword.drawHitboxes(g2);
+
 
           break;
         case 2: // pause
@@ -237,6 +226,8 @@ public class Game extends JPanel implements Runnable{
         }
            //need this to move less, moving 60 times per second
           player.draw(g2);
+
+
 
 
           break;

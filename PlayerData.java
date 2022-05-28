@@ -79,7 +79,6 @@ public class PlayerData extends Entity{
                 case 68: //D
                     sprite = ImageIO.read(getClass().getResourceAsStream("/Player_Images/JermaRight.png"));
                     break;
-
             }
 
         }catch(IOException e){

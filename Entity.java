@@ -166,9 +166,7 @@ public class Entity{
 
     public void draw(Graphics2D g3){
 
-        BufferedImage i = this.sprite;
-        g3.drawImage(i, posX, posY, sizeX, sizeY, null);
-
+        g3.drawImage(this.sprite, posX, posY, sizeX, sizeY, null);
 
     }
     
