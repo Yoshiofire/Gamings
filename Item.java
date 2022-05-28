@@ -105,8 +105,9 @@ public class Item{
 
 
     public void draw(Graphics2D g3){
-
-        g3.drawImage(sprite, at, null);
+        if(animationHitbox != null){
+            g3.drawImage(sprite, at, null);
+        }
     }
 
 

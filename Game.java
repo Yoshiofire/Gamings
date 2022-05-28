@@ -51,6 +51,7 @@ public class Game extends JPanel implements Runnable{
   People people2 = new People("/People_Images/People.jpg", keyChecker);
   People people3 = new People("/People_Images/People.jpg", keyChecker);
 
+
   
 
 
@@ -79,6 +80,7 @@ public class Game extends JPanel implements Runnable{
     public void startGameThread(){
       gameThread = new Thread(this);
       gameThread.start();
+
     }
 
   
@@ -195,6 +197,8 @@ public class Game extends JPanel implements Runnable{
           
           break;
         case 2: // pause
+
+          People help = new People("/People_Images/People.jpg", keyChecker);
           
           break;
 
@@ -215,7 +219,7 @@ public class Game extends JPanel implements Runnable{
       Graphics2D g2 = (Graphics2D) g;
 
       switch(gameState){
-        case 1: // default playing thing
+        case 2: // default playing thing
 
           // test.drawPolyHitbox(g2);
           test.drawAniHitbox(g2);
@@ -227,19 +231,19 @@ public class Game extends JPanel implements Runnable{
           for(InvisWall walls: InvisWall.wallList){
             walls.drawHitboxes(g2);
           }
-          // test.draw(g2);
+
           
 
 
 
           break;
-        case 2: // pause
+        case 1: // pause
         for(People peoples: People.peopleList){
           peoples.draw(g2);
         }
            //need this to move less, moving 60 times per second
           player.draw(g2);
-
+          test.draw(g2);
 
 
 
