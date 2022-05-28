@@ -24,7 +24,10 @@ public class Item{
     boolean doRotate = false;
     int startFrame;
     int endFrame = 0;
-    int rotation;
+    int rotationS;
+    int rotationE = 22;
+    // int tempX = 0;
+    // int tempY = 0;
 
     public Item(int[] x, int[] y){
         hitbox = new Polygon(x, y, x.length);
@@ -48,30 +51,46 @@ public class Item{
         Which was not what we wanted but rather something. So after years and eons of reasearching I figured out that if we were to translate the BufferedImage onto the polygon
         Then we'd recreate what we currently have for the drawPolyHitbox.*/
 
-
-
         spriteAt.translate(hitbox.xpoints[0], hitbox.ypoints[0]);//set this to the top left coord of polygon
         spriteAt.scale(1, .5);
         //^^ spriteAt is what transformations you need to do onto the sprite of the item.
 
         AffineTransformOp a = new AffineTransformOp(spriteAt, AffineTransformOp.TYPE_BILINEAR);
         sprite = a.filter(sprite, null);
+
+
+
+
         itemList.add(this);
     }
 
 
     public void testHitboxRotate(PlayerData p){
-        int sFrame = 5;
+        int sFrame = 2;
         startFrame = Game.frameCount;
+
         if(p.key.attackKey && startFrame > endFrame){
+            if(p.key.upKey == true){
+                rotationS = 90;
+            }
+            if(p.key.downKey == true){
+                rotationS = 270;
+            }
+            if(p.key.leftKey == true){
+                rotationS = 0;
+            }
+            if(p.key.rightKey == true){
+                rotationS = 180;  
+            } 
+
             doRotate = true;
             endFrame = startFrame + cooldown*sFrame;
-            at.setToRotation(Math.toRadians(rotation + 90), hitbox.xpoints[0], hitbox.ypoints[0] + (p.hitbox.getHeight()/2));
+            at.setToRotation(Math.toRadians(rotationS + 135), p.hitbox.getCenterX(), p.hitbox.getCenterY());
             animationHitbox = at.createTransformedShape(this.hitbox);
         }
         if(doRotate){
             if(Game.frameCount % sFrame == 0){
-                at.rotate(Math.toRadians(45), hitbox.xpoints[0], hitbox.ypoints[0] + (p.hitbox.getHeight()/2));
+                at.rotate(Math.toRadians(rotationE), p.hitbox.getCenterX(), p.hitbox.getCenterY());
                 animationHitbox = at.createTransformedShape(this.hitbox);
             }
         }
