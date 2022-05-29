@@ -200,19 +200,22 @@ Current date: 5/28/2022
 
         You can't do a for(OBJ a: OBJLIST) when removing objects while a thread is running, meaning you gotta do it the old way. for(int x = list.length(); x > 0; x--)
 
+
     (New)KeyHandler.java
         Added a test attack key it being Q.
         -^ Currently doing nothing with it.-
         I fixed up the method in Item.java for it
 
+
     (Changes)CollsionDetect.java
         -Added an checkItem or something similar of name, method. (Which sents a true if collides and false if not.)
         ^Added a null checker
-
+ 
     Item.java
         Item class that uses polygons instead of rectangles and is seperate from entity.
 
         Created a test rotation metod, which rotates the polygon and took me forever to figure out how to rotate the image alongside it.
+        ^fixed it so the piviot point of the rotation is in the center of the player and not some corner, which would have to make me do a shit ton of math.
 
         Created 3 draw methods: Imagedraw, starting hitboxdraw, animation hitbox draw.
         ^added a null checker for all I guess.

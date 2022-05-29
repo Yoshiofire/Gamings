@@ -199,6 +199,8 @@ public class Game extends JPanel implements Runnable{
         case 2: // pause
 
           People help = new People("/People_Images/People.jpg", keyChecker);
+
+
           
           break;
 

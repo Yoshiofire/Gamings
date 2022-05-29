@@ -26,12 +26,13 @@ public class Item{
     int endFrame = 0;
     int rotationS;
     int rotationE = 22;
+    int cooldownTime;
     // int tempX = 0;
     // int tempY = 0;
 
     public Item(int[] x, int[] y){
         hitbox = new Polygon(x, y, x.length);
-        cooldown = 4;
+        cooldown = 20;
         try{
 
             sprite = ImageIO.read(getClass().getResourceAsStream("/download.jpg"));
@@ -52,11 +53,12 @@ public class Item{
         Then we'd recreate what we currently have for the drawPolyHitbox.*/
 
         spriteAt.translate(hitbox.xpoints[0], hitbox.ypoints[0]);//set this to the top left coord of polygon
-        spriteAt.scale(1, .5);
+        spriteAt.scale(1, .3);
         //^^ spriteAt is what transformations you need to do onto the sprite of the item.
 
         AffineTransformOp a = new AffineTransformOp(spriteAt, AffineTransformOp.TYPE_BILINEAR);
         sprite = a.filter(sprite, null);
+        a = null;
 
 
 
@@ -69,7 +71,7 @@ public class Item{
         int sFrame = 2;
         startFrame = Game.frameCount;
 
-        if(p.key.attackKey && startFrame > endFrame){
+        if(p.key.attackKey && startFrame > endFrame && cooldownTime < Game.frameCount){
             if(p.key.upKey == true){
                 rotationS = 90;
             }
@@ -84,7 +86,8 @@ public class Item{
             } 
 
             doRotate = true;
-            endFrame = startFrame + cooldown*sFrame;
+            endFrame = startFrame + 3*sFrame; //<- the 3 is the waiting time after each rotation
+            cooldownTime = endFrame + cooldown;
             at.setToRotation(Math.toRadians(rotationS + 135), p.hitbox.getCenterX(), p.hitbox.getCenterY());
             animationHitbox = at.createTransformedShape(this.hitbox);
         }
@@ -103,24 +106,7 @@ public class Item{
 
 
 
-
-    //RATHER THAN DO THIS, ON THE ROTATE IT NEEDS TO ROTATE DEPENDING ON WHAT DIRECTION THE PLAYER IS MOVING?
-    // public void directionMovement(PlayerData p){
-
-    //     if(p.key.upKey == true){
-    //         rotation = 90;
-    //     }
-    //     if(p.key.downKey == true){
-    //         rotation = 270;
-    //     }
-    //     if(p.key.leftKey == true){
-    //         rotation = 0;
-    //     }
-    //     if(p.key.rightKey == true){
-    //         rotation = 180;
-    //     } 
-    // }
-        
+  
 
 
     public void draw(Graphics2D g3){
