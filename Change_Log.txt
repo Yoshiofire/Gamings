@@ -205,22 +205,23 @@ Current date: 5/28/2022
 
     (New)KeyHandler.java
         Added a test attack key it being Q.
-        -^ Currently doing nothing with it.-
+            -^ Currently doing nothing with it.-
         I fixed up the method in Item.java for it
 
 
     (Changes)CollsionDetect.java
         -Added an checkItem or something similar of name, method. (Which sents a true if collides and false if not.)
-        ^Added a null checker
+            ^Added a null checker
+
  
     (New)Item.java
         Item class that uses polygons instead of rectangles and is seperate from entity.
 
         Created a test rotation metod, which rotates the polygon and took me forever to figure out how to rotate the image alongside it.
-        ^fixed it so the piviot point of the rotation is in the center of the player and not some corner, which would have to make me do a shit ton of math.
+            ^fixed it so the piviot point of the rotation is in the center of the player and not some corner, which would have to make me do a shit ton of math.
 
         Created 3 draw methods: Imagedraw, starting hitboxdraw, animation hitbox draw.
-        ^added a null checker for all I guess.
+            ^added a null checker for all I guess.
 
         Modified rotationTest method thing to do the full do the animation on key press and off CD.
 
@@ -238,6 +239,7 @@ Current date: 5/29/2022
         IMPORTANT
             There might be errors now that I have changed the way everything is checked so who knows?
 
+
     (Changed/New) CollsionDetect.java
         Removed some comments, because who knows they've been there for awhile.
 
@@ -245,6 +247,7 @@ Current date: 5/29/2022
 
         Changed checkItem() to apply damage to entities based on item dmg 
             and give or remove i-Frames based on time hit, how long their i-Frames are set to be, and current frame.
+
         
     (Changed/New) Entity.java
         Did things.
@@ -253,6 +256,7 @@ Current date: 5/29/2022
 
         Added new variables THAT NEED TO BE IMPLIMENTED PROPERLY IN THE CONSTRUCTORS.
             Changed order of variables to help readability?
+
 
     (Changed/New) Item.java
         Removed a lot of things, those things being:
@@ -271,10 +275,12 @@ Current date: 5/29/2022
 
         Added dmg -> Not implimented in the constructor yet, because who knows why.
 
+
     (Changed) People.java
         Actually put the int amount = 10; into the eSpeed super().
 
         Removed redundant comments.
+        
 
     (New) Sword.java
         Added most of the things removed from Item.java into here.

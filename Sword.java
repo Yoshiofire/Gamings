@@ -13,6 +13,7 @@ public class Sword extends Item{
 
     public Sword(int[] x, int[] y){
         super(x, y);
+        this.setSprite("/Player_Images/Sword.png");
         //currently sword is better rectangle, as it can rotate 360 in incrments of 1 compared to rectangles and their 90 only.
         /*
         The sword is built from left to right, up to down.
@@ -30,10 +31,12 @@ public class Sword extends Item{
         Then when we used at to rotate it or something, it was rotating it correctly, but was using the distance from the pivot point to (0,0).
         Which was not what we wanted but rather something. So after years and eons of reasearching I figured out that if we were to translate the BufferedImage onto the polygon
         Then we'd recreate what we currently have for the drawPolyHitbox.*/
-
         spriteAt.translate(hitbox.xpoints[0], hitbox.ypoints[0]);//set this to the top left coord of polygon
+        
 
-        double spriteHeightAfterScalingAgainstHitbox = hitbox.getBounds().getHeight()/ hitbox.getBounds().getWidth();
+        // double spriteHeightAfterScalingAgainstHitbox = hitbox.getBounds().getHeight()/ hitbox.getBounds().getWidth();
+        double spriteHeightAfterScalingAgainstHitbox = hitbox.getBounds().getHeight()/sprite.getHeight();
+
         double spriteWidthAfterScalingAgainstHitbox = hitbox.getBounds().getWidth()/sprite.getWidth(); //Because swords are going to be scaled x-coordinate wise, we really don't need a y one
 
         spriteAt.scale(spriteWidthAfterScalingAgainstHitbox, spriteHeightAfterScalingAgainstHitbox );
@@ -64,7 +67,7 @@ public class Sword extends Item{
             } 
 
             doRotate = true;
-            endFrame = startFrame + 3*sFrame; //<- the 3 is the waiting time after each rotation
+            endFrame = startFrame + 5*sFrame; //<- the 3 is the waiting time after each rotation
             cooldownTime = endFrame + cooldownSeconds;
             at.setToRotation(Math.toRadians(rotationS + 135), player.hitbox.getCenterX(), player.hitbox.getCenterY());
             animationHitbox = at.createTransformedShape(this.hitbox);

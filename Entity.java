@@ -99,19 +99,6 @@ public class Entity{
         hitbox.setBounds(posX, posY, sizeX, sizeY);
     }
 
-    //DEFUNCT
-    // public void draw(Graphics2D g3, BufferedImage i){
-
-    //     // g3.setColor(Color.red);
-
-    //     // g3.fillRect(Posx, Posy, 10, 10); //location x, location y, size x, size y
-
-    //     g3.drawImage(i, posX, posY, sizeX, sizeY, null);
-
-
-
-    // }
-
         public void setSprite(String filePath){
 
             try{

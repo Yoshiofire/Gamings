@@ -26,8 +26,8 @@ public class Item{
 
     public Item(int[] x, int[] y){
         hitbox = new Polygon(x, y, x.length);
-        cooldownFrames = 10;
-        cooldownSeconds = cooldownFrames * Game.FPS;
+        cooldownFrames = 1;
+        cooldownSeconds = cooldownFrames * Game.FPS; 
         dmg = 5;
         try{
 
@@ -46,6 +46,22 @@ public class Item{
 
 
 
+
+
+    public void setSprite(String filePath){
+
+        try{
+
+            sprite = ImageIO.read(getClass().getResourceAsStream(filePath));
+
+        }catch(IOException e){
+
+            e.getStackTrace();
+
+        }
+
+
+    }
 
 
 

@@ -25,7 +25,7 @@ public class Game extends JPanel implements Runnable{
   int playerStartingX = (int) (screenWidth/2) - playerSizeX;
   int playerStartingY = (int) (screenHeight/2) - playerSizeY;
   PlayerData player = new PlayerData(keyChecker, this, playerStartingX ,playerStartingY, 15, playerSizeX, playerSizeY);
-  Sword test = new Sword(new int[] {player.posX, player.posX + playerSizeX+300, player.posX + playerSizeX+300, player.posX}, new int[] {player.posY +30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
+  Sword test = new Sword(new int[] {player.posX, player.posX + playerSizeX+300, player.posX + playerSizeX+300, player.posX}, new int[] {player.posY , player.posY, player.posY + playerSizeY, player.posY + playerSizeY} );
 
 
   CollisionDetect CD = new CollisionDetect(this);
@@ -228,7 +228,7 @@ public class Game extends JPanel implements Runnable{
       Graphics2D g2 = (Graphics2D) g;
 
       switch(gameState){
-        case 1: // default playing thing
+        case 2: // default playing thing
 
           // test.drawPolyHitbox(g2);
           test.drawAniHitbox(g2);
@@ -248,7 +248,7 @@ public class Game extends JPanel implements Runnable{
 
 
           break;
-        case 2: // pause
+        case 1: // pause
         for(People peoples: People.peopleList){
           peoples.draw(g2);
         }
