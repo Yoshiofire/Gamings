@@ -10,7 +10,7 @@ Bugs that need to be fixed:
     So I fixed it by making a player specifc detect, checking what keys are currently being pressed. Meaning it can check up+right at the same time instead of two instances of
     up then right, which might cause a perma collision.
 
-    What causes this issue is if direction/movement is being changed too fast, which happened when I set People.java's drection to be changed every frame.
+    What causes this issue is if direction/movement is being changed too fast, which happened when I set People.java's drection to be changed every frame. <- changed to 1/6 of a frame.
     Also because of the nature of player the same thing happned above. So if you want to make a thing move really sparatically you need to make a unquie method and use the same
     idea behind the player check in CollsionDetect.java. >
 }
@@ -20,11 +20,16 @@ Bugs that need to be fixed:
     !!!! When you spam two directions and are colliding with a wall, the wall moves. -> When you spam two opposite directions you have a chance to be perma stuck in said entity.
 }
 
+{   (5/29 CHANGED TO DELTA CHECK TIMER WHATEVER)
+    !! Might be bugs be careful.
+}
+
 
 Things to add:
 
         IMPORTANT
             -People vs people collision
+                Spawn hitboxes, so it doesn't just spawn on top of each other and get stuck.
 
             *Teleport if collides with wall? Or just stops and the entites build up?
                 As of the notes of 5/25, the current build(?) has people vs wall and player vs wall collisions.
@@ -41,9 +46,9 @@ Things to add:
                 -For Abilities, do we want them to be active or passive <- BOTH (5/28)
                     -Meaning does the player dictate when they use them, and what keys or how will they be activated?
             -Collision aginst projectiles
-            -Animimations????? <- BY ANIMATIONS I MEAN NOT AN INSTANT ONE -> TWO FRAME THING. also sort of done (5/28)
+            -Animimations????? <- BY ANIMATIONS I MEAN NOT AN INSTANT ONE -> TWO FRAME THING. also sort of done FOR swords(5/28)
 
-            -Fix the calculations for center of screen, when constucting the player's location.
+            -Fix the calculations for center of screen, when constucting the player's location. (5/29)
 
             -Entity AI, where they move towards the player.
 
@@ -51,7 +56,7 @@ Things to add:
         WISHES
             -Settings for screen resolutions, maybe opacity, maybe changing the assets, maybe change keybinds?
 
-            -Fix minor Bugs
+            -Fix minor Bugs (HAHA NEVER)
             
             -A nice looking title and end screen
 
@@ -61,12 +66,13 @@ Things to add:
 
             -Abilites using mouse coords and clicks (Probably easy, but takes time as usual)
 
+            -Think if we need to render ONLY in frame of the PLAYER.
 
 
 
 
 
-                -Why do we need to have a collisiondection thing for the InvisWall, and how did that fix the problem of Entities intersecting??
+                -Why do we need to have a collisiondection thing for the InvisWall, and how did that fix the problem of Entities intersecting?? (Who knows)
 
                 -Projectiles.java
 
@@ -74,13 +80,9 @@ Things to add:
                 for player vs enemies and player vs projectiles and enemies vs player projectiles. Currently we have no idea else than
                 "yes this entity is colliding with this entity".
 
-                -Item.class which will be extending Entity.java, also with that we'll have another collision detect method I guess.
+                -Item.class which will be extending Entity.java, also with that we'll have another collision detect method I guess. (Nah also done 5/29)
 
                 -Add display of the time currently on the top center of the screen.
-
-                -Title and end screen.
-
-                -When you die, it takes that time and puts it into a txt file or a json file and thats the leaderbaord I guess.
 
 
 Current date: 5/18/2022
@@ -225,7 +227,8 @@ Current date: 5/28/2022
 
 Current date: 5/29/2022
 
-    Game.java
+
+    (Changed/New) Game.java
         Changed how everything is updated into something called Delta time?
 
         Moved the locations of seconds, frameCount and FPS near run() method.
@@ -235,7 +238,7 @@ Current date: 5/29/2022
         IMPORTANT
             There might be errors now that I have changed the way everything is checked so who knows?
 
-    CollsionDetect.java
+    (Changed/New) CollsionDetect.java
         Removed some comments, because who knows they've been there for awhile.
 
         Tweeking a bit about whether to use setLocation or the other way I was using. I don't think it matters though.
@@ -243,7 +246,7 @@ Current date: 5/29/2022
         Changed checkItem() to apply damage to entities based on item dmg 
             and give or remove i-Frames based on time hit, how long their i-Frames are set to be, and current frame.
         
-    Entity.java
+    (Changed/New) Entity.java
         Did things.
 
         Made the draw() method for entities take in entity i-Frames. (if they have i-Frames their opacity is 50%)
@@ -251,7 +254,7 @@ Current date: 5/29/2022
         Added new variables THAT NEED TO BE IMPLIMENTED PROPERLY IN THE CONSTRUCTORS.
             Changed order of variables to help readability?
 
-    Item.java
+    (Changed/New) Item.java
         Removed a lot of things, those things being:
             the rotate method,
             cool ego rant and the AfflineTransformOP,
@@ -268,17 +271,19 @@ Current date: 5/29/2022
 
         Added dmg -> Not implimented in the constructor yet, because who knows why.
 
-    People.java
+    (Changed) People.java
         Actually put the int amount = 10; into the eSpeed super().
 
         Removed redundant comments.
 
-    Sword.java
+    (New) Sword.java
         Added most of the things removed from Item.java into here.
 
         Renamed testRotation() method thing into swingSword().
 
         Tried to make the method compatible with FPS changes for the setting,tittle screen, end screen update soon tm.
+
+        Made the sprite be the same height and width of the hitbox by doing some bad math.
 
         
 
