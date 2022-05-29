@@ -211,7 +211,7 @@ Current date: 5/28/2022
         -Added an checkItem or something similar of name, method. (Which sents a true if collides and false if not.)
         ^Added a null checker
  
-    Item.java
+    (New)Item.java
         Item class that uses polygons instead of rectangles and is seperate from entity.
 
         Created a test rotation metod, which rotates the polygon and took me forever to figure out how to rotate the image alongside it.
@@ -226,5 +226,60 @@ Current date: 5/28/2022
 Current date: 5/29/2022
 
     Game.java
+        Changed how everything is updated into something called Delta time?
+
+        Moved the locations of seconds, frameCount and FPS near run() method.
+
+        Edited drawHitboxes when they have i-Frames.
+
+        IMPORTANT
+            There might be errors now that I have changed the way everything is checked so who knows?
+
+    CollsionDetect.java
+        Removed some comments, because who knows they've been there for awhile.
+
+        Tweeking a bit about whether to use setLocation or the other way I was using. I don't think it matters though.
+
+        Changed checkItem() to apply damage to entities based on item dmg 
+            and give or remove i-Frames based on time hit, how long their i-Frames are set to be, and current frame.
         
+    Entity.java
+        Did things.
+
+        Made the draw() method for entities take in entity i-Frames. (if they have i-Frames their opacity is 50%)
+
+        Added new variables THAT NEED TO BE IMPLIMENTED PROPERLY IN THE CONSTRUCTORS.
+            Changed order of variables to help readability?
+
+    Item.java
+        Removed a lot of things, those things being:
+            the rotate method,
+            cool ego rant and the AfflineTransformOP,
+            and anything that is now in Sword.java.
+
+        Made the AfflineTransform public.
+
+        Changed cooldown into:
+            cooldownFrames -> There are 2 types of CDs:
+                AnimationCD where it plays out the action.
+                ThisCD where you can't use it until the time as passed and CD is over.
+
+            cooldownSeconds, cooldownFrames but multiplied by FPS.
+
+        Added dmg -> Not implimented in the constructor yet, because who knows why.
+
+    People.java
+        Actually put the int amount = 10; into the eSpeed super().
+
+        Removed redundant comments.
+
+    Sword.java
+        Added most of the things removed from Item.java into here.
+
+        Renamed testRotation() method thing into swingSword().
+
+        Tried to make the method compatible with FPS changes for the setting,tittle screen, end screen update soon tm.
+
+        
+
 
