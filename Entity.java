@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.awt.Rectangle;
 import javax.imageio.ImageIO;
+import java.awt.AlphaComposite;
 // import java.awt.Graphics;
 // import java.util.ArrayList;
 
@@ -20,18 +21,33 @@ public class Entity{
     public Rectangle hitbox;
     public boolean collides;
     public int movement;
+    // public int startIFrame;
+    public int endIFrame;
+
+
+    //Below needs implimentation in the constructors
     public String type;
+    public int health;
+    public boolean iFrame;
+    public int iFrameTime;
+
 
     // public String direction; 
 
     public Entity(){
         posX = 100;
         posY = 100;
-        eSpeed = 10;
         sizeX = 200;
         sizeY = 200;
         hitbox = new Rectangle(posX, posY, sizeX, sizeY);
         collides = false;
+        
+        iFrame = false; // <-
+        iFrameTime = 1; // <-
+
+        eSpeed = 10;
+        health = 10; // <-
+
         //FILE PATH TO DEFUALT SPRITE TEXTURE
         //WHAT NEEDS TO BE ADDED IS DEFAULT HITBOX
         try{
@@ -165,10 +181,19 @@ public class Entity{
 
 
     public void draw(Graphics2D g3){
-
-        g3.drawImage(this.sprite, posX, posY, sizeX, sizeY, null);
+        if(this.iFrame){
+            g3.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .5f));
+            g3.drawImage(this.sprite, posX, posY, sizeX, sizeY, null);
+            g3.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f)); //needs this or else everything is opacity 50%.
+        }
+        else{
+            g3.drawImage(this.sprite, posX, posY, sizeX, sizeY, null);
+        }
 
     }
+
+
+
     
     public void drawHitboxes(Graphics2D g3){
 

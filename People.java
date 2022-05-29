@@ -16,7 +16,7 @@ public class People extends Entity{
         super(
             500 + (int) (Math.random() * 100),
             500 + (int) (Math.random() * 100),
-            0,
+            10,
             100,
             100);
         this.setSprite(filePath);
@@ -26,12 +26,10 @@ public class People extends Entity{
 
 
     public void peopleMove(){
-        if(Game.frameCount % 5 == 0){
+        if(Game.frameCount % (Game.FPS/6) == 0){ // <- moves around 1/6 times per frame.
             direction = (int) (Math.random() * 4);
         }
         
-        int amount = 10;
-        // int amount = 0;
         switch(direction){
             case 0:
                 direction = 83;
@@ -64,41 +62,7 @@ public class People extends Entity{
         }
         hitbox.setLocation(posX, posY);
         movement = direction;
-        eSpeed = amount;
     
-        
-        
-            /*            switch(direction){
-                case 87: // W
-                    sprite = ImageIO.read(getClass().getResourceAsStream("/Player_Images/JermaUp.png"));
-                    break;
-                case 83: //S
-                    sprite = ImageIO.read(getClass().getResourceAsStream("/Player_Images/JermaDown.png"));
-                    break;
-                 case 65: // A
-                    sprite = ImageIO.read(getClass().getResourceAsStream("/Player_Images/JermaLeft.png"));
-                    break;
-                case 68: //D
-                    sprite = ImageIO.read(getClass().getResourceAsStream("/Player_Images/JermaRight.png"));
-                    break;
-
-            }*/
-
-
-        // DONT NEED THIS BECAUSE THE IMAGE WE ARE USING IS STATIC THEREFORE WE CAN JSUT INITALIZE IT WHEN WE CREATE THE OBJECT
-        // try{
-
-        //     sprite = ImageIO.read(getClass().getResourceAsStream("/People_Images/People.jpg"));
-
-        // }catch(IOException e){
-
-        //     e.getStackTrace();
-
-        // }
-
-    // public void draw(Graphics2D g1){
-    //     super.draw(g1, sprite);
-    // }
     }
 
 

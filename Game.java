@@ -12,11 +12,7 @@ public class Game extends JPanel implements Runnable{
   private final int screenWidth = 1366; // if we do a settings, can be changed
   private final int screenHeight = 768;
 
-  //Changable Variables, mostly consisting of player stuff and setting data?
-  int FPS = 30;// can also be changed
 
-  public static int seconds = 0;
-  public static int frameCount = 0;
 
 
   Thread gameThread; // why we need a thread is because of the fact that if we dont use a thread then it will become more akin to a turn based rpg where we do our thing then another person will do their thing.
@@ -26,8 +22,10 @@ public class Game extends JPanel implements Runnable{
 
   int playerSizeX = 100;
   int playerSizeY = 100;
-  PlayerData player = new PlayerData(keyChecker, this, (int) (screenWidth/1.9) - playerSizeX, (int) (screenHeight/1.77) - playerSizeY, 15, playerSizeX, playerSizeY);
-  Item test = new Item(new int[] {player.posX, player.posX + playerSizeX+150, player.posX + playerSizeX+150, player.posX}, new int[] {player.posY +30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
+  int playerStartingX = (int) (screenWidth/2) - playerSizeX;
+  int playerStartingY = (int) (screenHeight/2) - playerSizeY;
+  PlayerData player = new PlayerData(keyChecker, this, playerStartingX ,playerStartingY, 15, playerSizeX, playerSizeY);
+  Sword test = new Sword(new int[] {player.posX, player.posX + playerSizeX+300, player.posX + playerSizeX+300, player.posX}, new int[] {player.posY +30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
 
 
   CollisionDetect CD = new CollisionDetect(this);
@@ -83,58 +81,67 @@ public class Game extends JPanel implements Runnable{
 
     }
 
-  
+      //Changable Variables, mostly consisting of player stuff and setting data?
+      public static int FPS = 60;// Only be 30 or 60 or 90 frames, ACTUALLY its better if we cap it at 30, ALSO CANT BE LOWER THAN 15, BECAUSE I DO 15/ MATHS
+
+      public static int seconds = 0;
+      public static int frameCount = 0;
+
+      
     @Override
     public void run(){
 
+
+
       double bootlegFPS = 1000000000/FPS; // the 10e9? means that it is equvilant to 1 second. Therefore if we divide 1 seconds by the frames(60) we are refreshing the thing 60 times every second.
-      double nextRefresh = System.nanoTime() + bootlegFPS;
-      
+      long lastTime = System.nanoTime();
+      long currentTime;
+      double delta = 0;
+      int FPScount = 0;
+      int FPStimer = 0;
+
+
+
+
       
         while(gameThread != null){
           //meaning that while the thread is still active we will be running what ever is in here?
           // x,y is 0,0 at top left and max at bottom left.
           // System.out.println("Holder");
 
+          currentTime = System.nanoTime();
+
+          delta += (currentTime - lastTime) / bootlegFPS;
+          // seconds += (currentTime - lastTime); //This is because I used an old system AND I suck.
+          FPStimer += (currentTime - lastTime);
+          lastTime = currentTime;
+
+          if(delta >= 1){
+            update();
+            repaint();
+
+            frameCount++;
+            FPScount++;
+            seconds = frameCount/FPS;
 
 
-          update();
-          
-          
-          repaint();
 
+            delta--;
+          }
 
-          double remainingTime = nextRefresh - System.nanoTime(); // meaning we would be left with something below 60fps/ .016 seconds?
-          remainingTime /= 1000000;
-
-          if(remainingTime < 0){
-            remainingTime = 0;
-            count ++;
-            System.out.println("Stutter " + count);
+          if(FPStimer >= 1000000000){ //every second
+            System.out.println("FPS: " + FPScount);
+            System.out.println("Seconds: " + seconds);
+            FPScount = 0;
+            FPStimer = 0;
           }
 
 
           
-          try{
-            
-            Thread.sleep((long) remainingTime); 
-            // why this works is becasue of the fact, that if we don't sleep the thread, what will happen is that the amount of times checked is dependant on the persons computer.
-            // Therefore, by sleeping after we done the check, it might take like 0.1 seconds, it sleeps the difference off (.016 - .1). Meaning that it will only check every .16 seconds.
-            // THEN if it the total is equalling 0, it just imiidetly checks because it already used up it's sleeping time trying to do something. If this happens, it tells us there is something wrong with the code for it to be stuttering.
-            
-          } catch(InterruptedException e){
 
-            e.printStackTrace();
-            
-          }
-
-          nextRefresh += bootlegFPS;
-          frameCount ++;
-          seconds = frameCount/FPS;
-          if(frameCount % FPS == 0)
-            System.out.println(seconds);
-        }
       }
+
+    }
 
   
     public void update(){
@@ -157,14 +164,14 @@ public class Game extends JPanel implements Runnable{
 
 
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
-          for(Item a: Item.itemList){
-            if(CD.checkItem(People.peopleList.get(x), a)){
+          for(Item item: Item.itemList){
+            if(CD.checkItem(People.peopleList.get(x), item)){
               System.out.println("YES");
               People.peopleList.remove(x);
             }
           }
         }
-        test.testHitboxRotate(player);
+        test.swingSword(player);
 
 
 
@@ -198,7 +205,7 @@ public class Game extends JPanel implements Runnable{
           break;
         case 2: // pause
 
-          People help = new People("/People_Images/People.jpg", keyChecker);
+          // People help = new People("/People_Images/People.jpg", keyChecker);
 
 
           
@@ -226,7 +233,9 @@ public class Game extends JPanel implements Runnable{
           // test.drawPolyHitbox(g2);
           test.drawAniHitbox(g2);
           for(People peoples: People.peopleList){
-            peoples.drawHitboxes(g2);
+            if(!peoples.iFrame){
+              peoples.drawHitboxes(g2);
+            }
           }
           player.drawHitboxes(g2);
 

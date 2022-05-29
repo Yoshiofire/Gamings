@@ -5,34 +5,30 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.Polygon;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Item{
     
 
-    public int cooldown;
+    public int cooldownFrames;
+    public int cooldownSeconds;
     public Polygon hitbox;
     public static ArrayList <Item> itemList = new ArrayList<>();
     public BufferedImage sprite;
     public Shape animationHitbox;
-    private AffineTransform at = new AffineTransform();
-    private AffineTransform spriteAt = new AffineTransform();
-    //Add stats like size and dmg later
-    //temp variable
-    boolean doRotate = false;
-    int startFrame;
-    int endFrame = 0;
-    int rotationS;
-    int rotationE = 22;
-    int cooldownTime;
-    // int tempX = 0;
-    // int tempY = 0;
+    public int dmg;
+
+
+    public AffineTransform at = new AffineTransform();
+    public AffineTransform spriteAt = new AffineTransform();
 
     public Item(int[] x, int[] y){
         hitbox = new Polygon(x, y, x.length);
-        cooldown = 20;
+        cooldownFrames = 10;
+        cooldownSeconds = cooldownFrames * Game.FPS;
+        dmg = 5;
         try{
 
             sprite = ImageIO.read(getClass().getResourceAsStream("/download.jpg"));
@@ -44,65 +40,12 @@ public class Item{
 
         }
 
-        
-
-        /* I AM THE WORLDS SMARTEST MAN TO EVER EXIST ON THIS PLANET
-        The problem with the code was that when initalizing 'sprite' it put its starting coords at (0,0).
-        Then when we used at to rotate it or something, it was rotating it correctly, but was using the distance from the pivot point to (0,0).
-        Which was not what we wanted but rather something. So after years and eons of reasearching I figured out that if we were to translate the BufferedImage onto the polygon
-        Then we'd recreate what we currently have for the drawPolyHitbox.*/
-
-        spriteAt.translate(hitbox.xpoints[0], hitbox.ypoints[0]);//set this to the top left coord of polygon
-        spriteAt.scale(1, .3);
-        //^^ spriteAt is what transformations you need to do onto the sprite of the item.
-
-        AffineTransformOp a = new AffineTransformOp(spriteAt, AffineTransformOp.TYPE_BILINEAR);
-        sprite = a.filter(sprite, null);
-        a = null;
-
-
-
 
         itemList.add(this);
     }
 
 
-    public void testHitboxRotate(PlayerData p){
-        int sFrame = 2;
-        startFrame = Game.frameCount;
 
-        if(p.key.attackKey && startFrame > endFrame && cooldownTime < Game.frameCount){
-            if(p.key.upKey == true){
-                rotationS = 90;
-            }
-            if(p.key.downKey == true){
-                rotationS = 270;
-            }
-            if(p.key.leftKey == true){
-                rotationS = 0;
-            }
-            if(p.key.rightKey == true){
-                rotationS = 180;  
-            } 
-
-            doRotate = true;
-            endFrame = startFrame + 3*sFrame; //<- the 3 is the waiting time after each rotation
-            cooldownTime = endFrame + cooldown;
-            at.setToRotation(Math.toRadians(rotationS + 135), p.hitbox.getCenterX(), p.hitbox.getCenterY());
-            animationHitbox = at.createTransformedShape(this.hitbox);
-        }
-        if(doRotate){
-            if(Game.frameCount % sFrame == 0){
-                at.rotate(Math.toRadians(rotationE), p.hitbox.getCenterX(), p.hitbox.getCenterY());
-                animationHitbox = at.createTransformedShape(this.hitbox);
-            }
-        }
-        if(Game.frameCount > endFrame){
-            doRotate = false;
-            // at.setToRotation(Math.toRadians(rotation), hitbox.xpoints[0], hitbox.ypoints[0] + (p.hitbox.getHeight()/2));
-            animationHitbox = null;
-        }
-    }
 
 
 
