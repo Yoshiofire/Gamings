@@ -23,8 +23,8 @@ public class Game extends JPanel implements Runnable{
 
   int playerSizeX = 100;
   int playerSizeY = 100;
-  int playerStartingX = (int) (screenWidth/2) - playerSizeX;
-  int playerStartingY = (int) (screenHeight/2) - playerSizeY;
+  int playerStartingX = (int) (screenWidth/2) - playerSizeX/2;
+  int playerStartingY = (int) (screenHeight/2) - playerSizeY/2;
   PlayerData player = new PlayerData(keyChecker, this, playerStartingX ,playerStartingY, 15, playerSizeX, playerSizeY);
   Sword test = new Sword(new int[] {player.posX, player.posX + playerSizeX+300, player.posX + playerSizeX+300, player.posX}, new int[] {player.posY , player.posY, player.posY + playerSizeY, player.posY + playerSizeY} );
 
@@ -50,7 +50,6 @@ public class Game extends JPanel implements Runnable{
   People people2 = new People("/People_Images/People.jpg", keyChecker);
   People people3 = new People("/People_Images/People.jpg", keyChecker);
 
-
   
 
 
@@ -59,6 +58,10 @@ public class Game extends JPanel implements Runnable{
   public final int playState = 1;
   public final int pauseState = 2;
   int count;
+  int secondOnes;
+  int secondsTens;
+  int minutesOnes;
+  int minutesTens;
 
 
 
@@ -220,6 +223,7 @@ public class Game extends JPanel implements Runnable{
         }
 
         //Insert if player is dead then we switch the gamestate to end screen.
+
         if(player.isDead){
           gameState = 3;
         }
@@ -245,7 +249,21 @@ public class Game extends JPanel implements Runnable{
   }
 
 
+  public void drawTime(Graphics2D g2){ 
+    int size =  50;
+    int tempSeconds = seconds%60;
+    secondOnes = tempSeconds%10;
+    secondsTens = tempSeconds/10;
+    minutesOnes = seconds/60;
+    minutesOnes %= 10;
+    minutesTens = seconds/600;
 
+
+
+    g2.setFont(new Font("impact", Font.BOLD, size));
+    g2.drawString("" + minutesTens + minutesOnes + ":" + secondsTens + secondOnes, (int) ((screenWidth/2) - size*(( 4 + Integer.toString(minutesTens).length() ) * .3)), size);
+
+  }
 
   
     
@@ -273,6 +291,8 @@ public class Game extends JPanel implements Runnable{
           for(InvisWall walls: InvisWall.wallList){
             walls.drawHitboxes(g2);
           }
+          drawTime(g2);
+
 
           
 
@@ -286,6 +306,8 @@ public class Game extends JPanel implements Runnable{
            //need this to move less, moving 60 times per second
           player.draw(g2);
           test.draw(g2);
+          drawTime(g2);
+
           break;
 
 
@@ -295,6 +317,7 @@ public class Game extends JPanel implements Runnable{
         setBackground(Color.RED);
         g2.setFont(new Font("impact", Font.BOLD, size));
         g2.drawString("YOU SUCK", (screenWidth/2) - size*2 , (screenHeight/2) + size/3);
+        //Add the time here as it is the score be like your final time is:
         break;
     }
 

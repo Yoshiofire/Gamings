@@ -308,6 +308,11 @@ Current date: 5/29/2022 (Part 2)
 
         Chanegd some enchanced loops into normal bad loops.
 
+        Fixed math so its in the middle.
+
+        Added a drawTime() method. Then added it to the update method case 1,2;
+            Did math to calculate center of screen for the timer.
+
     CollsionDetect.java
         Made a checkWalls() method that is the previous version of objCheck().
 

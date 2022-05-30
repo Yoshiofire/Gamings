@@ -29,7 +29,7 @@ public class PlayerData extends Entity{
 
     public PlayerData(KeyHandler k, Game g, int startingX, int startingY, int playerS, int sizeX, int sizeY){
         super(startingX, startingY, playerS, sizeX, sizeY);
-        this.health = 2;
+        this.health = 100;
         game = g;
         key = k;
         this.setSprite("/Player_Images/JermaUp.png");
