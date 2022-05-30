@@ -2,6 +2,7 @@
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.Rectangle;
 import javax.imageio.ImageIO;
 import java.awt.AlphaComposite;
@@ -24,6 +25,8 @@ public class Entity{
     // public int startIFrame;
     public int endIFrame;
     public boolean isDead;
+    public String defaultFilePath;
+    // public static ArrayList <Entity> entityList = new ArrayList<>();
 
 
     //Below needs implimentation in the constructors
@@ -50,28 +53,28 @@ public class Entity{
 
         eSpeed = 10;
         health = 10; // <-
-        contactDMG = 1;
+        contactDMG = 4;
 
 
         //FILE PATH TO DEFUALT SPRITE TEXTURE
         //WHAT NEEDS TO BE ADDED IS DEFAULT HITBOX
         try{
-
-            sprite = ImageIO.read(getClass().getResourceAsStream("/download.jpg"));
+            defaultFilePath = "/download.jpg";
+            sprite = ImageIO.read(getClass().getResourceAsStream(defaultFilePath));
 
         }catch(IOException e){
 
             e.getStackTrace();
 
         }
-
+        // entityList.add(this);
     }
 
 
     public Entity(String filePath){
         this();
         try{
-
+            defaultFilePath = filePath;
             sprite = ImageIO.read(getClass().getResourceAsStream(filePath));
 
         }catch(IOException e){
@@ -164,6 +167,8 @@ public class Entity{
                 hitbox.setLocation(posX, posY);
             // }
         }
+
+
 
 
 

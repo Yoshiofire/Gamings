@@ -12,24 +12,38 @@ public class People extends Entity{
     // public BufferedImage sprite; // this one for the "character frames" ig
     
     
-    public People(String filePath, KeyHandler k){ //DOESNT NEED TO BE A STRING, I AM JUST LAZY SO INSTEAD OF SENDING A BUFFEREDIMAGE I FORCE PEOPLE TO SEND IN STRING
+    public People(String filePath){ //DOESNT NEED TO BE A STRING, I AM JUST LAZY SO INSTEAD OF SENDING A BUFFEREDIMAGE I FORCE PEOPLE TO SEND IN STRING
         super(
             500 + (int) (Math.random() * 100),
             500 + (int) (Math.random() * 100),
             10,
             100,
             100);
+        defaultFilePath = filePath;
+        this.setSprite(filePath);
+        this.type = "enemy1";
+        peopleList.add(this);
+    }
+
+    public People(String filePath, int x, int y){ //DOESNT NEED TO BE A STRING, I AM JUST LAZY SO INSTEAD OF SENDING A BUFFEREDIMAGE I FORCE PEOPLE TO SEND IN STRING
+        super(
+            x,
+            y,
+            10,
+            100,
+            100);
+        defaultFilePath = filePath;
         this.setSprite(filePath);
         this.type = "enemy1";
         peopleList.add(this);
     }
 
 
-    public void peopleMove(){
+    public void peopleMove(){ //add PlayerData player later
         // if(Game.frameCount % (Game.FPS/6) == 0){ // <- moves around 1/6 times per frame.
         //     direction = (int) (Math.random() * 4);
-        // }
-        direction = 1;
+        // }//Need to add new move method, which is like the checkPlay(), for People direction its based on the location of the player. So the player will always get surrounded.
+            direction = 1;
         
         switch(direction){
             case 0:

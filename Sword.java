@@ -8,7 +8,7 @@ public class Sword extends Item{
     int startFrame;
     int endFrame = 0;
     int rotationS;
-    int rotationE = 22;
+    int rotationE = 11;
     int cooldownTime;
 
     public Sword(int[] x, int[] y){
@@ -53,23 +53,24 @@ public class Sword extends Item{
         startFrame = Game.frameCount;
 
         if(player.key.attackKey && startFrame > endFrame && cooldownTime < Game.frameCount){ //1. if button is pressed, 2. if animation is done 3. if its off CD
-            if(player.key.upKey == true){
-                rotationS = 90;
+            switch(player.movement){
+                case 87: // W
+                    rotationS = 90;
+                    break;
+                case 83: //S
+                    rotationS = 270;
+                    break;
+                 case 65: // A
+                    rotationS = 0;
+                    break;
+                case 68: //D
+                    rotationS = 180;  
+                    break;
             }
-            if(player.key.downKey == true){
-                rotationS = 270;
-            }
-            if(player.key.leftKey == true){
-                rotationS = 0;
-            }
-            if(player.key.rightKey == true){
-                rotationS = 180;  
-            } 
-
             doRotate = true;
             endFrame = startFrame + 5*sFrame; //<- the 3 is the waiting time after each rotation
             cooldownTime = endFrame + cooldownSeconds;
-            at.setToRotation(Math.toRadians(rotationS + 135), player.hitbox.getCenterX(), player.hitbox.getCenterY());
+            at.setToRotation(Math.toRadians(rotationS + 150), player.hitbox.getCenterX(), player.hitbox.getCenterY());
             animationHitbox = at.createTransformedShape(this.hitbox);
         }
         if(doRotate){ //if its in animation

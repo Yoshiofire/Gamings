@@ -10,8 +10,8 @@ public class Game extends JPanel implements Runnable{
   
 
   //Windows Height, probably won't be changable.
-  private final int screenWidth = 1366; // if we do a settings, can be changed
-  private final int screenHeight = 768;
+  public static final int screenWidth = 1366; // if we do a settings, can be changed
+  public static final int screenHeight = 768;
 
 
 
@@ -26,31 +26,35 @@ public class Game extends JPanel implements Runnable{
   int playerStartingX = (int) (screenWidth/2) - playerSizeX/2;
   int playerStartingY = (int) (screenHeight/2) - playerSizeY/2;
   PlayerData player = new PlayerData(keyChecker, this, playerStartingX ,playerStartingY, 15, playerSizeX, playerSizeY);
-  Sword test = new Sword(new int[] {player.posX, player.posX + playerSizeX+300, player.posX + playerSizeX+300, player.posX}, new int[] {player.posY , player.posY, player.posY + playerSizeY, player.posY + playerSizeY} );
+  Sword sword = new Sword(new int[] {player.posX, player.posX + playerSizeX+400, player.posX + playerSizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
+
+
 
 
   CollisionDetect CD = new CollisionDetect(this);
 
   //Garbage names, but they are the equivalent of uh height and width.
-  final int topBounds = screenHeight * 4;
-  final int leftBounds = screenWidth * 4;
+  public static final int topBounds = screenHeight * 4;
+  public static final int leftBounds = screenWidth * 4;
 
 
 
-  InvisWall top = new InvisWall(0, 0, topBounds, 0);
-  InvisWall bottom = new InvisWall(0, topBounds+50, leftBounds, 0);
+  InvisWall top = new InvisWall(0, 0, leftBounds, 0);
+  InvisWall bottom = new InvisWall(0, leftBounds, leftBounds, 0);
   InvisWall left = new InvisWall(0, 0, 0, leftBounds);
-  InvisWall right = new InvisWall(topBounds+45, 0, 0, leftBounds);
+  InvisWall right = new InvisWall(leftBounds, 0, 0, leftBounds);
 
 
   
 
 
-  People people = new People("/People_Images/People.jpg", keyChecker);
-  People people2 = new People("/People_Images/People.jpg", keyChecker);
-  People people3 = new People("/People_Images/People.jpg", keyChecker);
+  People people = new People("/People_Images/People.jpg");
+  People people2 = new People("/download.jpg");
+  People people3 = new People("/People_Images/People.jpg");
 
   
+  Spawner peopleSpawner = new Spawner(people, player);
+  Spawner people2Spawner = new Spawner(people2, player);
 
 
   //Game states
@@ -123,10 +127,11 @@ public class Game extends JPanel implements Runnable{
           if(delta >= 1){
             update();
             repaint();
-
-            frameCount++;
+            if(gameState == playState){
+              frameCount++;
+              seconds = frameCount/FPS;
+            }
             FPScount++;
-            seconds = frameCount/FPS;
 
 
 
@@ -136,6 +141,8 @@ public class Game extends JPanel implements Runnable{
           if(FPStimer >= 1000000000){ //every second
             System.out.println("FPS: " + FPScount);
             System.out.println("Seconds: " + seconds);
+            System.out.println(People.peopleList.size());
+            // System.out.println(Entity.entityList.size());
             FPScount = 0;
             FPStimer = 0;
           }
@@ -157,9 +164,10 @@ public class Game extends JPanel implements Runnable{
         case 1: // default playing thing
 
 
+
         //CHECK COLLISION BETWEEN PLAYER AND CURRENT OBJECTS (INVISIBLE WALLS, PEOPLE)
         
-        
+
         player.collides = false;
         if(!player.iFrame){        
           for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
@@ -178,7 +186,9 @@ public class Game extends JPanel implements Runnable{
         }
         int pSpeed = player.playerMove();
 
-        test.swingSword(player);
+
+
+        sword.swingSword(player);
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
           for(Item item: Item.itemList){
             if(CD.checkItem(People.peopleList.get(x), item)){
@@ -187,6 +197,7 @@ public class Game extends JPanel implements Runnable{
             }
           }
         }
+
 
 
 
@@ -205,6 +216,7 @@ public class Game extends JPanel implements Runnable{
             }
           }
 
+          
           for(InvisWall walls: InvisWall.wallList){
             CD.checkWalls(walls, peoples); //People vs walls
           }
@@ -221,6 +233,21 @@ public class Game extends JPanel implements Runnable{
           }
           walls.playerInfluencedMovement(pSpeed, keyChecker);
         }
+
+
+
+        // for(Spawner spawner: Spawner.spawnerList){
+        //   spawner.independentSpawnerMovement(pSpeed, keyChecker); // <-- ALWAYS NEEDED
+        //   spawner.basicSpawnPeople();
+        // }
+
+  
+
+
+
+
+
+
 
         //Insert if player is dead then we switch the gamestate to end screen.
 
@@ -261,7 +288,7 @@ public class Game extends JPanel implements Runnable{
 
 
     g2.setFont(new Font("impact", Font.BOLD, size));
-    g2.drawString("" + minutesTens + minutesOnes + ":" + secondsTens + secondOnes, (int) ((screenWidth/2) - size*(( 4 + Integer.toString(minutesTens).length() ) * .3)), size);
+    g2.drawString("" + minutesTens + minutesOnes + ":" + secondsTens + secondOnes, (int) ((screenWidth/2) - size*(( 4 + Integer.toString(minutesTens).length() ) * .272)), size);
 
   }
 
@@ -274,10 +301,10 @@ public class Game extends JPanel implements Runnable{
       Graphics2D g2 = (Graphics2D) g;
 
       switch(gameState){
-        case 2: // default playing thing
+        case 1: // default playing thing
 
           // test.drawPolyHitbox(g2);
-          test.drawAniHitbox(g2);
+          sword.drawAniHitbox(g2);
           for(People peoples: People.peopleList){
             if(!peoples.iFrame){
               peoples.drawHitboxes(g2);
@@ -292,6 +319,8 @@ public class Game extends JPanel implements Runnable{
             walls.drawHitboxes(g2);
           }
           drawTime(g2);
+          peopleSpawner.drawAllSpawnerHitboxes(g2);
+
 
 
           
@@ -299,14 +328,15 @@ public class Game extends JPanel implements Runnable{
 
 
           break;
-        case 1: // pause
+        case 2: // pause
         for(People peoples: People.peopleList){
           peoples.draw(g2);
         }
            //need this to move less, moving 60 times per second
+          sword.draw(g2);
           player.draw(g2);
-          test.draw(g2);
           drawTime(g2);
+          peopleSpawner.drawAllSpawnerHitboxes(g2);
 
           break;
 

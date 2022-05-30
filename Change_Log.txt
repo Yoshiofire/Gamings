@@ -20,6 +20,14 @@ Bugs that need to be fixed:
     !!!! When you spam two directions and are colliding with a wall, the wall moves. -> When you spam two opposite directions you have a chance to be perma stuck in said entity.
 }
 
+{ (IF YOU WANT TO ADD PEOPLE VS PEOPLE COLLISION)
+    !!!!!!!!!!!!! SPAWN USING basicSpawnPeople(), I HAVE NO IDEA WHY THEY STILL INTERSECT. I CREATED AN INVISIBLE RECTANGLE, WHICH CHECKS COLLISION.
+    IF IT IS TRUE AND IT COLLIDES WITH SOMETHING THEN IT DOESN'T SPAWN THE PEOPLE THERE AND TRIES AGAIN (ONLY TWICE).
+    YET IT STILL SPAWNS IT ON TOP OF EACH OTHER?
+
+
+}
+
 {   (5/29 CHANGED TO DELTA CHECK TIMER WHATEVER)
     !! Might be bugs be careful.
 }
