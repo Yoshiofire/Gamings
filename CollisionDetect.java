@@ -57,7 +57,45 @@ public class CollisionDetect{ // this is going t
                         break;
             }
             entity2.hitbox.setLocation(originalEntity2HitboxX, originalEntity2HitboxY);
+            checkDMGAgainstEntities(entity, entity2);
         }
+
+        public void checkWalls(InvisWall wall, Entity entity2){
+
+                int originalEntity2HitboxX = entity2.hitbox.x;
+                int originalEntity2HitboxY = entity2.hitbox.y;
+
+                    switch(entity2.movement){
+                        case 87: //up
+                            entity2.hitbox.y -= entity2.eSpeed;
+                            if(entity2.hitbox.intersects(wall.hitbox)){
+                                entity2.collides = true;
+                            }
+                            break;
+                        case 83: //down
+                            entity2.hitbox.y += entity2.eSpeed;
+                            if(entity2.hitbox.intersects(wall.hitbox)){
+                                entity2.collides = true;
+                            }
+                            break;
+                        case 65: //left
+                            entity2.hitbox.x -= entity2.eSpeed;
+                            if(entity2.hitbox.intersects(wall.hitbox)){
+                                entity2.collides = true;
+                            }
+                            break;
+                        case 68: //right
+                            entity2.hitbox.x += entity2.eSpeed;
+                            if(entity2.hitbox.intersects(wall.hitbox)){
+                                entity2.collides = true;
+                            }
+                            break;
+                }
+                    entity2.hitbox.setLocation(originalEntity2HitboxX, originalEntity2HitboxY);
+                    checkIFrame(entity2);
+            }
+
+
         public void checkPlay(Entity entity, PlayerData player){
 
             // int originalPlayerHitboxX = player.hitbox.x;
@@ -67,7 +105,6 @@ public class CollisionDetect{ // this is going t
                 player.hitbox.y -= player.eSpeed;
                 if(player.hitbox.intersects(entity.hitbox)){
                     player.collides = true;
-                    // entity.collides = true;
                 }
                 player.hitbox.y += player.eSpeed;
             }
@@ -75,7 +112,6 @@ public class CollisionDetect{ // this is going t
                 player.hitbox.y += player.eSpeed;
                 if(player.hitbox.intersects(entity.hitbox)){
                     player.collides = true;
-                    // entity.collides = true;
                 }
                 player.hitbox.y -= player.eSpeed;
             }
@@ -83,7 +119,6 @@ public class CollisionDetect{ // this is going t
                 player.hitbox.x -= player.eSpeed;
                 if(player.hitbox.intersects(entity.hitbox)){
                     player.collides = true;
-                    // entity.collides = true;
                 }
                 player.hitbox.x += player.eSpeed;
             }
@@ -91,10 +126,14 @@ public class CollisionDetect{ // this is going t
                 player.hitbox.x += player.eSpeed;
                 if(player.hitbox.intersects(entity.hitbox)){
                     player.collides = true;
-                    // entity.collides = true;
                 }
                 player.hitbox.x -= player.eSpeed;
             } 
+            checkDMGAgainstEntities(entity, player);
+
+
+
+
             // player.hitbox.setLocation(originalPlayerHitboxX, originalPlayerHitboxY);
 
         }
@@ -119,6 +158,34 @@ public class CollisionDetect{ // this is going t
             if(Game.frameCount >= entity.endIFrame){
                 entity.iFrame = false;
             }
+        }
+
+        public void checkDMGAgainstEntities(Entity entity, Entity entity2){
+            if((entity2.collides)){
+                if(!entity.iFrame && !entity2.iFrame){
+                    
+                    entity2.health -= entity.contactDMG;
+                    entity.health -= entity2.contactDMG;
+    
+                    if(entity.health <= 0){
+                        entity.isDead = true;
+                    }
+                    else{
+                        entity.endIFrame = Game.frameCount + (entity.iFrameTime * Game.FPS);
+                        entity.iFrame = true;
+                    }
+    
+                    if(entity2.health <= 0){
+                        entity2.isDead = true;
+                    }
+                    else{
+                        entity2.endIFrame = Game.frameCount + (entity2.iFrameTime * Game.FPS);
+                        entity2.iFrame = true;
+                    }
+                }
+            }
+            checkIFrame(entity);
+            checkIFrame(entity2);
         }
 
 

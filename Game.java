@@ -1,6 +1,7 @@
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
 
@@ -82,7 +83,7 @@ public class Game extends JPanel implements Runnable{
     }
 
       //Changable Variables, mostly consisting of player stuff and setting data?
-      public static int FPS = 60;// Only be 30 or 60 or 90 frames, ACTUALLY its better if we cap it at 30, ALSO CANT BE LOWER THAN 15, BECAUSE I DO 15/ MATHS
+      public static int FPS = 30;// Only be 30 or 60 or 90 frames, ACTUALLY its better if we cap it at 30, ALSO CANT BE LOWER THAN 15, BECAUSE I DO 15/ MATHS
 
       public static int seconds = 0;
       public static int frameCount = 0;
@@ -141,6 +142,9 @@ public class Game extends JPanel implements Runnable{
 
       }
 
+
+
+
     }
 
   
@@ -154,15 +158,24 @@ public class Game extends JPanel implements Runnable{
         
         
         player.collides = false;
-        for(People peoples: People.peopleList){ 
-          CD.checkObj(peoples, player);
+        if(!player.iFrame){        
+          for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+            People peoples = People.peopleList.get(x);
+            CD.checkPlay(peoples, player);
+            if(peoples.isDead){
+              System.out.println("YES");
+              People.peopleList.remove(x);
+            }
+          }
         }
+
+        //Always check this.
         for(InvisWall walls: InvisWall.wallList){
-          CD.checkObj(walls, player);
+          CD.checkWalls(walls, player);
         }
         int pSpeed = player.playerMove();
 
-
+        test.swingSword(player);
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
           for(Item item: Item.itemList){
             if(CD.checkItem(People.peopleList.get(x), item)){
@@ -171,18 +184,26 @@ public class Game extends JPanel implements Runnable{
             }
           }
         }
-        test.swingSword(player);
+
 
 
 
 
           // CHECKS COLLISION BETWEEN PEOPLE AND OTHER OBJECTS CURRENTLY CREATED (INVISIBLE WALLS, PLAYER)
 
-        for(People peoples: People.peopleList){
+        for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+          People peoples = People.peopleList.get(x);
           peoples.collides = false;
-          CD.checkObj(player, peoples);
+          if(!peoples.iFrame){
+            CD.checkObj(player, peoples);
+            if(peoples.isDead){
+              System.out.println("YES");
+              People.peopleList.remove(x);
+            }
+          }
+
           for(InvisWall walls: InvisWall.wallList){
-            CD.checkObj(walls, peoples); //People vs walls
+            CD.checkWalls(walls, peoples); //People vs walls
           }
           peoples.peopleMove();
           peoples.playerInfluencedMovement(pSpeed, keyChecker);
@@ -193,15 +214,15 @@ public class Game extends JPanel implements Runnable{
           walls.collides = false;
           // CD.checkObj(player, walls); //walls currently does not have a speed so i think it is useless AND has no movement direction!!! <- Made a defualt case. <- bugged
           for(People peoples: People.peopleList){
-            CD.checkObj(peoples, walls);
+            CD.checkWalls(walls, peoples); //changed it uh oh.
           }
           walls.playerInfluencedMovement(pSpeed, keyChecker);
         }
 
-
-          
-
-          
+        //Insert if player is dead then we switch the gamestate to end screen.
+        if(player.isDead){
+          gameState = 3;
+        }
           break;
         case 2: // pause
 
@@ -210,9 +231,16 @@ public class Game extends JPanel implements Runnable{
 
           
           break;
+        case 3: // pause
 
 
-      }
+
+
+          
+          break;
+
+
+      } 
 
   }
 
@@ -236,8 +264,11 @@ public class Game extends JPanel implements Runnable{
             if(!peoples.iFrame){
               peoples.drawHitboxes(g2);
             }
+
           }
-          player.drawHitboxes(g2);
+          if(!player.iFrame){
+            player.drawHitboxes(g2);
+          }
 
           for(InvisWall walls: InvisWall.wallList){
             walls.drawHitboxes(g2);
@@ -255,13 +286,17 @@ public class Game extends JPanel implements Runnable{
            //need this to move less, moving 60 times per second
           player.draw(g2);
           test.draw(g2);
-
-
-
           break;
 
 
-      }
+      
+      case 3:
+        int size = 300;
+        setBackground(Color.RED);
+        g2.setFont(new Font("impact", Font.BOLD, size));
+        g2.drawString("YOU SUCK", (screenWidth/2) - size*2 , (screenHeight/2) + size/3);
+        break;
+    }
 
       g2.dispose();
       

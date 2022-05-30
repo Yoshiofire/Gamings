@@ -292,5 +292,41 @@ Current date: 5/29/2022
         Made the sprite be the same height and width of the hitbox by doing some bad math.
 
         
+Current date: 5/29/2022 (Part 2)
+
+
+    Game.java
+        FPS 60 -> 30 becasue who knows.
+
+        Made it so that if People obj or PlayerData obj iFrame = true, then we don't check if they are colliding with each other, so they can move.
+
+        Added a check if player is daed or if people is dead.
+            If player is dead then we change the gameState to 3, which is the dead screen I guess.
+        
+        player's hitbox draw is now the same as people's hitbox draw.
+            (meaning that if iFrame = true it doesn't draw it.)
+
+        Chanegd some enchanced loops into normal bad loops.
+
+    CollsionDetect.java
+        Made a checkWalls() method that is the previous version of objCheck().
+
+        objCheck() method calls checkDMGAgainstEntites.
+            checkDMGAgainstEntites -> is checkItem(), but for two entities.
+
+        Figured out that I WASNT USING checkplay() for some reason. Kind of funny.
+
+
+    Entity.java
+        Added int contactDMG, boolean isDead
+
+    People.java
+        Only moving up, for de bugging purposes.
+            direction = 1;
+    
+    PlayerData.java
+        Player health = 2, for debugging purposes.
+    
+
 
 

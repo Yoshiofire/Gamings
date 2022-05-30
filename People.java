@@ -26,9 +26,10 @@ public class People extends Entity{
 
 
     public void peopleMove(){
-        if(Game.frameCount % (Game.FPS/6) == 0){ // <- moves around 1/6 times per frame.
-            direction = (int) (Math.random() * 4);
-        }
+        // if(Game.frameCount % (Game.FPS/6) == 0){ // <- moves around 1/6 times per frame.
+        //     direction = (int) (Math.random() * 4);
+        // }
+        direction = 1;
         
         switch(direction){
             case 0:

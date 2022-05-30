@@ -23,6 +23,7 @@ public class Entity{
     public int movement;
     // public int startIFrame;
     public int endIFrame;
+    public boolean isDead;
 
 
     //Below needs implimentation in the constructors
@@ -30,6 +31,7 @@ public class Entity{
     public int health;
     public boolean iFrame;
     public int iFrameTime;
+    public int contactDMG;
 
 
     // public String direction; 
@@ -41,12 +43,15 @@ public class Entity{
         sizeY = 200;
         hitbox = new Rectangle(posX, posY, sizeX, sizeY);
         collides = false;
+        isDead = false;
         
         iFrame = false; // <-
         iFrameTime = 1; // <-
 
         eSpeed = 10;
         health = 10; // <-
+        contactDMG = 1;
+
 
         //FILE PATH TO DEFUALT SPRITE TEXTURE
         //WHAT NEEDS TO BE ADDED IS DEFAULT HITBOX

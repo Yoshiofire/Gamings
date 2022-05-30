@@ -29,6 +29,7 @@ public class PlayerData extends Entity{
 
     public PlayerData(KeyHandler k, Game g, int startingX, int startingY, int playerS, int sizeX, int sizeY){
         super(startingX, startingY, playerS, sizeX, sizeY);
+        this.health = 2;
         game = g;
         key = k;
         this.setSprite("/Player_Images/JermaUp.png");
@@ -36,6 +37,7 @@ public class PlayerData extends Entity{
     }
 
     public int playerMove(){
+
         if(key.upKey == true){
             movement = 87;
         }
@@ -51,7 +53,6 @@ public class PlayerData extends Entity{
         getPlayerImage(movement);
         // hitbox.setLocation(posX, posY);
         if(!collides){
-            //turn into invincibility frames? When it collides,
             return this.eSpeed;
         }
         return 0;
@@ -87,15 +88,4 @@ public class PlayerData extends Entity{
 
         }
     }
-
-
-
-    // DRAW METHOD REWRITTEN, ALWAYS ON THE BOTTOM OR ELSE MY EYES WILL HURT LOOKING FOR IT
-    // public void draw(Graphics2D g1){
-    //     super.draw(g1, sprite);
-    // }
-
-
-
-
 }
