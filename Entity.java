@@ -26,7 +26,7 @@ public class Entity{
     public int endIFrame;
     public boolean isDead;
     public String defaultFilePath;
-    // public static ArrayList <Entity> entityList = new ArrayList<>();
+    public static ArrayList <Entity> entityList = new ArrayList<>();
 
 
     //Below needs implimentation in the constructors
@@ -67,7 +67,7 @@ public class Entity{
             e.getStackTrace();
 
         }
-        // entityList.add(this);
+        entityList.add(this);
     }
 
 
@@ -152,23 +152,37 @@ public class Entity{
                 Also you APE, How the hell does the collisions against people vs walls work when this if statement is out???????
                 IT WORKS WHY?
                 */
+
+                //That is because everything SHOULD MOVE if the player is not colliding with anything. All movements are equal
                 if(key.upKey){
                     posY += playerSpeed;
+                    hitbox.y += playerSpeed;
                 }
                 if(key.downKey){
                     posY -= playerSpeed;
+                    hitbox.y -= playerSpeed;
                 }
                 if(key.rightKey){
                     posX -= playerSpeed;
+                    hitbox.x -= playerSpeed;
                 }
                 if(key.leftKey){
                     posX += playerSpeed;
+                    hitbox.x += playerSpeed;
+
                 }
-                hitbox.setLocation(posX, posY);
             // }
         }
 
+        public void entityListRefresh(){
+            for(int x = entityList.size()-1; x >= 0 ; x--){
+                Entity tempE = entityList.get(x);
+                if(tempE == null){
+                    entityList.remove(x);
+                }
+            }
 
+        }
 
 
 
@@ -188,7 +202,6 @@ public class Entity{
         }
 
     }
-
 
 
     

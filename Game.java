@@ -38,21 +38,21 @@ public class Game extends JPanel implements Runnable{
   public static final int leftBounds = screenWidth * 4;
 
 
-
-  InvisWall top = new InvisWall(0, 0, leftBounds, 0);
-  InvisWall bottom = new InvisWall(0, leftBounds, leftBounds, 0);
-  InvisWall left = new InvisWall(0, 0, 0, leftBounds);
-  InvisWall right = new InvisWall(leftBounds, 0, 0, leftBounds);
+//Borders (dont touch order ty)
+  public InvisWall top = new InvisWall(0, 0, leftBounds, 0);
+  public InvisWall bottom = new InvisWall(0, leftBounds, leftBounds, 0);
+  public InvisWall left = new InvisWall(0, 0, 0, leftBounds);
+  public InvisWall right = new InvisWall(leftBounds, 0, 0, leftBounds);
 
 
   
 
-
+//Enemy types
   People people = new People("/People_Images/People.jpg");
   People people2 = new People("/download.jpg");
   People people3 = new People("/People_Images/People.jpg");
 
-  
+//Spawner Types, need to be before the different enemies.  
   Spawner peopleSpawner = new Spawner(people, player);
   Spawner peopleSpawner2 = new Spawner(people, player);
   Spawner peopleSpawne3r = new Spawner(people, player);
@@ -145,7 +145,7 @@ public class Game extends JPanel implements Runnable{
             System.out.println("FPS: " + FPScount);
             System.out.println("Seconds: " + seconds);
             System.out.println(People.peopleList.size());
-            // System.out.println(Entity.entityList.size());
+            System.out.println(Entity.entityList.size());
             FPScount = 0;
             FPStimer = 0;
           }
@@ -170,7 +170,6 @@ public class Game extends JPanel implements Runnable{
 
         //CHECK COLLISION BETWEEN PLAYER AND CURRENT OBJECTS (INVISIBLE WALLS, PEOPLE)
         
-
         player.collides = false;
         if(!player.iFrame){        
           for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
@@ -205,60 +204,36 @@ public class Game extends JPanel implements Runnable{
           spawner.basicSpawnPeople();
         }
 
-
           // CHECKS COLLISION BETWEEN PEOPLE AND OTHER OBJECTS CURRENTLY CREATED (INVISIBLE WALLS, PLAYER)
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
-          People peoples = People.peopleList.get(x);
-          peoples.collides = false;
-          if(!peoples.iFrame){
-            CD.checkObj(player, peoples);
-            if(peoples.isDead){
-              System.out.println("YES");
-              People.peopleList.remove(x);
+            People peoples = People.peopleList.get(x);
+            peoples.collides = false;
+            if(!peoples.iFrame){
+              CD.checkObj(player, peoples);
+              if(peoples.isDead){
+                System.out.println("YES");
+                // People.peopleList.set(x, null);
+                People.peopleList.remove(x);
+              }
             }
-          }
-          for(InvisWall walls: InvisWall.wallList){
-            CD.checkWalls(walls, peoples); //People vs walls
-          }
-          // for(int y = x-1; y >= 0; y--){
-            // People peoplesNew = People.peopleList.get(x);
-            // People peoplesNext = People.peopleList.get(y);
-            // if(!peoples.iFrame){
-              // CD.checkPeopleVSPeople(peoplesNext, peoplesNew);
-              // Doesn't work vvvv
-              // if(peoplesNew.hitbox.contains(peoplesNext.hitbox)){
-              //   System.out.println("Trash Collision Detect");
-              //   People.peopleList.remove(x);
-              // }
-              // System.out.println("Checking: " + peoples + "\nAgainst: " + peoplesNext);
-              // CD.checkPeopleVSPeople(peoples, peoplesNext);
+            for(InvisWall walls: InvisWall.wallList){
+              CD.checkWalls(walls, peoples); //People vs walls
+            }
+            CD.checkPeopleVSPeople(People.peopleList, peoples);
 
-              // CD.checkObj(peoplesNext, peoples);
-              // if(peoplesNext.isDead){
-              //   System.out.println("YES");
-              //   People.peopleList.remove(y);
-              // }
-            // }
-              // }
-              peoples.peopleMove();
-              peoples.playerInfluencedMovement(pSpeed, keyChecker);
-        }
-      
-        for(int x = 0; x < People.peopleList.size(); x++){
-          People peoples =  People.peopleList.get(x);
-          for(int y = x + 1; y < People.peopleList.size(); y++){
-            People peoplesNext =  People.peopleList.get(y);
-            CD.checkPeopleVSPeople(peoplesNext, peoples);
+            peoples.peopleMove();
+            peoples.playerInfluencedMovement(pSpeed, keyChecker);
           }
-        }
+        
 
 
         for(InvisWall walls: InvisWall.wallList){
-          walls.collides = false;
+          // walls.collides = false;
           // CD.checkObj(player, walls); //walls currently does not have a speed so i think it is useless AND has no movement direction!!! <- Made a defualt case. <- bugged
-          for(People peoples: People.peopleList){
-            CD.checkWalls(walls, peoples); //changed it uh oh.
-          }
+          // for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+          //   People peoples = People.peopleList.get(x);
+          //   CD.checkWalls(walls, peoples); //changed it uh oh.
+          // }
           walls.playerInfluencedMovement(pSpeed, keyChecker);
         }
 
@@ -269,10 +244,9 @@ public class Game extends JPanel implements Runnable{
 
 
 
-
+        player.entityListRefresh();
 
         //Insert if player is dead then we switch the gamestate to end screen.
-
         if(player.isDead){
           gameState = 3;
         }
@@ -323,11 +297,12 @@ public class Game extends JPanel implements Runnable{
       Graphics2D g2 = (Graphics2D) g;
 
       switch(gameState){
-        case 2: // default playing thing
+        case 1: // default playing thing
 
           // test.drawPolyHitbox(g2);
           sword.drawAniHitbox(g2);
-          for(People peoples: People.peopleList){
+          for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+            People peoples = People.peopleList.get(x);
             if(!peoples.iFrame){
               peoples.drawHitboxes(g2);
             }
@@ -350,8 +325,9 @@ public class Game extends JPanel implements Runnable{
 
 
           break;
-        case 1: // pause
-        for(People peoples: People.peopleList){
+        case 2: // pause
+        for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+          People peoples = People.peopleList.get(x);
           peoples.draw(g2);
         }
            //need this to move less, moving 60 times per second

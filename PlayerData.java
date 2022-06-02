@@ -39,7 +39,7 @@ public class PlayerData extends Entity{
         game = g;
         key = k;
         this.setSprite(imageFilePathUp);
-        this.type = "player";
+        this.type = "Player";
     }
 
     public int playerMove(){
@@ -57,7 +57,6 @@ public class PlayerData extends Entity{
             movement = 68;
         } 
         getPlayerImage(movement);
-        // hitbox.setLocation(posX, posY);
         if(!collides){
             return this.eSpeed;
         }

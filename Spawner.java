@@ -33,8 +33,6 @@ public class Spawner {
             (entity.hitbox.height)
             );
 
-
-
         entitySpawnedData = entity;
 
         dontSpawnHitbox = new Rectangle
@@ -87,7 +85,7 @@ public class Spawner {
                 // System.out.println("HitboxY-Coord: " + spawningHitbox.y);
 
 
-                for(int x = 0; x < People.peopleList.size(); x++){
+                for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
                     // System.out.println(x);
                     if(spawningHitbox.intersects(People.peopleList.get(x).hitbox)){
                         spawnedCheck = false;
@@ -97,7 +95,7 @@ public class Spawner {
                 }
 
                 if(spawnedCheck && !(spawningHitbox.intersects(dontSpawnHitbox))){
-                    new People(entitySpawnedData.defaultFilePath, spawningHitbox.x, spawningHitbox.y);
+                    new People(entitySpawnedData.defaultFilePath, (int) spawningHitbox.getMinX(), (int) spawningHitbox.getMinY());
                     spawned = true;
                     // for(People peoples: People.peopleList){
                     //     People.peopleList.remove(peoples);
