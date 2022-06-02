@@ -1,5 +1,6 @@
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Random;
 import java.awt.Graphics2D;
 
 
@@ -24,14 +25,15 @@ public class Spawner {
             (Game.leftBounds - entity.hitbox.height*2 - 180)
             );
 
-        // spawningHitbox = new Rectangle
-        //     (
-        //     (entity.hitbox.x),
-        //     (entity.hitbox.y),
-        //     (entity.hitbox.width),
-        //     (entity.hitbox.height)
-        //     );
-        spawningHitbox = entity.hitbox;
+        spawningHitbox = new Rectangle
+            (
+            (entity.hitbox.x),
+            (entity.hitbox.y),
+            (entity.hitbox.width),
+            (entity.hitbox.height)
+            );
+
+
 
         entitySpawnedData = entity;
 
@@ -64,32 +66,54 @@ public class Spawner {
             }
     }
 
+
+
     public void basicSpawnPeople(){
         if(Game.seconds >= nextSpawn){
             nextSpawn += spawningCooldown;
             boolean spawned = false;
             int tries = 0;
             while(!spawned){
+                // System.out.println("Tries: " + tries + "\n" + this.toString());
+                // System.out.println();
+                boolean spawnedCheck = true;
                 int randomWidth = (int) ((Math.random() * (spawningArea.getMaxX()-spawningArea.getMinX())) + spawningArea.getMinX());
                 int randomHeight = (int) ((Math.random() * (spawningArea.getMaxY()-spawningArea.getMinY())) + spawningArea.getMinY());
-                spawningHitbox.setLocation(randomWidth, randomHeight);
+                spawningHitbox.x = randomWidth;
+                spawningHitbox.y = randomHeight;
+                // System.out.println("X-Coord: " + randomWidth);
+                // System.out.println("Y-Coord: " + randomHeight);
+                // System.out.println("HitboxX-Coord: " + spawningHitbox.x);
+                // System.out.println("HitboxY-Coord: " + spawningHitbox.y);
+
+
                 for(int x = 0; x < People.peopleList.size(); x++){
-                    if(!(spawningHitbox.intersects(People.peopleList.get(x).hitbox.getBounds())) && !(spawningHitbox.intersects(dontSpawnHitbox))){
-                        new People(entitySpawnedData.defaultFilePath, spawningHitbox.x, spawningHitbox.y);
-                        spawned = true;
-                        break;
+                    // System.out.println(x);
+                    if(spawningHitbox.intersects(People.peopleList.get(x).hitbox)){
+                        spawnedCheck = false;
+                        // System.out.println("SpawnCheck = false");
+
                     }
                 }
+
+                if(spawnedCheck && !(spawningHitbox.intersects(dontSpawnHitbox))){
+                    new People(entitySpawnedData.defaultFilePath, spawningHitbox.x, spawningHitbox.y);
+                    spawned = true;
+                    // for(People peoples: People.peopleList){
+                    //     People.peopleList.remove(peoples);
+                    //     People.peopleList.add(peoples);
+                    // }
+                    break;
+                }
+
                 tries++;
                 if(tries >= 2){ //meaning that if it still hasn't gotten a spawn in after 20 tries it'll jsut pass, so it doesn't take anymore time.
                     spawned = true;
                 }
+            }
             }// Entity.entityList
         }// People.peopleList
 
-
-
-    }
 
     public void drawAllSpawnerHitboxes(Graphics2D g4){
         g4.draw(spawningArea);

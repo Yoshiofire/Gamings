@@ -53,7 +53,7 @@ public class Entity{
 
         eSpeed = 10;
         health = 10; // <-
-        contactDMG = 4;
+        contactDMG = 1;
 
 
         //FILE PATH TO DEFUALT SPRITE TEXTURE

@@ -95,6 +95,44 @@ public class CollisionDetect{ // this is going t
                     checkIFrame(entity2);
             }
 
+            public void checkPeopleVSPeople(People people, People people2){
+
+                int originalPeople2HitboxX = people2.hitbox.x;
+                int originalPeople2HitboxY = people2.hitbox.y;
+
+
+                    switch(people2.movement){
+                        case 87: //up
+                            people2.hitbox.y -= people2.eSpeed;
+                            if(people2.hitbox.intersects(people.hitbox)){
+                                people2.collides = true;
+                            }
+                            break;
+                        case 83: //down
+                            people2.hitbox.y += people2.eSpeed;
+                            if(people2.hitbox.intersects(people.hitbox)){
+                                people2.collides = true;
+                            }
+                            break;
+                        case 65: //left
+                            people2.hitbox.x -= people2.eSpeed;
+                            if(people2.hitbox.intersects(people.hitbox)){
+                                people2.collides = true;
+                            }
+                            break;
+                        case 68: //right
+                            people2.hitbox.x += people2.eSpeed;
+                            if(people2.hitbox.intersects(people.hitbox)){
+                                people2.collides = true;
+                            }
+                            break;
+                }
+                    people2.hitbox.setLocation(originalPeople2HitboxX, originalPeople2HitboxY);
+                    checkIFrame(people2);
+            }
+
+
+
 
         public void checkPlay(Entity entity, PlayerData player){
 
@@ -139,6 +177,7 @@ public class CollisionDetect{ // this is going t
         }
 
         public boolean checkItem(Entity entity, Item item){
+            checkIFrame(entity);
             if(!entity.iFrame){
                 if(item.animationHitbox != null && item.animationHitbox.intersects(entity.hitbox.getBounds2D())){
                     entity.health -= item.dmg;
@@ -149,8 +188,6 @@ public class CollisionDetect{ // this is going t
                     entity.iFrame = true;
                 }
             }
-
-            checkIFrame(entity);
             return false;
         }
 

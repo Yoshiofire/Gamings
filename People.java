@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-
+// import java.util.Collections;
+// import java.util.List;
 // import java.io.IOException;
 // import java.awt.image.BufferedImage;
 // import javax.imageio.ImageIO;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 public class People extends Entity{
     int direction = 0;
     public static ArrayList <People> peopleList = new ArrayList<>();
+    // public static List<People> peopleList = Collections.synchronizedList(new ArrayList<>());
     // public BufferedImage sprite; // this one for the "character frames" ig
     
     

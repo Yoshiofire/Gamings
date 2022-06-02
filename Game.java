@@ -54,6 +54,9 @@ public class Game extends JPanel implements Runnable{
 
   
   Spawner peopleSpawner = new Spawner(people, player);
+  Spawner peopleSpawner2 = new Spawner(people, player);
+  Spawner peopleSpawne3r = new Spawner(people, player);
+  Spawner peopleSpawner4 = new Spawner(people, player);
   Spawner people2Spawner = new Spawner(people2, player);
 
 
@@ -186,8 +189,6 @@ public class Game extends JPanel implements Runnable{
         }
         int pSpeed = player.playerMove();
 
-
-
         sword.swingSword(player);
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
           for(Item item: Item.itemList){
@@ -197,14 +198,15 @@ public class Game extends JPanel implements Runnable{
             }
           }
         }
+        
 
-
-
-
+        for(Spawner spawner: Spawner.spawnerList){
+          spawner.independentSpawnerMovement(pSpeed, keyChecker); // <-- ALWAYS NEEDED
+          spawner.basicSpawnPeople();
+        }
 
 
           // CHECKS COLLISION BETWEEN PEOPLE AND OTHER OBJECTS CURRENTLY CREATED (INVISIBLE WALLS, PLAYER)
-
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
           People peoples = People.peopleList.get(x);
           peoples.collides = false;
@@ -215,13 +217,39 @@ public class Game extends JPanel implements Runnable{
               People.peopleList.remove(x);
             }
           }
-
-          
           for(InvisWall walls: InvisWall.wallList){
             CD.checkWalls(walls, peoples); //People vs walls
           }
-          peoples.peopleMove();
-          peoples.playerInfluencedMovement(pSpeed, keyChecker);
+          // for(int y = x-1; y >= 0; y--){
+            // People peoplesNew = People.peopleList.get(x);
+            // People peoplesNext = People.peopleList.get(y);
+            // if(!peoples.iFrame){
+              // CD.checkPeopleVSPeople(peoplesNext, peoplesNew);
+              // Doesn't work vvvv
+              // if(peoplesNew.hitbox.contains(peoplesNext.hitbox)){
+              //   System.out.println("Trash Collision Detect");
+              //   People.peopleList.remove(x);
+              // }
+              // System.out.println("Checking: " + peoples + "\nAgainst: " + peoplesNext);
+              // CD.checkPeopleVSPeople(peoples, peoplesNext);
+
+              // CD.checkObj(peoplesNext, peoples);
+              // if(peoplesNext.isDead){
+              //   System.out.println("YES");
+              //   People.peopleList.remove(y);
+              // }
+            // }
+              // }
+              peoples.peopleMove();
+              peoples.playerInfluencedMovement(pSpeed, keyChecker);
+        }
+      
+        for(int x = 0; x < People.peopleList.size(); x++){
+          People peoples =  People.peopleList.get(x);
+          for(int y = x + 1; y < People.peopleList.size(); y++){
+            People peoplesNext =  People.peopleList.get(y);
+            CD.checkPeopleVSPeople(peoplesNext, peoples);
+          }
         }
 
 
@@ -234,12 +262,6 @@ public class Game extends JPanel implements Runnable{
           walls.playerInfluencedMovement(pSpeed, keyChecker);
         }
 
-
-
-        // for(Spawner spawner: Spawner.spawnerList){
-        //   spawner.independentSpawnerMovement(pSpeed, keyChecker); // <-- ALWAYS NEEDED
-        //   spawner.basicSpawnPeople();
-        // }
 
   
 
@@ -301,7 +323,7 @@ public class Game extends JPanel implements Runnable{
       Graphics2D g2 = (Graphics2D) g;
 
       switch(gameState){
-        case 1: // default playing thing
+        case 2: // default playing thing
 
           // test.drawPolyHitbox(g2);
           sword.drawAniHitbox(g2);
@@ -328,7 +350,7 @@ public class Game extends JPanel implements Runnable{
 
 
           break;
-        case 2: // pause
+        case 1: // pause
         for(People peoples: People.peopleList){
           peoples.draw(g2);
         }
