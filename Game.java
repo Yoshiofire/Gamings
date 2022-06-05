@@ -1,6 +1,7 @@
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
 
@@ -9,14 +10,10 @@ public class Game extends JPanel implements Runnable{
   
 
   //Windows Height, probably won't be changable.
-  private final int screenWidth = 1366; // if we do a settings, can be changed
-  private final int screenHeight = 768;
+  public static final int screenWidth = 1366; // if we do a settings, can be changed
+  public static final int screenHeight = 768;
 
-  //Changable Variables, mostly consisting of player stuff and setting data?
-  int FPS = 30;// can also be changed
 
-  public static int seconds = 0;
-  public static int frameCount = 0;
 
 
   Thread gameThread; // why we need a thread is because of the fact that if we dont use a thread then it will become more akin to a turn based rpg where we do our thing then another person will do their thing.
@@ -26,33 +23,41 @@ public class Game extends JPanel implements Runnable{
 
   int playerSizeX = 100;
   int playerSizeY = 100;
-  PlayerData player = new PlayerData(keyChecker, this, (int) (screenWidth/1.9) - playerSizeX, (int) (screenHeight/1.77) - playerSizeY, 15, playerSizeX, playerSizeY);
+  int playerStartingX = (int) (screenWidth/2) - playerSizeX/2;
+  int playerStartingY = (int) (screenHeight/2) - playerSizeY/2;
+  PlayerData player = new PlayerData(keyChecker, this, playerStartingX ,playerStartingY, 15, playerSizeX, playerSizeY);
+  Sword sword = new Sword(new int[] {player.posX, player.posX + playerSizeX+400, player.posX + playerSizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
+
 
 
 
   CollisionDetect CD = new CollisionDetect(this);
 
   //Garbage names, but they are the equivalent of uh height and width.
-  final int topBounds = screenHeight * 4;
-  final int leftBounds = screenWidth * 4;
+  public static final int topBounds = screenHeight * 4;
+  public static final int leftBounds = screenWidth * 4;
 
 
-
-  InvisWall top = new InvisWall(0, 0, topBounds, 0);
-  InvisWall bottom = new InvisWall(0, topBounds+50, leftBounds, 0);
-  InvisWall left = new InvisWall(0, 0, 0, leftBounds);
-  InvisWall right = new InvisWall(topBounds+45, 0, 0, leftBounds);
+//Borders (dont touch order ty)
+  public InvisWall top = new InvisWall(0, 0, leftBounds, 0);
+  public InvisWall bottom = new InvisWall(0, leftBounds, leftBounds, 0);
+  public InvisWall left = new InvisWall(0, 0, 0, leftBounds);
+  public InvisWall right = new InvisWall(leftBounds, 0, 0, leftBounds);
 
 
   
 
+//Enemy types
+  People people = new People("/People_Images/People.jpg");
+  People people2 = new People("/download.jpg");
+  People people3 = new People("/People_Images/People.jpg");
 
-  People people = new People("/People_Images/People.jpg", keyChecker);
-  People people2 = new People("/People_Images/People.jpg", keyChecker);
-  People people3 = new People("/People_Images/People.jpg", keyChecker);
-
-  
-  // Item sword = new Item((player.posX/2) + player.posX, (player.posY/2) + player.posY);
+//Spawner Types, need to be before the different enemies.  
+  Spawner peopleSpawner = new Spawner(people, player);
+  Spawner peopleSpawner2 = new Spawner(people, player);
+  Spawner peopleSpawne3r = new Spawner(people, player);
+  Spawner peopleSpawner4 = new Spawner(people, player);
+  Spawner people2Spawner = new Spawner(people2, player);
 
 
   //Game states
@@ -60,6 +65,10 @@ public class Game extends JPanel implements Runnable{
   public final int playState = 1;
   public final int pauseState = 2;
   int count;
+  int secondOnes;
+  int secondsTens;
+  int minutesOnes;
+  int minutesTens;
 
 
 
@@ -80,60 +89,76 @@ public class Game extends JPanel implements Runnable{
     public void startGameThread(){
       gameThread = new Thread(this);
       gameThread.start();
+
     }
 
-  
+      //Changable Variables, mostly consisting of player stuff and setting data?
+      public static int FPS = 30;// Only be 30 or 60 or 90 frames, ACTUALLY its better if we cap it at 30, ALSO CANT BE LOWER THAN 15, BECAUSE I DO 15/ MATHS
+
+      public static int seconds = 0;
+      public static int frameCount = 0;
+
+      
     @Override
     public void run(){
 
+
+
       double bootlegFPS = 1000000000/FPS; // the 10e9? means that it is equvilant to 1 second. Therefore if we divide 1 seconds by the frames(60) we are refreshing the thing 60 times every second.
-      double nextRefresh = System.nanoTime() + bootlegFPS;
-      
+      long lastTime = System.nanoTime();
+      long currentTime;
+      double delta = 0;
+      int FPScount = 0;
+      int FPStimer = 0;
+
+
+
+
       
         while(gameThread != null){
           //meaning that while the thread is still active we will be running what ever is in here?
           // x,y is 0,0 at top left and max at bottom left.
           // System.out.println("Holder");
 
+          currentTime = System.nanoTime();
+
+          delta += (currentTime - lastTime) / bootlegFPS;
+          // seconds += (currentTime - lastTime); //This is because I used an old system AND I suck.
+          FPStimer += (currentTime - lastTime);
+          lastTime = currentTime;
+
+          if(delta >= 1){
+            update();
+            repaint();
+            if(gameState == playState){
+              frameCount++;
+              seconds = frameCount/FPS;
+            }
+            FPScount++;
 
 
-          update();
-          
-          
-          repaint();
 
+            delta--;
+          }
 
-          double remainingTime = nextRefresh - System.nanoTime(); // meaning we would be left with something below 60fps/ .016 seconds?
-          remainingTime /= 1000000;
-
-          if(remainingTime < 0){
-            remainingTime = 0;
-            count ++;
-            System.out.println("Stutter " + count);
+          if(FPStimer >= 1000000000){ //every second
+            System.out.println("FPS: " + FPScount);
+            System.out.println("Seconds: " + seconds);
+            System.out.println(People.peopleList.size());
+            System.out.println(Entity.entityList.size());
+            FPScount = 0;
+            FPStimer = 0;
           }
 
 
           
-          try{
-            
-            Thread.sleep((long) remainingTime); 
-            // why this works is becasue of the fact, that if we don't sleep the thread, what will happen is that the amount of times checked is dependant on the persons computer.
-            // Therefore, by sleeping after we done the check, it might take like 0.1 seconds, it sleeps the difference off (.016 - .1). Meaning that it will only check every .16 seconds.
-            // THEN if it the total is equalling 0, it just imiidetly checks because it already used up it's sleeping time trying to do something. If this happens, it tells us there is something wrong with the code for it to be stuttering.
-            
-          } catch(InterruptedException e){
 
-            e.printStackTrace();
-            
-          }
-
-          nextRefresh += bootlegFPS;
-          frameCount ++;
-          seconds = frameCount/FPS;
-          if(frameCount % FPS == 0)
-            System.out.println(seconds);
-        }
       }
+
+
+
+
+    }
 
   
     public void update(){
@@ -142,70 +167,126 @@ public class Game extends JPanel implements Runnable{
         case 1: // default playing thing
 
 
+
         //CHECK COLLISION BETWEEN PLAYER AND CURRENT OBJECTS (INVISIBLE WALLS, PEOPLE)
         
-
         player.collides = false;
-        for(People peoples: People.peopleList){ 
-          CD.checkObj(peoples, player);
+        if(!player.iFrame){        
+          for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+            People peoples = People.peopleList.get(x);
+            CD.checkPlay(peoples, player);
+            if(peoples.isDead){
+              System.out.println("YES");
+              People.peopleList.remove(x);
+            }
+          }
         }
+
+        //Always check this.
         for(InvisWall walls: InvisWall.wallList){
-          CD.checkObj(walls, player);
+          CD.checkWalls(walls, player);
         }
         int pSpeed = player.playerMove();
-        // sword.rotate();
+
+        sword.swingSword(player);
+        for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+          for(Item item: Item.itemList){
+            if(CD.checkItem(People.peopleList.get(x), item)){
+              System.out.println("YES");
+              People.peopleList.remove(x);
+            }
+          }
+        }
+        
+
+        for(Spawner spawner: Spawner.spawnerList){
+          spawner.independentSpawnerMovement(pSpeed, keyChecker); // <-- ALWAYS NEEDED
+          spawner.basicSpawnPeople();
+        }
 
           // CHECKS COLLISION BETWEEN PEOPLE AND OTHER OBJECTS CURRENTLY CREATED (INVISIBLE WALLS, PLAYER)
-        
-        // for(People peoples: People.peopleList){
-        //   peoples.collides = false;
-        //   CD.checkObj(player, peoples);
-        //   for(InvisWall walls: InvisWall.wallList){
-        //     CD.checkObj(walls, peoples);
-        //     CD.checkPlay(walls, player);
-        //     walls.playerInfluencedMovement(pSpeed, keyChecker);
-        //     walls.collides = false;
-        //   }
-        //   peoples.peopleMove();
-        //   peoples.playerInfluencedMovement(pSpeed, keyChecker);
-        // }
+        for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+            People peoples = People.peopleList.get(x);
+            peoples.collides = false;
+            if(!peoples.iFrame){
+              CD.checkObj(player, peoples);
+              if(peoples.isDead){
+                System.out.println("YES");
+                // People.peopleList.set(x, null);
+                People.peopleList.remove(x);
+              }
+            }
+            for(InvisWall walls: InvisWall.wallList){
+              CD.checkWalls(walls, peoples); //People vs walls
+            }
+            CD.checkPeopleVSPeople(People.peopleList, peoples);
 
-        for(People peoples: People.peopleList){
-          peoples.collides = false;
-          CD.checkObj(player, peoples);
-          for(InvisWall walls: InvisWall.wallList){
-            CD.checkObj(walls, peoples); //People vs walls
+            peoples.peopleMove();
+            peoples.playerInfluencedMovement(pSpeed, keyChecker);
           }
-          peoples.peopleMove();
-          peoples.playerInfluencedMovement(pSpeed, keyChecker);
-        }
+        
 
 
         for(InvisWall walls: InvisWall.wallList){
-          walls.collides = false;
+          // walls.collides = false;
           // CD.checkObj(player, walls); //walls currently does not have a speed so i think it is useless AND has no movement direction!!! <- Made a defualt case. <- bugged
-          for(People peoples: People.peopleList){
-            CD.checkObj(peoples, walls);
-          }
+          // for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+          //   People peoples = People.peopleList.get(x);
+          //   CD.checkWalls(walls, peoples); //changed it uh oh.
+          // }
           walls.playerInfluencedMovement(pSpeed, keyChecker);
         }
 
 
-          
+  
 
-          
+
+
+
+
+        player.entityListRefresh();
+
+        //Insert if player is dead then we switch the gamestate to end screen.
+        if(player.isDead){
+          gameState = 3;
+        }
           break;
         case 2: // pause
+
+          // People help = new People("/People_Images/People.jpg", keyChecker);
+
+
+          
+          break;
+        case 3: // pause
+
+
+
+
           
           break;
 
 
-      }
+      } 
 
   }
 
 
+  public void drawTime(Graphics2D g2){ 
+    int size =  50;
+    int tempSeconds = seconds%60;
+    secondOnes = tempSeconds%10;
+    secondsTens = tempSeconds/10;
+    minutesOnes = seconds/60;
+    minutesOnes %= 10;
+    minutesTens = seconds/600;
 
+
+
+    g2.setFont(new Font("impact", Font.BOLD, size));
+    g2.drawString("" + minutesTens + minutesOnes + ":" + secondsTens + secondOnes, (int) ((screenWidth/2) - size*(( 4 + Integer.toString(minutesTens).length() ) * .272)), size);
+
+  }
 
   
     
@@ -218,31 +299,55 @@ public class Game extends JPanel implements Runnable{
       switch(gameState){
         case 1: // default playing thing
 
-          
-          for(People peoples: People.peopleList){
-            peoples.drawHitboxes(g2);
+          // test.drawPolyHitbox(g2);
+          sword.drawAniHitbox(g2);
+          for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+            People peoples = People.peopleList.get(x);
+            if(!peoples.iFrame){
+              peoples.drawHitboxes(g2);
+            }
+
           }
-          player.drawHitboxes(g2);
+          if(!player.iFrame){
+            player.drawHitboxes(g2);
+          }
 
           for(InvisWall walls: InvisWall.wallList){
             walls.drawHitboxes(g2);
           }
+          drawTime(g2);
+          peopleSpawner.drawAllSpawnerHitboxes(g2);
 
-          // sword.drawHitboxes(g2);
+
+
+          
+
+
 
           break;
         case 2: // pause
-        for(People peoples: People.peopleList){
+        for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+          People peoples = People.peopleList.get(x);
           peoples.draw(g2);
         }
            //need this to move less, moving 60 times per second
+          sword.draw(g2);
           player.draw(g2);
-
+          drawTime(g2);
+          peopleSpawner.drawAllSpawnerHitboxes(g2);
 
           break;
 
 
-      }
+      
+      case 3:
+        int size = 300;
+        setBackground(Color.RED);
+        g2.setFont(new Font("impact", Font.BOLD, size));
+        g2.drawString("YOU SUCK", (screenWidth/2) - size*2 , (screenHeight/2) + size/3);
+        //Add the time here as it is the score be like your final time is:
+        break;
+    }
 
       g2.dispose();
       

@@ -1,39 +1,91 @@
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import java.awt.Graphics2D;
 import java.awt.Shape;
-import java.awt.Shape;
+import java.awt.Polygon;
 import java.awt.geom.AffineTransform;
 
-public class Item extends Entity{
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+public class Item{
     
 
-    public int cooldown;
+    public int cooldownFrames;
+    public int cooldownSeconds;
+    public Polygon hitbox;
     public static ArrayList <Item> itemList = new ArrayList<>();
-    //Add stats like size and dmg later
+    public BufferedImage sprite;
+    public Shape animationHitbox;
+    public int dmg;
 
 
-    public Item(int x, int y){
-        super(x, y, 0, 100, 50);
-        cooldown = 1;
+    public AffineTransform at = new AffineTransform();
+    public AffineTransform spriteAt = new AffineTransform();
+
+    public Item(int[] x, int[] y){
+        hitbox = new Polygon(x, y, x.length);
+        cooldownFrames = 1;
+        cooldownSeconds = cooldownFrames * Game.FPS; 
+        dmg = 5;
+        try{
+
+            sprite = ImageIO.read(getClass().getResourceAsStream("/download.jpg"));
+            
+
+        }catch(IOException e){
+
+            e.getStackTrace();
+
+        }
+
+
         itemList.add(this);
     }
 
-//DOESNT WORK, ONLY WORKS IN 90 DEGS
-/* I guess what we can do is only show 90 degs, but do the intersection tests with a rectangle2d and the degs != deg % 90 == 0;
-*/
-    public void rotate(){
-        if(Game.frameCount % 30 == 0){
-            AffineTransform at = new AffineTransform();
 
-            // at.setToRotation(Math.toRadians(40), posX, posY);Math.toRadians(40), posX, posY
-            at.rotate(Math.toRadians(1),posX, posY);
-            // at.scale(.99, .99);
-            Shape temp = at.createTransformedShape(hitbox);
-            hitbox = temp.getBounds();
+
+
+
+    public void setSprite(String filePath){
+
+        try{
+
+            sprite = ImageIO.read(getClass().getResourceAsStream(filePath));
+
+        }catch(IOException e){
+
+            e.getStackTrace();
+
         }
 
 
     }
 
+
+
+  
+
+
+    public void draw(Graphics2D g3){
+        if(animationHitbox != null){
+            g3.drawImage(sprite, at, null);
+        }
+    }
+
+
+    public void drawPolyHitbox(Graphics2D g3){
+        g3.drawPolygon(this.hitbox);
+
+    }
+
+    public void drawAniHitbox(Graphics2D g3){
+        if(animationHitbox != null){
+            g3.draw(this.animationHitbox);
+        }
+
+    }
 
 
 

@@ -10,6 +10,7 @@ public class PlayerData extends Entity{
     private Game game;
     public KeyHandler key;
     // public BufferedImage sprite; // this one for the "character frames" ig
+    public String imageFilePathUp, imageFilePathDown, imageFilePathLeft, imageFilePathRight;
 
     public PlayerData(KeyHandler k, Game g){
         super();
@@ -29,13 +30,20 @@ public class PlayerData extends Entity{
 
     public PlayerData(KeyHandler k, Game g, int startingX, int startingY, int playerS, int sizeX, int sizeY){
         super(startingX, startingY, playerS, sizeX, sizeY);
+        imageFilePathUp = "/Player_Images/JermaUp.png";
+        imageFilePathDown = "/Player_Images/JermaDown.png";
+        imageFilePathLeft = "/Player_Images/JermaLeft.png";
+        imageFilePathRight = "/Player_Images/JermaRight.png";
+        this.health = 100;
+        this.eSpeed = 20;
         game = g;
         key = k;
-        this.setSprite("/Player_Images/JermaUp.png");
-        this.type = "player";
+        this.setSprite(imageFilePathUp);
+        this.type = "Player";
     }
 
     public int playerMove(){
+
         if(key.upKey == true){
             movement = 87;
         }
@@ -49,9 +57,7 @@ public class PlayerData extends Entity{
             movement = 68;
         } 
         getPlayerImage(movement);
-        // hitbox.setLocation(posX, posY);
         if(!collides){
-            //turn into invincibility frames? When it collides,
             return this.eSpeed;
         }
         return 0;
@@ -68,18 +74,17 @@ public class PlayerData extends Entity{
             // System.out.println(direction);
             switch(direction){
                 case 87: // W
-                    sprite = ImageIO.read(getClass().getResourceAsStream("/Player_Images/JermaUp.png"));
+                    sprite = ImageIO.read(getClass().getResourceAsStream(imageFilePathUp));
                     break;
                 case 83: //S
-                    sprite = ImageIO.read(getClass().getResourceAsStream("/Player_Images/JermaDown.png"));
+                    sprite = ImageIO.read(getClass().getResourceAsStream(imageFilePathDown));
                     break;
                  case 65: // A
-                    sprite = ImageIO.read(getClass().getResourceAsStream("/Player_Images/JermaLeft.png"));
+                    sprite = ImageIO.read(getClass().getResourceAsStream(imageFilePathLeft));
                     break;
                 case 68: //D
-                    sprite = ImageIO.read(getClass().getResourceAsStream("/Player_Images/JermaRight.png"));
+                    sprite = ImageIO.read(getClass().getResourceAsStream(imageFilePathRight));
                     break;
-
             }
 
         }catch(IOException e){
@@ -88,15 +93,4 @@ public class PlayerData extends Entity{
 
         }
     }
-
-
-
-    // DRAW METHOD REWRITTEN, ALWAYS ON THE BOTTOM OR ELSE MY EYES WILL HURT LOOKING FOR IT
-    // public void draw(Graphics2D g1){
-    //     super.draw(g1, sprite);
-    // }
-
-
-
-
 }

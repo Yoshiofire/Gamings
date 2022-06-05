@@ -10,7 +10,7 @@ Bugs that need to be fixed:
     So I fixed it by making a player specifc detect, checking what keys are currently being pressed. Meaning it can check up+right at the same time instead of two instances of
     up then right, which might cause a perma collision.
 
-    What causes this issue is if direction/movement is being changed too fast, which happened when I set People.java's drection to be changed every frame.
+    What causes this issue is if direction/movement is being changed too fast, which happened when I set People.java's drection to be changed every frame. <- changed to 1/6 of a frame.
     Also because of the nature of player the same thing happned above. So if you want to make a thing move really sparatically you need to make a unquie method and use the same
     idea behind the player check in CollsionDetect.java. >
 }
@@ -21,10 +21,56 @@ Bugs that need to be fixed:
 }
 
 
+{   (MINOR BUG WITH PEOPLE VS PEOPLE COLLISION)
+    !! SOMETIMES LIKE 1/10 THE PEOPLE IGNORE 1-2 OTHER PEOPLE OBJECT COLLISIONS WHY? WHO KNOWS.
+
+}
+
+{ (IF YOU WANT TO ADD PEOPLE VS PEOPLE COLLISION) (FIXED)
+    !!!!!!!!!!!!! SPAWN USING basicSpawnPeople(), I HAVE NO IDEA WHY THEY STILL INTERSECT. I CREATED AN INVISIBLE RECTANGLE, WHICH CHECKS COLLISION.
+    IF IT IS TRUE AND IT COLLIDES WITH SOMETHING THEN IT DOESN'T SPAWN THE PEOPLE THERE AND TRIES AGAIN (ONLY TWICE).
+    YET IT STILL SPAWNS IT ON TOP OF EACH OTHER?
+
+    THE PROBLEM WAS THAT YOU WERE LINKING UP THE SAME OBJECT ADDRESS TO ONE VARIABLE, THEREFORE IF YOU MOVE IT LIKE HOW YOU INTENDED IT TO MOVE,
+    IT MOVES ALL, ALL THE HITBOXES INTO THE NEW POSITION ITS CHECKING.
+
+    How it is fixed, is by CREATING A NEW RECTANGLE rather than saying x = entity.hitbox
+
+
+}
+
+{   (MEDIUM BUG) (FIXED)
+
+!!!!!!!!!!!!!! WHEN YOU RUN INTO THE SAME ENTITY IT CHECKS THE OTHER ENTITES IN THE ARRAYLIST AND NOT THE ONE YOU ARE HTTING.
+
+the problem lays within CollsionDetect.java, I think it is because when you do the entity2.hitbox.x or entity2.hitbox.y it saves the hitbox location of another hitbox??? That isn't the one you are trying to hit???
+Anyways, if you dont do the save original location and set it back after checking the entire thing works just beacsue??? WHY????
+
+My theory is that when the ArrayList becomes updated it sort of moves things up or down like 1 = thing, and 2 = things. But then if thing is gone. 1 = things. And along side that I think we pop the People data rather than make it null.
+Then because we no longer edit the removed People, it's hitbox is still ontop of the player, but its now calling a new People. Therefore always hitting?
+
+Seconly is that when trying to compare People vs People it causes the same bug as stated, I have no idea why.
+
+What actually happens is that during checkDMGAgainstEntites() it only checks if entity2.collisides = true; and deals damage to both parties. So no its not the weird ArrayList, but the way everything is update() in
+Game.java, so I fixed it in the end.
+
+(Wrong)
+What acutlly causes it is something with the collisions forever being true, when the entity is killed or the game is behind.
+Therefore what the fix was, was in checkDMGAgainstEntites(), and if they collide we reset them to be false. Meaning both entity.collides = false;
+
+
+}
+
+{   (5/29 CHANGED TO DELTA CHECK TIMER WHATEVER)
+    !! Might be bugs be careful.
+}
+
+
 Things to add:
 
         IMPORTANT
             -People vs people collision
+                Spawn hitboxes, so it doesn't just spawn on top of each other and get stuck.
 
             *Teleport if collides with wall? Or just stops and the entites build up?
                 As of the notes of 5/25, the current build(?) has people vs wall and player vs wall collisions.
@@ -38,16 +84,20 @@ Things to add:
 
             -Projectiles
             -HP,XP,Abilities
-                -For Abilities, do we want them to be active or passive
+                -For Abilities, do we want them to be active or passive <- BOTH (5/28)
                     -Meaning does the player dictate when they use them, and what keys or how will they be activated?
             -Collision aginst projectiles
-            -Animimations?????
+            -Animimations????? <- BY ANIMATIONS I MEAN NOT AN INSTANT ONE -> TWO FRAME THING. also sort of done FOR swords(5/28)
+
+            -Fix the calculations for center of screen, when constucting the player's location. (5/29)
+
+            -Entity AI, where they move towards the player.
 
         
         WISHES
             -Settings for screen resolutions, maybe opacity, maybe changing the assets, maybe change keybinds?
 
-            -Fix minor Bugs
+            -Fix minor Bugs (HAHA NEVER)
             
             -A nice looking title and end screen
 
@@ -57,28 +107,25 @@ Things to add:
 
             -Abilites using mouse coords and clicks (Probably easy, but takes time as usual)
 
+            -Think if we need to render ONLY in frame of the PLAYER.
+
+            Instead of ArrayLists <Entities> we have HashMaps.
 
 
 
-    -Fix the calculations for center of screen, when constucting the player's location.
 
-    -Why do we need to have a collisiondection thing for the InvisWall, and how did that fix the problem of Entities intersecting??
 
-    -Entity AI, where they move towards the player.
+                -Why do we need to have a collisiondection thing for the InvisWall, and how did that fix the problem of Entities intersecting?? (Who knows)
 
-    -Projectiles.java
+                -Projectiles.java
 
-    -I guess we remake or add onto the entity class, with a string displaying the type of entity it is because we need to have dmg
-    for player vs enemies and player vs projectiles and enemies vs player projectiles. Currently we have no idea else than
-    "yes this entity is colliding with this entity".
+                -I guess we remake or add onto the entity class, with a string displaying the type of entity it is because we need to have dmg
+                for player vs enemies and player vs projectiles and enemies vs player projectiles. Currently we have no idea else than
+                "yes this entity is colliding with this entity".
 
-    -Item.class which will be extending Entity.java, also with that we'll have another collision detect method I guess.
+                -Item.class which will be extending Entity.java, also with that we'll have another collision detect method I guess. (Nah also done 5/29)
 
-    -Add display of the time currently on the top center of the screen.
-
-    -Title and end screen.
-
-    -When you die, it takes that time and puts it into a txt file or a json file and thats the leaderbaord I guess.
+                -Add display of the time currently on the top center of the screen.
 
 
 Current date: 5/18/2022
@@ -184,3 +231,186 @@ Current date: 5/25/2022
 
         Also, I believe that on wall collision we teleport the player to the other side, so it feels infinite and it won't really mess up player movement as you can
         get stuck on the I-walls.
+
+
+Current date: 5/28/2022
+
+
+    IMPORTANT - ALL METHODS RELATING TO Item.java's animationHitbox, NEEDS TO HAVE IT CHECK IF IT IS CURRENTLY NULL.
+        -BECAUSE IF IT IS AN 'ACTIVE ABILITY' ITS HITBOX WILL BE NON-EXISTANT IF THE PLAYER DOES NOT CLICK THE ACTIVATION BUTTON.
+
+
+    (Changed)Game.java
+        Working on adding items, so the items obj is called test currently.
+
+        You can't do a for(OBJ a: OBJLIST) when removing objects while a thread is running, meaning you gotta do it the old way. for(int x = list.length(); x > 0; x--)
+
+
+    (New)KeyHandler.java
+        Added a test attack key it being Q.
+            -^ Currently doing nothing with it.-
+        I fixed up the method in Item.java for it
+
+
+    (Changes)CollsionDetect.java
+        -Added an checkItem or something similar of name, method. (Which sents a true if collides and false if not.)
+            ^Added a null checker
+
+ 
+    (New)Item.java
+        Item class that uses polygons instead of rectangles and is seperate from entity.
+
+        Created a test rotation metod, which rotates the polygon and took me forever to figure out how to rotate the image alongside it.
+            ^fixed it so the piviot point of the rotation is in the center of the player and not some corner, which would have to make me do a shit ton of math.
+
+        Created 3 draw methods: Imagedraw, starting hitboxdraw, animation hitbox draw.
+            ^added a null checker for all I guess.
+
+        Modified rotationTest method thing to do the full do the animation on key press and off CD.
+
+
+Current date: 5/29/2022
+
+
+    (Changed/New) Game.java
+        Changed how everything is updated into something called Delta time?
+
+        Moved the locations of seconds, frameCount and FPS near run() method.
+
+        Edited drawHitboxes when they have i-Frames.
+
+        IMPORTANT
+            There might be errors now that I have changed the way everything is checked so who knows?
+
+
+    (Changed/New) CollsionDetect.java
+        Removed some comments, because who knows they've been there for awhile.
+
+        Tweeking a bit about whether to use setLocation or the other way I was using. I don't think it matters though.
+
+        Changed checkItem() to apply damage to entities based on item dmg 
+            and give or remove i-Frames based on time hit, how long their i-Frames are set to be, and current frame.
+
+        
+    (Changed/New) Entity.java
+        Did things.
+
+        Made the draw() method for entities take in entity i-Frames. (if they have i-Frames their opacity is 50%)
+
+        Added new variables THAT NEED TO BE IMPLIMENTED PROPERLY IN THE CONSTRUCTORS.
+            Changed order of variables to help readability?
+
+
+    (Changed/New) Item.java
+        Removed a lot of things, those things being:
+            the rotate method,
+            cool ego rant and the AfflineTransformOP,
+            and anything that is now in Sword.java.
+
+        Made the AfflineTransform public.
+
+        Changed cooldown into:
+            cooldownFrames -> There are 2 types of CDs:
+                AnimationCD where it plays out the action.
+                ThisCD where you can't use it until the time as passed and CD is over.
+
+            cooldownSeconds, cooldownFrames but multiplied by FPS.
+
+        Added dmg -> Not implimented in the constructor yet, because who knows why.
+
+
+    (Changed) People.java
+        Actually put the int amount = 10; into the eSpeed super().
+
+        Removed redundant comments.
+        
+
+    (New) Sword.java
+        Added most of the things removed from Item.java into here.
+
+        Renamed testRotation() method thing into swingSword().
+
+        Tried to make the method compatible with FPS changes for the setting,tittle screen, end screen update soon tm.
+
+        Made the sprite be the same height and width of the hitbox by doing some bad math.
+
+        
+Current date: 5/29/2022 (Part 2)
+
+
+    Game.java
+        FPS 60 -> 30 becasue who knows.
+
+        Made it so that if People obj or PlayerData obj iFrame = true, then we don't check if they are colliding with each other, so they can move.
+
+        Added a check if player is daed or if people is dead.
+            If player is dead then we change the gameState to 3, which is the dead screen I guess.
+        
+        player's hitbox draw is now the same as people's hitbox draw.
+            (meaning that if iFrame = true it doesn't draw it.)
+
+        Chanegd some enchanced loops into normal bad loops.
+
+        Fixed math so its in the middle.
+
+        Added a drawTime() method. Then added it to the update method case 1,2;
+            Did math to calculate center of screen for the timer.
+
+    CollsionDetect.java
+        Made a checkWalls() method that is the previous version of objCheck().
+
+        objCheck() method calls checkDMGAgainstEntites.
+            checkDMGAgainstEntites -> is checkItem(), but for two entities.
+
+        Figured out that I WASNT USING checkplay() for some reason. Kind of funny.
+
+
+    Entity.java
+        Added int contactDMG, boolean isDead
+
+    People.java
+        Only moving up, for de bugging purposes.
+            direction = 1;
+    
+    PlayerData.java
+        Player health = 2, for debugging purposes.
+    
+
+Current date: 6/02/2022
+
+
+NOTES: setLocation is so bad its unbelievable. I can't believe that it is the reason CD was messed up and the People movement is also messed up :(((())))
+
+    CollsionDetect.java
+        Created a very bad method "checkPeopleVSPeople" to take an ArrayList <People> and People, to check if they collide using another new method.
+
+        Created "checkEntityCollisionWithoutContactDMG" its practically the collisiondetection when it first started off.
+
+        Did some bug fixing and removed the entity.hitbox.x and the .y public accessors as they actively messing with the code.
+
+        For checkDMGAgainstEntites(), made it so it would also turn the entity = null; if it was determined to be dead, for debugging and if it would free up memory.
+
+        Was working on revamping the checkWalls() to instead just teleport the entites to the opposite wall.
+            -WILL cause collision problems?
+
+    Entity.java
+        playerInfluencedMovement() has its hitbox.setLocation removed as damn its bad, so bad.
+            Changed it into accessing the x and y positions of the hitbox.
+
+    Game.java
+        Had a mental breakdown, and somehwat fixed the People vs People collision check.
+
+    InvisWall.Java
+        Mdae it so each of the four walls has it's own type (String) that would tell me what wall is being collided and what wall to teleport thr entity to.
+
+    People.java
+        setlocation is nuked, no longer there.
+
+    Spawner.java
+        I am paranoid about referencing the memory location rather than the number, so I jsut used an acessor method when creating people.
+            Also made the collision detect check in reverse.
+
+
+
+
+
