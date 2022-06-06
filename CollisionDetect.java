@@ -47,8 +47,6 @@ public class CollisionDetect{ // this is going t
     }
 
     public void checkObj(Entity entity, Entity entity2){
-        checkIFrame(entity);
-        checkIFrame(entity2);
         switch(entity2.movement){
             case 87: //up
                 entity2.hitbox.y -= entity2.eSpeed;
@@ -87,6 +85,8 @@ public class CollisionDetect{ // this is going t
                 entity2.hitbox.x -= entity2.eSpeed;
                 break;
             }
+            checkIFrame(entity);
+            checkIFrame(entity2);
 
         }
 
@@ -187,8 +187,6 @@ public class CollisionDetect{ // this is going t
 
 
         public void checkPlay(Entity entity, PlayerData player){
-            checkIFrame(entity);
-            checkIFrame(player);
             if(player.key.upKey == true){
                 player.hitbox.y -= player.eSpeed;
                 if(player.hitbox.intersects(entity.hitbox)){
@@ -226,12 +224,12 @@ public class CollisionDetect{ // this is going t
                 }
                 player.hitbox.x -= player.eSpeed;
             } 
- 
+            checkIFrame(entity);
+            checkIFrame(player);
 
         }
 
         public boolean checkItem(Entity entity, Item item){
-            checkIFrame(entity);
             if(!entity.iFrame){
                 if(item.animationHitbox != null && item.animationHitbox.intersects(entity.hitbox.getBounds2D())){
                     entity.health -= item.dmg;
@@ -242,6 +240,7 @@ public class CollisionDetect{ // this is going t
                     entity.iFrame = true;
                 }
             }
+            checkIFrame(entity);
             return false;
         }
 
@@ -252,8 +251,6 @@ public class CollisionDetect{ // this is going t
         }
 
         public void checkDMGAgainstEntities(Entity entity, Entity entity2){
-            checkIFrame(entity);
-            checkIFrame(entity2);
             if((entity2.collides)){
                 if(!entity.iFrame && !entity2.iFrame){
                     
@@ -262,7 +259,7 @@ public class CollisionDetect{ // this is going t
     
                     if(entity.health <= 0){
                         entity.isDead = true;
-                        entity = null;
+                        // entity = null;
                     }
                     else{
                         // System.out.println("Entity 1: " + entity);
@@ -272,7 +269,7 @@ public class CollisionDetect{ // this is going t
     
                     if(entity2.health <= 0){
                         entity2.isDead = true;
-                        entity2 = null;
+                        // entity2 = null;
 
                     }
                     else{
@@ -282,6 +279,8 @@ public class CollisionDetect{ // this is going t
                     }
                 }
             }
+            checkIFrame(entity);
+            checkIFrame(entity2);
         }
 
 

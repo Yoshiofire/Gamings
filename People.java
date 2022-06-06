@@ -19,8 +19,8 @@ public class People extends Entity{
             500 + (int) (Math.random() * 100),
             500 + (int) (Math.random() * 100),
             5,
-            100,
-            100);
+            50,
+            50);
         defaultFilePath = filePath;
         this.setSprite(filePath);
         this.type = "enemy1";
@@ -32,8 +32,8 @@ public class People extends Entity{
             x,
             y,
             5,
-            100,
-            100);
+            50,
+            50);
         defaultFilePath = filePath;
         this.setSprite(filePath);
         this.type = "enemy1";

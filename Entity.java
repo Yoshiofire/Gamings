@@ -71,7 +71,7 @@ public class Entity{
             e.getStackTrace();
 
         }
-        entityList.add(this);
+        // entityList.add(this);
     }
 
 
@@ -189,8 +189,6 @@ public class Entity{
         }
 
         public int entityPlayerDrivenDirection(PlayerData player){
-            // int direction = (int) (Math.random() * 4); 
-            // if(Game.frameCount % (Game.FPS/movementCooldown) == 0){ // <- moves around 1/6 times per frame.
                 double playerPosY = player.hitbox.getCenterY();
                 double playerPosX = player.hitbox.getCenterX();
                 double entityPosY = this.hitbox.getCenterY();
@@ -201,29 +199,42 @@ public class Entity{
                 // double playerPosX = player.posX;
                 /* the order is Up, Down, Left, Right */
                 // give bias
-                if((playerPosX > entityPosX || playerPosX > entityPosX) && !(playerPosY > entityPosY || playerPosY > entityPosY-sizeY)){
-                    if(playerPosY < entityPosY){
-                        movement = 87;
+                if((entityPosX < playerPosX)){ //East (Enttiy vs Player)
+                    if((entityPosY < playerPosY)){ //South
+                        if(Math.abs(entityPosY - playerPosY) > Math.abs(entityPosX - playerPosX)){// If the entity Ypos is greater than entity Xpos
+                            movement = 83; //down
+                        }
+                        else{
+                            movement = 68; //left
+                        }
                     }
-                    if(playerPosY >= entityPosY){
-                        movement = 83;
-                    }
-                }else{
-                    if(playerPosX < entityPosX){
-                        movement = 65;
-                    }
-                    if(playerPosX >= entityPosX){
-                        movement = 68;
+                    else if((entityPosY > playerPosY)){ //North
+                        if(Math.abs(entityPosY - playerPosY) > Math.abs(entityPosX - playerPosX)){// If the entity Ypos is greater than entity Xpos
+                            movement = 87; //up
+                        }
+                        else{
+                            movement = 68; //left
+                        }
                     }
                 }
-                
-
-
-
-
-
-
-            // }
+                else if(entityPosX > playerPosX){//West
+                    if((entityPosY < playerPosY)){ //South
+                        if(Math.abs(entityPosY - playerPosY) > Math.abs(entityPosX - playerPosX)){// If the entity Ypos is greater than entity Xpos
+                            movement = 83; //down
+                        }
+                        else{
+                            movement = 65; //right
+                        }
+                    }
+                    else if((entityPosY > playerPosY)){ //North
+                        if(Math.abs(entityPosY - playerPosY) > Math.abs(entityPosX - playerPosX)){// If the entity Ypos is greater than entity Xpos
+                            movement = 87; //up
+                        }
+                        else{
+                            movement = 65; //right
+                        }
+                    }
+                }
             return movement;
         }
 

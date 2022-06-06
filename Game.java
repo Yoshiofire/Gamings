@@ -64,6 +64,7 @@ public class Game extends JPanel implements Runnable{
   public int gameState = 1; // for now we can say that. 
   public final int playState = 1;
   public final int pauseState = 2;
+  public final int deathState = 3;
   int count;
   int secondOnes;
   int secondsTens;
@@ -164,16 +165,15 @@ public class Game extends JPanel implements Runnable{
     public void update(){
 
       switch(gameState){
-        case 1: // default playing thing
+        case playState: // default playing thing
 
 
 
-        //CHECK COLLISION BETWEEN PLAYER AND CURRENT OBJECTS (INVISIBLE WALLS, PEOPLE)
-        
+        //CHECK COLLISION BETWEEN PLAYER AND CURRENT OBJECTS (INVISIBLE WALLS, PEOPLE) 
         player.collides = false;
-        if(!player.iFrame){        
-          for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
-            People peoples = People.peopleList.get(x);
+        for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+        People peoples = People.peopleList.get(x);  
+        if(!player.iFrame && !peoples.iFrame){        
             CD.checkPlay(peoples, player);
             if(peoples.isDead){
               System.out.println("YES");
@@ -199,10 +199,10 @@ public class Game extends JPanel implements Runnable{
         }
         
 
-        // for(Spawner spawner: Spawner.spawnerList){
-        //   spawner.independentSpawnerMovement(pSpeed, keyChecker); // <-- ALWAYS NEEDED
-        //   spawner.basicSpawnPeople();
-        // }
+        for(Spawner spawner: Spawner.spawnerList){
+          spawner.independentSpawnerMovement(pSpeed, keyChecker); // <-- ALWAYS NEEDED
+          spawner.basicSpawnPeople();
+        }
 
           // CHECKS COLLISION BETWEEN PEOPLE AND OTHER OBJECTS CURRENTLY CREATED (INVISIBLE WALLS, PLAYER)
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
@@ -248,17 +248,17 @@ public class Game extends JPanel implements Runnable{
 
         //Insert if player is dead then we switch the gamestate to end screen.
         if(player.isDead){
-          gameState = 3;
+          gameState = deathState;
         }
           break;
-        case 2: // pause
+        case pauseState: // pause
 
           // People help = new People("/People_Images/People.jpg", keyChecker);
 
 
           
           break;
-        case 3: // pause
+        case deathState: // pause
 
 
 
@@ -297,7 +297,7 @@ public class Game extends JPanel implements Runnable{
       Graphics2D g2 = (Graphics2D) g;
 
       switch(gameState){
-        case 2: // default playing thing
+        case pauseState: // default playing thing
 
           // test.drawPolyHitbox(g2);
           sword.drawAniHitbox(g2);
@@ -321,7 +321,7 @@ public class Game extends JPanel implements Runnable{
 
 
           break;
-        case 1: // pause
+        case playState: // pause
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
           People peoples = People.peopleList.get(x);
           peoples.draw(g2);
@@ -342,12 +342,14 @@ public class Game extends JPanel implements Runnable{
 
 
       
-      case 3:
+      case deathState:
         int size = 300;
         setBackground(Color.RED);
         g2.setColor(Color.BLACK);
         g2.setFont(new Font("impact", Font.BOLD, size));
         g2.drawString("YOU SUCK", (screenWidth/2) - size*2 , (screenHeight/2) + size/3);
+        g2.setFont(new Font("impact", Font.PLAIN, size/2));
+        g2.drawString("" + minutesTens + minutesOnes + ":" + secondsTens + secondOnes, (int) ((screenWidth/2) - size/2), (screenHeight/2) + size);
         //Add the time here as it is the score be like your final time is:
         break;
     }

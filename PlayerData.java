@@ -12,21 +12,21 @@ public class PlayerData extends Entity{
     // public BufferedImage sprite; // this one for the "character frames" ig
     public String imageFilePathUp, imageFilePathDown, imageFilePathLeft, imageFilePathRight;
 
-    public PlayerData(KeyHandler k, Game g){
-        super();
-        game = g;
-        key = k;
-        this.setSprite("/Player_Images/JermaUp.png");
-        this.type = "player";
-    }
+    // public PlayerData(KeyHandler k, Game g){
+    //     super();
+    //     game = g;
+    //     key = k;
+    //     this.setSprite("/Player_Images/JermaUp.png");
+    //     this.type = "player";
+    // }
 
-    public PlayerData(KeyHandler k, Game g, int startingX, int startingY, int playerS){
-        super(startingX, startingY, playerS);
-        game = g;
-        key = k;
-        this.setSprite("/Player_Images/JermaUp.png");
-        this.type = "player";
-    }
+    // public PlayerData(KeyHandler k, Game g, int startingX, int startingY, int playerS){
+    //     super(startingX, startingY, playerS);
+    //     game = g;
+    //     key = k;
+    //     this.setSprite("/Player_Images/JermaUp.png");
+    //     this.type = "player";
+    // }
 
     public PlayerData(KeyHandler k, Game g, int startingX, int startingY, int playerS, int sizeX, int sizeY){
         super(startingX, startingY, playerS, sizeX, sizeY);
