@@ -412,5 +412,30 @@ NOTES: setLocation is so bad its unbelievable. I can't believe that it is the re
 
 
 
+Current date: 6/025/2022
 
+    CircleField.java
+        Was working on it, but didn't want to finish it because of time restraints.
 
+    CollsionDetect.java
+        Was working on making wall collision teleport the entities, but I figured it would take atleast 2-3 days.
+
+    Entity.java
+        Re-did the draw methods, so that it no longer looked bad. (The game)
+
+        Moved the movement methods into entity, because I figured it was pointless to keep them locked to the individual entity classes.
+
+    Game.java
+        Re-did people.movement, because of the entity method change.
+
+        Commented out spawner and a couple of the People constructors because of debugging.
+
+    Item.java
+        Did the same visual revamp as I did in entity.
+
+        Also removed cooldownSeconds, because I want to change the cooldownFrames depending on the type of item.
+
+    People.java
+        Removed the movement method and added it into the entity class.
+
+    
