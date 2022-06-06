@@ -63,6 +63,7 @@ public class Entity{
         contactDMG = 5;
 
 
+
         
 
 
@@ -117,9 +118,9 @@ public class Entity{
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         hitbox.setBounds(posX, posY, sizeX, sizeY);
+        healthMax = health;
         greenHPBar = new Rectangle(0, 0, (int) hitbox.getWidth(), 10); 
         redHPBar = new Rectangle(0, 0, 0, 10);
-        healthMax = health;
     }
 
         public void setSprite(String filePath){
@@ -205,7 +206,7 @@ public class Entity{
         }
 
         public int entityPlayerDrivenDirection(PlayerData player){
-            if(Game.frameCount % (Game.FPS) == 0){ // <- moves around 1/6 times per frame.
+            // if(Game.frameCount % (Game.FPS) == 0){ // <- moves around 1/6 times per frame.
                 double playerPosY = player.hitbox.getCenterY();
                 double playerPosX = player.hitbox.getCenterX();
                 double entityPosY = this.hitbox.getCenterY();
@@ -252,7 +253,7 @@ public class Entity{
                         }
                     }
                 }
-            }
+            // }
             return movement;
         }
 
@@ -271,19 +272,24 @@ public class Entity{
 
             // System.out.println("________DONE________");
             this.health -= DMG;
-            greenHPBar.width = (int) greenHPBar.getWidth() - (int) (hitbox.getWidth() * (1.0 *DMG/healthMax));
+            greenHPBar.width = (int) (hitbox.getWidth() * (1.0 *health/healthMax));
             redHPBar.x = ((int) (greenHPBar.getX()+greenHPBar.getWidth()));
-            redHPBar.width += (int) (hitbox.getWidth() * (1.0 * DMG/healthMax));
+            redHPBar.width = (int) (hitbox.getWidth() - (hitbox.getWidth() * (1.0 * health/healthMax)));
         }
 
         public void healHP(int healing){//only does healing when HP is less than max, for now because I'll want to add another bar of hp like yellow color ontop the yellow and green?
             if(this.health < healthMax){
-                this.health += health;
-                greenHPBar.width = (int) greenHPBar.getWidth() + (int) (hitbox.getWidth() * (1.0 *healing/healthMax));
+                this.isDead = false;
+                this.health += healing;
+                greenHPBar.width = (int) (hitbox.getWidth() * (1.0 *health/healthMax));
                 redHPBar.x = ((int) (greenHPBar.getX()+greenHPBar.getWidth()));
-                redHPBar.width -= (int) (hitbox.getWidth() * (1.0 * healing/healthMax));
+                redHPBar.width = (int) (hitbox.getWidth() - (hitbox.getWidth() * (1.0 * health/healthMax)));
             }
 
+        }
+
+        public void setHP(){
+            
         }
 
         public int entityRandomDirection(){
@@ -357,9 +363,11 @@ public class Entity{
         g3.setColor(Color.GREEN);
         g3.fill(this.greenHPBar);
         g3.draw(this.greenHPBar);
-        g3.setColor(Color.RED);
-        g3.fill(this.redHPBar);
-        g3.draw(this.redHPBar);
+        if(redHPBar.width != 0){
+            g3.setColor(Color.RED);
+            g3.fill(this.redHPBar);
+            g3.draw(this.redHPBar);
+        }
 
     }
 

@@ -34,8 +34,8 @@ public class Game extends JPanel implements Runnable{
   CollisionDetect CD = new CollisionDetect(this);
 
   //Garbage names, but they are the equivalent of uh height and width.
-  public static final int topBounds = screenHeight * 4;
-  public static final int leftBounds = screenWidth * 4;
+  public static final int topBounds = screenHeight * 1;
+  public static final int leftBounds = screenWidth * 1;
 
 
 //Borders (dont touch order ty)
@@ -49,15 +49,15 @@ public class Game extends JPanel implements Runnable{
 
 //Enemy types
   People people = new People("/People_Images/People.jpg");
-  // People people2 = new People("/download.jpg");
-  // People people3 = new People("/People_Images/People.jpg");
+  People people2 = new People("/download.jpg");
+  People people3 = new People("/People_Images/People.jpg");
 
 //Spawner Types, need to be before the different enemies.  
   Spawner peopleSpawner = new Spawner(people, player);
   Spawner peopleSpawner2 = new Spawner(people, player);
   Spawner peopleSpawne3r = new Spawner(people, player);
   Spawner peopleSpawner4 = new Spawner(people, player);
-  // Spawner people2Spawner = new Spawner(people2, player);
+  Spawner people2Spawner = new Spawner(people2, player);
 
 
   //Game states
@@ -70,6 +70,7 @@ public class Game extends JPanel implements Runnable{
   int secondsTens;
   int minutesOnes;
   int minutesTens;
+  // boolean isStillPlaying = true;
 
 
 
@@ -170,6 +171,9 @@ public class Game extends JPanel implements Runnable{
 
 
         //CHECK COLLISION BETWEEN PLAYER AND CURRENT OBJECTS (INVISIBLE WALLS, PEOPLE) 
+        // if(Game.frameCount % (FPS * 3) == 0){
+          player.healHP(5);
+        // }
         player.collides = false;
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
         People peoples = People.peopleList.get(x);  
@@ -187,8 +191,9 @@ public class Game extends JPanel implements Runnable{
           CD.checkWalls(walls, player);
         }
         int pSpeed = player.playerMove();
-
         sword.swingSword(player);
+        
+
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
           for(Item item: Item.itemList){
             if(CD.checkItem(People.peopleList.get(x), item)){
@@ -201,7 +206,7 @@ public class Game extends JPanel implements Runnable{
 
         for(Spawner spawner: Spawner.spawnerList){
           spawner.independentSpawnerMovement(pSpeed, keyChecker); // <-- ALWAYS NEEDED
-          if(People.peopleList.size() + Spawner.spawnerList.size() < 100){
+          if(People.peopleList.size() + Spawner.spawnerList.size() < 1000){
             spawner.basicSpawnPeople();
           }
         }
@@ -221,7 +226,8 @@ public class Game extends JPanel implements Runnable{
             for(InvisWall walls: InvisWall.wallList){
               CD.checkWalls(walls, peoples); //People vs walls
             }
-            CD.checkPeopleVSPeople(People.peopleList, peoples);
+            // CD.checkPeopleVSPeople(People.peopleList, peoples);
+
             // peoples.entityMove(peoples.entityRandomDirection());
             peoples.entityMove(peoples.entityPlayerDrivenDirection(player));
             peoples.playerInfluencedMovement(pSpeed, keyChecker);
@@ -241,7 +247,6 @@ public class Game extends JPanel implements Runnable{
 
 
   
-
 
 
 
@@ -332,12 +337,12 @@ public class Game extends JPanel implements Runnable{
            }
           // sword.draw(g2);
           player.draw(g2);
-          drawTime(g2);
+
           for(InvisWall walls: InvisWall.wallList){
             walls.drawWalls(g2);
           }
           // peopleSpawner.drawAllSpawnerHitboxes(g2);
-
+          drawTime(g2);
           break;
 
 

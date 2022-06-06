@@ -34,13 +34,14 @@ public class PlayerData extends Entity{
         imageFilePathDown = "/Player_Images/JermaDown.png";
         imageFilePathLeft = "/Player_Images/JermaLeft.png";
         imageFilePathRight = "/Player_Images/JermaRight.png";
-        this.health = 100;
+        this.health = 10;
         healthMax = health;
         this.eSpeed = 20;
         game = g;
         key = k;
         this.setSprite(imageFilePathUp);
         this.type = "Player";
+        this.moveHPBars();
     }
 
     public int playerMove(){

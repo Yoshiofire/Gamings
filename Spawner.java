@@ -38,10 +38,10 @@ public class Spawner {
 
         dontSpawnHitbox = new Rectangle
             (
-            (player.hitbox.x - 90),
-            (player.hitbox.y - 90),
-            (player.hitbox.width + 180),
-            (player.hitbox.height + 180)
+            (player.hitbox.x - 120),
+            (player.hitbox.y - 120),
+            (player.hitbox.width + 240),
+            (player.hitbox.height + 240)
             );
         spawningCooldown = 1; //<-- in seconds.
         spawnerList.add(this);
