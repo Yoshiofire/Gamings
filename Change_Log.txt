@@ -425,6 +425,8 @@ Current date: 6/025/2022
 
         Moved the movement methods into entity, because I figured it was pointless to keep them locked to the individual entity classes.
 
+        Finished the player dependant movment.
+
     Game.java
         Re-did people.movement, because of the entity method change.
 
