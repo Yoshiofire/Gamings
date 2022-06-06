@@ -46,7 +46,7 @@ public class KeyHandler implements KeyListener{
         }
         else if(game.gameState == game.pauseState){// opposite of the first thing
           game.gameState = game.playState;
-          game.setBackground(Color.blue);
+          game.setBackground(Color.BLACK);
         }
         break;
       

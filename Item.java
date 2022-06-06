@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.Polygon;
@@ -24,10 +26,9 @@ public class Item{
     public AffineTransform at = new AffineTransform();
     public AffineTransform spriteAt = new AffineTransform();
 
-    public Item(int[] x, int[] y){
+    public Item(int[] x, int[] y){//Need to set cooldownSeconds in your own constructors
         hitbox = new Polygon(x, y, x.length);
         cooldownFrames = 1;
-        cooldownSeconds = cooldownFrames * Game.FPS; 
         dmg = 5;
         try{
 
@@ -70,6 +71,8 @@ public class Item{
 
     public void draw(Graphics2D g3){
         if(animationHitbox != null){
+            g3.setColor(Color.YELLOW);
+            g3.fill(animationHitbox);
             g3.drawImage(sprite, at, null);
         }
     }
@@ -82,6 +85,8 @@ public class Item{
 
     public void drawAniHitbox(Graphics2D g3){
         if(animationHitbox != null){
+            g3.setColor(Color.YELLOW);
+            g3.fill(animationHitbox);
             g3.draw(this.animationHitbox);
         }
 

@@ -21,7 +21,7 @@ public class CollisionDetect{ // this is going t
 
                 break;
             case 83: //down
-                entity2.hitbox.y += entity2.eSpeed*1.5;
+                entity2.hitbox.y += entity2.eSpeed;
                 if(entity2.hitbox.intersects(entity.hitbox)){
                     entity2.collides = true;
                 }
@@ -91,13 +91,13 @@ public class CollisionDetect{ // this is going t
         }
 
         public void checkWalls(InvisWall wall, Entity entity2){
-            boolean doesCollideWithWall = false;
+            // boolean doesCollideWithWall = false;
             switch(entity2.movement){
                 case 87: //up
                     entity2.hitbox.y -= entity2.eSpeed;
                     if(entity2.hitbox.intersects(wall.hitbox)){
                         entity2.collides = true;
-                        doesCollideWithWall = true;
+                        // doesCollideWithWall = true;
                     }
                     entity2.hitbox.y += entity2.eSpeed;
 
@@ -132,17 +132,33 @@ public class CollisionDetect{ // this is going t
                     entity2.hitbox.x -= entity2.eSpeed;
                     break;
                 }
-                if(doesCollideWithWall){
-                    if(!entity2.type.equals("Player")){
-                        switch(wall.type){
-                            case "Top_Wall": //we want it to go to the bottom
-                                System.out.println("saddasdasdas");
-                                entity2.hitbox.y = (int) (game.bottom.hitbox.y - (entity2.hitbox.getHeight()));
-                                break;//replace game.leftbounds
-                        }
-                    }
 
-                }
+                //IDEA
+                // if(doesCollideWithWall){
+                //     if(!entity2.type.equals("Player")){
+                //         switch(wall.type){
+                //             case "Top_Wall": //we want it to go to the bottom
+                //                 System.out.println("Top_Wall");
+                //                 entity2.hitbox.y = (int) (game.bottom.hitbox.y - (entity2.hitbox.getHeight()));
+                //                 break;//replace game.leftbounds
+                //         }
+                //     }
+                //     else if(entity2.type.equals("Player")){
+                //         switch(wall.type){
+                //             case "Top_Wall": //we want it to go to the bottom
+                //                 System.out.println("Top_Wall");
+                //                 for(int x = 0; x < Entity.entityList.size(); x++){
+                //                     Entity currentEntity = Entity.entityList.get(x);
+                //                     if(currentEntity != entity2){
+                //                         currentEntity.hitbox.y = (int) (game.bottom.hitbox.y - (entity2.hitbox.getHeight()));
+
+                //                     }
+                //                 }
+                //                 break;//replace game.leftbounds
+                //         }
+                //     }
+
+                // }
             }
 
 

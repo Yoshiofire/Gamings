@@ -14,6 +14,7 @@ public class Sword extends Item{
     public Sword(int[] x, int[] y){
         super(x, y);
         this.setSprite("/Player_Images/Sword.png");
+        cooldownSeconds = cooldownFrames * Game.FPS; 
         //currently sword is better rectangle, as it can rotate 360 in incrments of 1 compared to rectangles and their 90 only.
         /*
         The sword is built from left to right, up to down.
@@ -68,7 +69,7 @@ public class Sword extends Item{
                     break;
             }
             doRotate = true;
-            endFrame = startFrame + 5*sFrame; //<- the 3 is the waiting time after each rotation
+            endFrame = startFrame + 5*sFrame; //<- the 5 is the waiting time after each rotation
             cooldownTime = endFrame + cooldownSeconds;
             at.setToRotation(Math.toRadians(rotationS + 150), player.hitbox.getCenterX(), player.hitbox.getCenterY());
             animationHitbox = at.createTransformedShape(this.hitbox);

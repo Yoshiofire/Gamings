@@ -1,6 +1,7 @@
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 
@@ -114,9 +115,9 @@ public class Spawner {
 
 
     public void drawAllSpawnerHitboxes(Graphics2D g4){
+        g4.setColor(Color.BLUE);
         g4.draw(spawningArea);
         g4.draw(dontSpawnHitbox);
-        g4.draw(spawningArea);
 
 
     }

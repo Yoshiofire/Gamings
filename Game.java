@@ -49,15 +49,15 @@ public class Game extends JPanel implements Runnable{
 
 //Enemy types
   People people = new People("/People_Images/People.jpg");
-  People people2 = new People("/download.jpg");
-  People people3 = new People("/People_Images/People.jpg");
+  // People people2 = new People("/download.jpg");
+  // People people3 = new People("/People_Images/People.jpg");
 
 //Spawner Types, need to be before the different enemies.  
   Spawner peopleSpawner = new Spawner(people, player);
   Spawner peopleSpawner2 = new Spawner(people, player);
   Spawner peopleSpawne3r = new Spawner(people, player);
   Spawner peopleSpawner4 = new Spawner(people, player);
-  Spawner people2Spawner = new Spawner(people2, player);
+  // Spawner people2Spawner = new Spawner(people2, player);
 
 
   //Game states
@@ -79,7 +79,7 @@ public class Game extends JPanel implements Runnable{
   public Game(){
     this.setPreferredSize(new Dimension(screenWidth, screenHeight));
     this.setDoubleBuffered(true);
-    this.setBackground(Color.BLUE);
+    this.setBackground(Color.BLACK);
     this.addKeyListener(keyChecker);
     this.setFocusable(true);
   }
@@ -199,10 +199,10 @@ public class Game extends JPanel implements Runnable{
         }
         
 
-        for(Spawner spawner: Spawner.spawnerList){
-          spawner.independentSpawnerMovement(pSpeed, keyChecker); // <-- ALWAYS NEEDED
-          spawner.basicSpawnPeople();
-        }
+        // for(Spawner spawner: Spawner.spawnerList){
+        //   spawner.independentSpawnerMovement(pSpeed, keyChecker); // <-- ALWAYS NEEDED
+        //   spawner.basicSpawnPeople();
+        // }
 
           // CHECKS COLLISION BETWEEN PEOPLE AND OTHER OBJECTS CURRENTLY CREATED (INVISIBLE WALLS, PLAYER)
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
@@ -220,8 +220,8 @@ public class Game extends JPanel implements Runnable{
               CD.checkWalls(walls, peoples); //People vs walls
             }
             CD.checkPeopleVSPeople(People.peopleList, peoples);
-
-            peoples.peopleMove();
+            // peoples.entityMove(peoples.entityRandomDirection());
+            peoples.entityMove(peoples.entityPlayerDrivenDirection(player));
             peoples.playerInfluencedMovement(pSpeed, keyChecker);
           }
         
@@ -244,7 +244,7 @@ public class Game extends JPanel implements Runnable{
 
 
 
-        player.entityListRefresh();
+        // player.entityListRefresh();
 
         //Insert if player is dead then we switch the gamestate to end screen.
         if(player.isDead){
@@ -282,7 +282,7 @@ public class Game extends JPanel implements Runnable{
     minutesTens = seconds/600;
 
 
-
+    g2.setColor(Color.GRAY);
     g2.setFont(new Font("impact", Font.BOLD, size));
     g2.drawString("" + minutesTens + minutesOnes + ":" + secondsTens + secondOnes, (int) ((screenWidth/2) - size*(( 4 + Integer.toString(minutesTens).length() ) * .272)), size);
 
@@ -297,26 +297,22 @@ public class Game extends JPanel implements Runnable{
       Graphics2D g2 = (Graphics2D) g;
 
       switch(gameState){
-        case 1: // default playing thing
+        case 2: // default playing thing
 
           // test.drawPolyHitbox(g2);
           sword.drawAniHitbox(g2);
           for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
             People peoples = People.peopleList.get(x);
-            if(!peoples.iFrame){
-              peoples.drawHitboxes(g2);
-            }
+            peoples.drawHitboxes(g2);
+          }
 
-          }
-          if(!player.iFrame){
-            player.drawHitboxes(g2);
-          }
+          player.drawHitboxes(g2);
 
           for(InvisWall walls: InvisWall.wallList){
-            walls.drawHitboxes(g2);
+            walls.drawWalls(g2);
           }
           drawTime(g2);
-          peopleSpawner.drawAllSpawnerHitboxes(g2);
+          // peopleSpawner.drawAllSpawnerHitboxes(g2);
 
 
 
@@ -325,16 +321,22 @@ public class Game extends JPanel implements Runnable{
 
 
           break;
-        case 2: // pause
+        case 1: // pause
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
           People peoples = People.peopleList.get(x);
           peoples.draw(g2);
         }
            //need this to move less, moving 60 times per second
-          sword.draw(g2);
+           for(Item items: Item.itemList){
+             items.draw(g2);
+           }
+          // sword.draw(g2);
           player.draw(g2);
           drawTime(g2);
-          peopleSpawner.drawAllSpawnerHitboxes(g2);
+          for(InvisWall walls: InvisWall.wallList){
+            walls.drawWalls(g2);
+          }
+          // peopleSpawner.drawAllSpawnerHitboxes(g2);
 
           break;
 
@@ -343,6 +345,7 @@ public class Game extends JPanel implements Runnable{
       case 3:
         int size = 300;
         setBackground(Color.RED);
+        g2.setColor(Color.BLACK);
         g2.setFont(new Font("impact", Font.BOLD, size));
         g2.drawString("YOU SUCK", (screenWidth/2) - size*2 , (screenHeight/2) + size/3);
         //Add the time here as it is the score be like your final time is:

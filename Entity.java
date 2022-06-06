@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.AlphaComposite;
 // import java.awt.Graphics;
 // import java.util.ArrayList;
+import java.awt.Color;
 
 
 
@@ -35,6 +36,7 @@ public class Entity{
     public boolean iFrame;
     public int iFrameTime;
     public int contactDMG;
+    public int movementCooldown;
 
 
     // public String direction; 
@@ -52,8 +54,10 @@ public class Entity{
         iFrameTime = 1; // <-
 
         eSpeed = 10;
+        movementCooldown = 6; // <-
         health = 10; // <-
         contactDMG = 1;
+        
 
 
         //FILE PATH TO DEFUALT SPRITE TEXTURE
@@ -184,6 +188,95 @@ public class Entity{
 
         }
 
+        public int entityPlayerDrivenDirection(PlayerData player){
+            // int direction = (int) (Math.random() * 4); 
+            // if(Game.frameCount % (Game.FPS/movementCooldown) == 0){ // <- moves around 1/6 times per frame.
+                double playerPosY = player.hitbox.getCenterY();
+                double playerPosX = player.hitbox.getCenterX();
+                double entityPosY = this.hitbox.getCenterY();
+                double entityPosX = this.hitbox.getCenterX();
+                // double entityPosY = this.posY;
+                // double entityPosX = this.posX;
+                // double playerPosY = player.posY;
+                // double playerPosX = player.posX;
+                /* the order is Up, Down, Left, Right */
+                // give bias
+                if((playerPosX > entityPosX || playerPosX > entityPosX) && !(playerPosY > entityPosY || playerPosY > entityPosY-sizeY)){
+                    if(playerPosY < entityPosY){
+                        movement = 87;
+                    }
+                    if(playerPosY >= entityPosY){
+                        movement = 83;
+                    }
+                }else{
+                    if(playerPosX < entityPosX){
+                        movement = 65;
+                    }
+                    if(playerPosX >= entityPosX){
+                        movement = 68;
+                    }
+                }
+                
+
+
+
+
+
+
+            // }
+            return movement;
+        }
+
+        public int entityRandomDirection(){
+            // int direction = (int) (Math.random() * 4); 
+            int direction = movement;
+            if(Game.frameCount % (Game.FPS/movementCooldown) == 0){ // <- moves around 1/6 times per frame.
+                direction = (int) (Math.random() * 4);
+            }//Need to add new move method, which is like the checkPlay(), for People direction its based on the location of the player. So the player will always get surrounded.
+            
+            switch(direction){
+                case 0:
+                    direction = 83;
+                    break;
+                case 1:
+                    direction = 87;
+                    break;
+                case 2:
+                    direction = 68;
+                    break;
+                case 3:
+                    direction = 65;
+                    break;
+            }
+            movement = direction;
+            return movement;
+        }
+
+        public void entityMove(int direction){
+            if(!collides){
+                switch(direction){
+                        case 87: // W 1
+                            posY -= eSpeed;
+                            hitbox.y -= eSpeed;
+                            break;
+                        case 83: //S 0
+                            posY += eSpeed;
+                            hitbox.y += eSpeed;
+                            break;
+                        case 65: // A 3
+                            posX -= eSpeed;
+                            hitbox.x -= eSpeed;
+                            break;
+                        case 68: //D 2
+                            posX += eSpeed;
+                            hitbox.x += eSpeed;
+                            break;
+                    }
+            }
+
+        }
+
+
 
 
 
@@ -206,9 +299,15 @@ public class Entity{
 
     
     public void drawHitboxes(Graphics2D g3){
-
+    if(!this.iFrame){
+        g3.setColor(Color.RED);
         g3.draw(this.hitbox);
+        }
+    }
 
+    public void drawWalls(Graphics2D g3){
+        g3.setColor(Color.WHITE);
+        g3.fill(this.hitbox);
     }
 
 
