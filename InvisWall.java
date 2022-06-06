@@ -24,10 +24,4 @@ public class InvisWall extends Entity {
         count++;
         wallList.add(this);
     }
-
-    // public void allTrue(){
-    //     for(InvisWall walls: InvisWall.wallList){
-    //         walls.collides = true;
-    //     }
-    // }
 }

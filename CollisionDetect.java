@@ -232,7 +232,9 @@ public class CollisionDetect{ // this is going t
         public boolean checkItem(Entity entity, Item item){
             if(!entity.iFrame){
                 if(item.animationHitbox != null && item.animationHitbox.intersects(entity.hitbox.getBounds2D())){
-                    entity.health -= item.dmg;
+                    entity.takeDMG(item.dmg);
+                    // entity.healHP(item.dmg);
+
                     if(entity.health <= 0){
                         return true;// <- outside the method it has to have a remove from list thing.
                     }
@@ -254,8 +256,8 @@ public class CollisionDetect{ // this is going t
             if((entity2.collides)){
                 if(!entity.iFrame && !entity2.iFrame){
                     
-                    entity2.health -= entity.contactDMG;
-                    entity.health -= entity2.contactDMG;
+                    entity2.takeDMG(entity.contactDMG);
+                    entity.takeDMG(entity2.contactDMG);
     
                     if(entity.health <= 0){
                         entity.isDead = true;

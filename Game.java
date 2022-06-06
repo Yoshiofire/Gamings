@@ -201,7 +201,9 @@ public class Game extends JPanel implements Runnable{
 
         for(Spawner spawner: Spawner.spawnerList){
           spawner.independentSpawnerMovement(pSpeed, keyChecker); // <-- ALWAYS NEEDED
-          spawner.basicSpawnPeople();
+          if(People.peopleList.size() + Spawner.spawnerList.size() < 100){
+            spawner.basicSpawnPeople();
+          }
         }
 
           // CHECKS COLLISION BETWEEN PEOPLE AND OTHER OBJECTS CURRENTLY CREATED (INVISIBLE WALLS, PLAYER)
@@ -244,10 +246,8 @@ public class Game extends JPanel implements Runnable{
 
 
 
-        // player.entityListRefresh();
-
         //Insert if player is dead then we switch the gamestate to end screen.
-        if(player.isDead){
+        if(player.isDead || player.health <= 0){
           gameState = deathState;
         }
           break;

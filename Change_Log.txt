@@ -420,6 +420,8 @@ Current date: 6/025/2022
     CollsionDetect.java
         Was working on making wall collision teleport the entities, but I figured it would take atleast 2-3 days.
 
+        Changed up the way damage is given, because I added an HP bar.
+
     Entity.java
         Re-did the draw methods, so that it no longer looked bad. (The game)
 
@@ -427,10 +429,16 @@ Current date: 6/025/2022
 
         Finished the player dependant movment.
 
+        Added HP bars, and HP bar methods.
+
     Game.java
         Re-did people.movement, because of the entity method change.
 
         Commented out spawner and a couple of the People constructors because of debugging.
+
+        Added an entity limit for the spawners? (Only for people though)
+
+        Fixed a little bug with people vs player collison
 
     Item.java
         Did the same visual revamp as I did in entity.

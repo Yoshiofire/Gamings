@@ -28,6 +28,10 @@ public class Entity{
     public boolean isDead;
     public String defaultFilePath;
     public static ArrayList <Entity> entityList = new ArrayList<>();
+    private Rectangle greenHPBar;
+    private Rectangle redHPBar;
+    public int healthMax;
+
 
 
     //Below needs implimentation in the constructors
@@ -56,7 +60,9 @@ public class Entity{
         eSpeed = 10;
         movementCooldown = 6; // <-
         health = 10; // <-
-        contactDMG = 1;
+        contactDMG = 5;
+
+
         
 
 
@@ -99,6 +105,8 @@ public class Entity{
         posY = y;
         eSpeed = speed;
         hitbox.setLocation(posX, posY);
+        greenHPBar = new Rectangle(0, 0, (int) hitbox.getWidth(), 10); 
+        redHPBar = new Rectangle(0, 0, 0, 10);
     }
 
     public Entity(int x, int y, int speed, int sizeX, int sizeY){
@@ -109,6 +117,9 @@ public class Entity{
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         hitbox.setBounds(posX, posY, sizeX, sizeY);
+        greenHPBar = new Rectangle(0, 0, (int) hitbox.getWidth(), 10); 
+        redHPBar = new Rectangle(0, 0, 0, 10);
+        healthMax = health;
     }
 
         public void setSprite(String filePath){
@@ -122,6 +133,7 @@ public class Entity{
                 e.getStackTrace();
     
             }
+            
 
 
         }
@@ -148,6 +160,10 @@ public class Entity{
 
 
         }
+
+
+
+
         public void playerInfluencedMovement(int playerSpeed, KeyHandler key){
             // if(!collides){// doesn't really matetr because in PlayerData if it collides it returns a speed of 0; <--- adding this if statement made OTHER ENTITIES MOVE THROUGH THE INVISIBLE WALL WHY?
             /* I think that this is because of the fact that when it collides it stays sill (the entity), but everything else moves therefore at a certain point it escapes due to the fact that
@@ -173,8 +189,8 @@ public class Entity{
                 if(key.leftKey){
                     posX += playerSpeed;
                     hitbox.x += playerSpeed;
-
                 }
+                moveHPBars();
             // }
         }
 
@@ -189,6 +205,7 @@ public class Entity{
         }
 
         public int entityPlayerDrivenDirection(PlayerData player){
+            if(Game.frameCount % (Game.FPS) == 0){ // <- moves around 1/6 times per frame.
                 double playerPosY = player.hitbox.getCenterY();
                 double playerPosX = player.hitbox.getCenterX();
                 double entityPosY = this.hitbox.getCenterY();
@@ -235,7 +252,38 @@ public class Entity{
                         }
                     }
                 }
+            }
             return movement;
+        }
+
+        public void moveHPBars(){
+            greenHPBar.x = posX;
+            greenHPBar.y = posY-30;
+            redHPBar.x = ((int) (greenHPBar.getX()+greenHPBar.getWidth()));
+            redHPBar.y = (int) greenHPBar.getMinY();
+        }
+
+        public void takeDMG(int DMG){//starts at 100
+            // System.out.println((DMG/10.0));
+            // System.out.println((int) (hitbox.getWidth() * (DMG/10.0)));
+            // System.out.println((int) greenHPBar.getWidth() - (int) (hitbox.getWidth() * (DMG/10.0)));
+
+
+            // System.out.println("________DONE________");
+            this.health -= DMG;
+            greenHPBar.width = (int) greenHPBar.getWidth() - (int) (hitbox.getWidth() * (1.0 *DMG/healthMax));
+            redHPBar.x = ((int) (greenHPBar.getX()+greenHPBar.getWidth()));
+            redHPBar.width += (int) (hitbox.getWidth() * (1.0 * DMG/healthMax));
+        }
+
+        public void healHP(int healing){//only does healing when HP is less than max, for now because I'll want to add another bar of hp like yellow color ontop the yellow and green?
+            if(this.health < healthMax){
+                this.health += health;
+                greenHPBar.width = (int) greenHPBar.getWidth() + (int) (hitbox.getWidth() * (1.0 *healing/healthMax));
+                redHPBar.x = ((int) (greenHPBar.getX()+greenHPBar.getWidth()));
+                redHPBar.width -= (int) (hitbox.getWidth() * (1.0 * healing/healthMax));
+            }
+
         }
 
         public int entityRandomDirection(){
@@ -263,6 +311,7 @@ public class Entity{
             return movement;
         }
 
+
         public void entityMove(int direction){
             if(!collides){
                 switch(direction){
@@ -284,7 +333,7 @@ public class Entity{
                             break;
                     }
             }
-
+            moveHPBars();
         }
 
 
@@ -304,6 +353,13 @@ public class Entity{
         else{
             g3.drawImage(this.sprite, posX, posY, sizeX, sizeY, null);
         }
+        //FOR HPBAR
+        g3.setColor(Color.GREEN);
+        g3.fill(this.greenHPBar);
+        g3.draw(this.greenHPBar);
+        g3.setColor(Color.RED);
+        g3.fill(this.redHPBar);
+        g3.draw(this.redHPBar);
 
     }
 
