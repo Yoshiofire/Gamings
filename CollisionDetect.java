@@ -236,6 +236,7 @@ public class CollisionDetect{ // this is going t
                     // entity.healHP(item.dmg);
 
                     if(entity.health <= 0){
+                        entity.isDead = true;
                         return true;// <- outside the method it has to have a remove from list thing.
                     }
                     entity.endIFrame = Game.frameCount + (entity.iFrameTime * Game.FPS);
@@ -251,6 +252,7 @@ public class CollisionDetect{ // this is going t
                 entity.iFrame = false;
             }
         }
+
 
         public void checkDMGAgainstEntities(Entity entity, Entity entity2){
             if((entity2.collides)){

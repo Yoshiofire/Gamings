@@ -28,8 +28,8 @@ public class Entity{
     public boolean isDead;
     public String defaultFilePath;
     public static ArrayList <Entity> entityList = new ArrayList<>();
-    private Rectangle greenHPBar;
-    private Rectangle redHPBar;
+    public Rectangle greenHPBar;
+    public Rectangle redHPBar;
     public int healthMax;
 
 
@@ -41,6 +41,7 @@ public class Entity{
     public int iFrameTime;
     public int contactDMG;
     public int movementCooldown;
+    public int expWorth;
 
 
     // public String direction; 
@@ -55,7 +56,7 @@ public class Entity{
         isDead = false;
         
         iFrame = false; // <-
-        iFrameTime = 1; // <-
+        iFrameTime = 0; // <-
 
         eSpeed = 10;
         movementCooldown = 6; // <-
@@ -108,6 +109,7 @@ public class Entity{
         hitbox.setLocation(posX, posY);
         greenHPBar = new Rectangle(0, 0, (int) hitbox.getWidth(), 10); 
         redHPBar = new Rectangle(0, 0, 0, 10);
+
     }
 
     public Entity(int x, int y, int speed, int sizeX, int sizeY){
@@ -198,7 +200,7 @@ public class Entity{
         public void entityListRefresh(){
             for(int x = entityList.size()-1; x >= 0 ; x--){
                 Entity tempE = entityList.get(x);
-                if(tempE == null){
+                if(tempE == null || this.isDead){
                     entityList.remove(x);
                 }
             }
