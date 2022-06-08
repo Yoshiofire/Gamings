@@ -287,6 +287,7 @@ public class Game extends JPanel implements Runnable{
           break;
         case levelUpState:
           Card.changeIsSelected(keyChecker, this);
+          Game.pause(100);  //slow down the keystrokes so a human can actually use them
           // new Card("HELP");
 
 
@@ -415,6 +416,16 @@ public class Game extends JPanel implements Runnable{
     }// so what it does, we dispose at the end because if you don't it does.
     // What dispose actually does is it removes the reasources being used to keep the thing alive, therefore if there isn't any dispose the game will have unesscerry data.
 
+
+
+  //Added pause() method to allow keystrokes to slow down!
+	public static void pause(final int milliseconds) {
+		try {
+			Thread.sleep(milliseconds);
+		} catch (final Exception e) {
+			// ignore
+		}
+	}
 
 
 
