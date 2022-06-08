@@ -39,7 +39,7 @@ public class PlayerData extends Entity{
         imageFilePathDown = "/player_images/JermaDown.png";
         imageFilePathLeft = "/player_images/JermaLeft.png";
         imageFilePathRight = "/player_images/JermaRight.png";
-        this.health = 10;
+        this.health = 100;
         healthMax = health;
         this.eSpeed = 20;
         this.iFrameTime = 1;

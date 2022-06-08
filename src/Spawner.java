@@ -34,7 +34,14 @@ public class Spawner {
             (entity.hitbox.height)
             );
 
-        entitySpawnedData = entity;
+        entitySpawnedData = new Entity
+        (
+        (int) entity.hitbox.getX(),
+        (int) entity.hitbox.getY(),
+        entity.eSpeed,
+        (int) entity.hitbox.getWidth(),
+        (int) entity.hitbox.getHeight()
+        );
 
         dontSpawnHitbox = new Rectangle
             (
@@ -43,12 +50,22 @@ public class Spawner {
             (player.hitbox.width + 240),
             (player.hitbox.height + 240)
             );
-        spawningCooldown = 1; //<-- in seconds.
+        spawningCooldown = 3; //<-- in seconds.
         spawnerList.add(this);
 
         
     }
     //Entities playerInfluencedMovement, but only for the spawning Area, because.
+
+    public void setSpawnerCooldown(int newCooldownTime){
+        if(newCooldownTime <= 0){
+            newCooldownTime = 1; //It can't go beyond 0, because it it goes to like -1 or 0 the funny happens.
+        }
+        spawningCooldown = newCooldownTime;
+    }
+    public int getSpawnerCooldown(){
+        return spawningCooldown;
+    }
 
     public void independentSpawnerMovement(int playerSpeed, KeyHandler key){
             if(key.upKey){
@@ -96,7 +113,8 @@ public class Spawner {
                 }
 
                 if(spawnedCheck && !(spawningHitbox.intersects(dontSpawnHitbox))){
-                    new People(entitySpawnedData.defaultFilePath, (int) spawningHitbox.getMinX(), (int) spawningHitbox.getMinY());
+                    People tempPeople = new People(entitySpawnedData.defaultFilePath, (int) spawningHitbox.getMinX(), (int) spawningHitbox.getMinY());
+                    tempPeople.setStats(entitySpawnedData);
                     spawned = true;
                     // for(People peoples: People.peopleList){
                     //     People.peopleList.remove(peoples);

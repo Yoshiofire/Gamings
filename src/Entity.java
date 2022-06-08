@@ -55,13 +55,13 @@ public class Entity{
         collides = false;
         isDead = false;
         
-        iFrame = false; // <-
+        iFrame = false;
         iFrameTime = 1; // <-
 
         eSpeed = 10;
         movementCooldown = 6; // <-
-        health = 10; // <-
-        contactDMG = 5;
+        health = 20; // <-
+        contactDMG = 2;
 
 
 
@@ -141,7 +141,26 @@ public class Entity{
 
         }
 
+        public void changeHP(int HPAdded){
+            healthMax += HPAdded;
+            health += HPAdded;
+        }
 
+        public void changeIFrame(int iFrameTimeAdded){
+            iFrameTime += iFrameTimeAdded;
+        }
+
+        public void changeContactDMG(int contactDMGAdded){
+            contactDMG += contactDMGAdded;
+        }
+
+        public void setStats(Entity baseEntity){
+            this.health = baseEntity.health;
+            this.healthMax = this.health;
+            this.contactDMG = baseEntity.contactDMG;
+            this.iFrame = baseEntity.iFrame;
+
+        }
 
         public String numToStringDirection(int num){
             String temp = "";
@@ -204,7 +223,6 @@ public class Entity{
                     entityList.remove(x);
                 }
             }
-
         }
 
         public int entityPlayerDrivenDirection(PlayerData player){

@@ -39,8 +39,8 @@ public class Game extends JPanel implements Runnable{
   CollisionDetect CD = new CollisionDetect(this);
 
   //Garbage names, but they are the equivalent of uh height and width.
-  public static final int topBounds = screenHeight * 1;
-  public static final int leftBounds = screenWidth * 1;
+  public static final int topBounds = screenHeight * 3;
+  public static final int leftBounds = screenWidth * 3;
 
 
 //Borders (dont touch order ty)
@@ -59,10 +59,10 @@ public class Game extends JPanel implements Runnable{
 
 //Spawner Types, need to be before the different enemies.  
   Spawner peopleSpawner = new Spawner(people, player);
-  Spawner peopleSpawner2 = new Spawner(people, player);
-  Spawner peopleSpawne3r = new Spawner(people, player);
-  Spawner peopleSpawner4 = new Spawner(people, player);
-  Spawner people2Spawner = new Spawner(people2, player);
+  // Spawner peopleSpawner2 = new Spawner(people, player);
+  // Spawner peopleSpawne3r = new Spawner(people, player);
+  // Spawner peopleSpawner4 = new Spawner(people, player);
+  // Spawner people2Spawner = new Spawner(people2, player);
 
 
   //Game states
@@ -191,9 +191,26 @@ public class Game extends JPanel implements Runnable{
 
 
         //CHECK COLLISION BETWEEN PLAYER AND CURRENT OBJECTS (INVISIBLE WALLS, PEOPLE) 
-        // if(Game.frameCount % (FPS * 3) == 0){
+        if(Game.frameCount % (FPS * 5) == 0 && Game.frameCount != 0){
           player.healHP(5);
-        // }
+        }
+        if(Game.frameCount % (FPS * 120) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
+          if(Spawner.spawnerList.size() < 7){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
+            new Spawner(peopleSpawner.entitySpawnedData, player);
+          }
+        }
+        if(Game.frameCount % (FPS * 30) == 0 && Game.frameCount != 0){ //Every 3 minutes we decrease the spawning cooldown of everything by 1?
+          for(int x = Spawner.spawnerList.size()-1; x >= 0; x--){//What happens is that the new spawner will be at the default cooldown.
+            /*
+             * Actually, at 3:00, the first spawner will have -3 seconds removed from the cooldown, then a new spawner will be created.
+             * That spawner will have the default cooldown of (lets say the defualt is 3).
+             * Therefore we have one spawner at -3 seconds, to another at 0 seconds removed.
+             */
+            Spawner currentSpawner = Spawner.spawnerList.get(x);
+            currentSpawner.setSpawnerCooldown(currentSpawner.getSpawnerCooldown()-1);
+          }
+        }
+        
         player.collides = false;
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
         People peoples = People.peopleList.get(x);  

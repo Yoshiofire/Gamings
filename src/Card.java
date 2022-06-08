@@ -107,7 +107,7 @@ public class Card{
         tries++;// determines the speed of the movement of whatever
         for(int x = Card.cardList.size()-1 ; x >= 0; x--){
             Card currentCard = Card.cardList.get(x);
-            if(key.attackKey && currentCard.isSelected){
+            if(key.enterKey && currentCard.isSelected){
                 System.out.println("Chosen");
                 System.out.println(currentCard.abilityText);
                 game.gameState = game.playState;

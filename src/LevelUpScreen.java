@@ -42,6 +42,9 @@ public class LevelUpScreen {
                             case 0:
                                 new Card("Get a new Sword", 0);
                                 break;
+                            case 1:
+                                new Card("Remove All Enemy I-Frames by 1 Second", 1);
+                                break;
                             default:
                                 new Card("You made a mistake with the randomNumber Variable", 777);
                                 break;
@@ -53,9 +56,6 @@ public class LevelUpScreen {
                         switch(randomNumber){
                             case 0:
                                 new Card("Gain +10 Max HP", -1);
-                                break;
-                            case 1:
-                                new Card("Remove All Enemy I-Frames", -2);
                                 break;
                             default:
                                 new Card("Unlucky", -666);
@@ -74,11 +74,6 @@ public class LevelUpScreen {
         switch(abilityID){
             case-666:
                 break;
-            case -2: //Not implimented properly yet :(
-                for(int x = 0; x < Spawner.spawnerList.size(); x++){
-                    Spawner.spawnerList.get(x).entitySpawnedData.iFrameTime = 0;
-                }
-                break;
             case -1:
                 player.healthMax += 10;
                 player.health += 10;
@@ -89,6 +84,12 @@ public class LevelUpScreen {
                 if(currentAmountOfSwords == swordLimit){
                     dontCallAbilities.add(abilityID);
                 }
+                break;
+            case 1: //Not tested yet
+                for(int x = 0; x < Spawner.spawnerList.size(); x++){
+                    Spawner.spawnerList.get(x).entitySpawnedData.changeIFrame(-1);
+                }
+                dontCallAbilities.add(1);
                 break;
             case 777:
                 break;

@@ -6,7 +6,7 @@ import java.awt.Color;
 public class KeyHandler implements KeyListener{
   
   public Game game;
-  public boolean upKey, downKey, leftKey, rightKey, pauseKey, attackKey;
+  public boolean upKey, downKey, leftKey, rightKey, pauseKey, attackKey, enterKey;
 
   public KeyHandler(Game g){
     game = g;
@@ -65,6 +65,9 @@ public class KeyHandler implements KeyListener{
       case KeyEvent.VK_Q:
         attackKey = true;
         break;
+      case KeyEvent.VK_ENTER:
+        enterKey = true;
+        break;
       case KeyEvent.VK_ESCAPE:
         if(game.gameState == game.playState){ //if its on play state then pause it
           game.gameState = game.pauseState;
@@ -113,6 +116,9 @@ public class KeyHandler implements KeyListener{
         break;
       case KeyEvent.VK_Q:
         attackKey = false;
+        break;
+      case KeyEvent.VK_ENTER:
+        enterKey = true;
         break;
     }
     // }
