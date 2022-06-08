@@ -19,17 +19,18 @@ public class Spawner {
     public Spawner(Entity entity, PlayerData player){
         
         spawningArea = new Rectangle
-            (
-            (entity.hitbox.width + 30),
-            (entity.hitbox.height + 30),
-            (Game.leftBounds - entity.hitbox.width*2 - 180),
-            (Game.leftBounds - entity.hitbox.height*2 - 180)
-            );
+        (
+        (entity.hitbox.width + 30 + (int) InvisWall.wallList.get(0).hitbox.getX()),
+        (entity.hitbox.height + 30 + (int) InvisWall.wallList.get(0).hitbox.getX()),
+        (Game.leftBounds - entity.hitbox.width*2 - 180),
+        (Game.leftBounds - entity.hitbox.height*2 - 180)
+        );
+
 
         spawningHitbox = new Rectangle
             (
-            (entity.hitbox.x),
-            (entity.hitbox.y),
+            (entity.hitbox.x + (int) InvisWall.wallList.get(0).hitbox.getX()),
+            (entity.hitbox.y + (int) InvisWall.wallList.get(0).hitbox.getX()),
             (entity.hitbox.width),
             (entity.hitbox.height)
             );
@@ -115,6 +116,7 @@ public class Spawner {
                 if(spawnedCheck && !(spawningHitbox.intersects(dontSpawnHitbox))){
                     People tempPeople = new People(entitySpawnedData.defaultFilePath, (int) spawningHitbox.getMinX(), (int) spawningHitbox.getMinY());
                     tempPeople.setStats(entitySpawnedData);
+                    tempPeople.setSprite(entitySpawnedData.defaultFilePath);
                     spawned = true;
                     // for(People peoples: People.peopleList){
                     //     People.peopleList.remove(peoples);
@@ -134,6 +136,7 @@ public class Spawner {
 
     public void drawAllSpawnerHitboxes(Graphics2D g4){
         g4.setColor(Color.BLUE);
+        g4.fill(spawningArea);
         g4.draw(spawningArea);
         g4.draw(dontSpawnHitbox);
 

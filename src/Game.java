@@ -53,9 +53,9 @@ public class Game extends JPanel implements Runnable{
   
 
 //Enemy types
-  People people = new People("/people_images/people.jpg");
-  People people2 = new People("/people_images/shirt.jpg");
-  People people3 = new People("/people_images/people.jpg");
+  People people = new People("people_images/people.jpg");
+  People people2 = new People("people_images/shirt.jpg");
+  People people3 = new People("people_images/people.jpg");
 
 //Spawner Types, need to be before the different enemies.  
   Spawner peopleSpawner = new Spawner(people, player);
@@ -192,9 +192,9 @@ public class Game extends JPanel implements Runnable{
 
         //CHECK COLLISION BETWEEN PLAYER AND CURRENT OBJECTS (INVISIBLE WALLS, PEOPLE) 
         if(Game.frameCount % (FPS * 5) == 0 && Game.frameCount != 0){
-          player.healHP(5);
+          player.healHP(500);
         }
-        if(Game.frameCount % (FPS * 120) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
+        if(Game.frameCount % (FPS * 10) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
           if(Spawner.spawnerList.size() < 7){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
             new Spawner(peopleSpawner.entitySpawnedData, player);
           }
@@ -292,7 +292,7 @@ public class Game extends JPanel implements Runnable{
           break;
         case pauseState: // pause
 
-          // People help = new People("/people_images/People.jpg", keyChecker);
+          // People help = new People("people_images/People.jpg", keyChecker);
 
 
           
@@ -390,7 +390,7 @@ public class Game extends JPanel implements Runnable{
             walls.drawWalls(g2);
           }
           drawTime(g2);
-          // peopleSpawner.drawAllSpawnerHitboxes(g2);
+          peopleSpawner.drawAllSpawnerHitboxes(g2);
 
 
 

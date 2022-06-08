@@ -358,6 +358,8 @@ public class CollisionDetect{ // this is going t
 
 
         public void checkDMGAgainstEntities(Entity entity, Entity entity2){
+            checkIFrame(entity);
+            checkIFrame(entity2);
             if((entity2.collides)){
                 if(!entity.iFrame && !entity2.iFrame){
                     
@@ -366,7 +368,7 @@ public class CollisionDetect{ // this is going t
     
                     if(entity.health <= 0){
                         entity.isDead = true;
-                        entity = null;
+                        // entity = null;
                     }
                     else{
                         // System.out.println("Entity 1: " + entity);
@@ -376,7 +378,7 @@ public class CollisionDetect{ // this is going t
     
                     if(entity2.health <= 0){
                         entity2.isDead = true;
-                        entity2 = null;
+                        // entity2 = null;
 
                     }
                     else{
@@ -386,8 +388,6 @@ public class CollisionDetect{ // this is going t
                     }
                 }
             }
-            checkIFrame(entity);
-            checkIFrame(entity2);
         }
 
 
