@@ -53,12 +53,15 @@ public class Game extends JPanel implements Runnable{
   
 
 //Enemy types
-  People people = new People("people_images/people.jpg");
-  People people2 = new People("people_images/shirt.png");
-  People people3 = new People("people_images/people.jpg");
+  People people = new People("people_images/people.jpg", 500, 500, 1);
+  People people2 = new People("people_images/redshirt.png", 500, 500, 2);
+
+
 
 //Spawner Types, need to be before the different enemies.  
   Spawner peopleSpawner = new Spawner(people, player, 1);
+  Spawner peopleSpawner2 = new Spawner(people2, player, 2);
+
   // Spawner peopleSpawner2 = new Spawner(people, player);
   // Spawner peopleSpawne3r = new Spawner(people, player);
   // Spawner peopleSpawner4 = new Spawner(people, player);
@@ -194,7 +197,7 @@ public class Game extends JPanel implements Runnable{
         if(Game.frameCount % (FPS * 5) == 0 && Game.frameCount != 0){
           player.healHP(500);
         }
-        if(Game.frameCount % (FPS * 20) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
+        if(Game.frameCount % (FPS * 120) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
           if(Spawner.spawnerList.size() < 7){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
             new Spawner(peopleSpawner.entitySpawnedData, player, 1); //1 being people/ basic enemy
           }
@@ -263,8 +266,15 @@ public class Game extends JPanel implements Runnable{
             }
             // CD.checkPeopleVSPeople(People.peopleList, peoples);
 
-            // peoples.entityMove(peoples.entityRandomDirection());
-            peoples.entityMove(peoples.entityPlayerDrivenDirection(player));
+            switch(peoples.type){
+              case 1:
+                peoples.entityMove(peoples.entityPlayerDrivenDirection(player));
+                break;
+              case 2:
+                peoples.entityMove(peoples.entityRandomDirection());
+                break;
+              
+            }
             peoples.playerInfluencedMovement(pSpeed, keyChecker);
           }
         

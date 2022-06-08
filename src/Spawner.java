@@ -1,6 +1,5 @@
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Random;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
@@ -56,7 +55,15 @@ public class Spawner {
             (player.hitbox.width + 240),
             (player.hitbox.height + 240)
             );
-        spawningCooldown = 3; //<-- in seconds.
+            spawningCooldown = -1;
+        switch(type){
+            case 1:
+                spawningCooldown = 3; //<-- in seconds.
+                break;
+            case 2:
+                spawningCooldown = 20;//<-- in seconds.
+                break;
+        }
         spawnerList.add(this);
 
         
@@ -119,13 +126,7 @@ public class Spawner {
                 }
 
                 if(spawnedCheck && !(spawningHitbox.intersects(dontSpawnHitbox))){
-                    People tempPeople = null;
-                    if(type == 1){
-                        tempPeople = new People(entitySpawnedData.defaultFilePath, (int) spawningHitbox.getMinX(), (int) spawningHitbox.getMinY());
-                    }
-                    else if(type == 2){
-                        tempPeople = new People(entitySpawnedData.defaultFilePath, (int) spawningHitbox.getMinX(), (int) spawningHitbox.getMinY());
-                    }
+                    People tempPeople = new People(entitySpawnedData.defaultFilePath, (int) spawningHitbox.getMinX(), (int) spawningHitbox.getMinY(), type);
                     tempPeople.setStats(entitySpawnedData);
                     spawned = true;
                     // for(People peoples: People.peopleList){
