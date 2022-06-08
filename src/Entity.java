@@ -71,7 +71,7 @@ public class Entity{
         //FILE PATH TO DEFUALT SPRITE TEXTURE
         //WHAT NEEDS TO BE ADDED IS DEFAULT HITBOX
         try{
-            defaultFilePath = "/download.jpg";
+            defaultFilePath = "people_images/shirt.jpg";
             sprite = ImageIO.read(getClass().getResourceAsStream(defaultFilePath));
 
         }catch(IOException e){

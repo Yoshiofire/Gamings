@@ -17,7 +17,7 @@ public class Sword extends Item{
         super(x, y);
         amount++;
         thisNumber = amount+1;
-        this.setSprite("/Player_Images/Sword.png");
+        this.setSprite("/player_images/sword.png");
         cooldownSeconds = cooldownFrames * Game.FPS; 
         //currently sword is better rectangle, as it can rotate 360 in incrments of 1 compared to rectangles and their 90 only.
         /*

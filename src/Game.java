@@ -53,9 +53,9 @@ public class Game extends JPanel implements Runnable{
   
 
 //Enemy types
-  People people = new People("/People_Images/People.jpg");
-  People people2 = new People("/download.jpg");
-  People people3 = new People("/People_Images/People.jpg");
+  People people = new People("people_images/People.jpg");
+  People people2 = new People("people_images/shirt.jpg");
+  People people3 = new People("people_images/People.jpg");
 
 //Spawner Types, need to be before the different enemies.  
   Spawner peopleSpawner = new Spawner(people, player);
@@ -273,7 +273,7 @@ public class Game extends JPanel implements Runnable{
           break;
         case pauseState: // pause
 
-          // People help = new People("/People_Images/People.jpg", keyChecker);
+          // People help = new People("/people_images/People.jpg", keyChecker);
 
 
           
