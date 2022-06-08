@@ -69,7 +69,7 @@ public class Spawner {
 
     public void basicSpawnPeople(){
         if(Game.seconds >= nextSpawn){
-            nextSpawn += spawningCooldown;
+            nextSpawn = Game.seconds + spawningCooldown;
             boolean spawned = false;
             int tries = 0;
             while(!spawned){

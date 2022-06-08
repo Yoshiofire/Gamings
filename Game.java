@@ -27,6 +27,11 @@ public class Game extends JPanel implements Runnable{
   int playerStartingY = (int) (screenHeight/2) - playerSizeY/2;
   PlayerData player = new PlayerData(keyChecker, this, playerStartingX ,playerStartingY, 15, playerSizeX, playerSizeY);
   Sword sword = new Sword(new int[] {player.posX, player.posX + playerSizeX+400, player.posX + playerSizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
+  // Sword sword2 = new Sword(new int[] {player.posX, player.posX + playerSizeX+400, player.posX + playerSizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
+  // Sword sword3 = new Sword(new int[] {player.posX, player.posX + playerSizeX+400, player.posX + playerSizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
+  // Sword sword4 = new Sword(new int[] {player.posX, player.posX + playerSizeX+400, player.posX + playerSizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
+  // Sword sword5 = new Sword(new int[] {player.posX, player.posX + playerSizeX+400, player.posX + playerSizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
+  // Sword sword6 = new Sword(new int[] {player.posX, player.posX + playerSizeX+400, player.posX + playerSizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
 
 
 
@@ -61,10 +66,12 @@ public class Game extends JPanel implements Runnable{
 
 
   //Game states
-  public int gameState = 1; // for now we can say that. 
+  public int gameState = 4; // for now we can say that. 
   public final int playState = 1;
   public final int pauseState = 2;
   public final int deathState = 3;
+  public final int levelUpState = 4;
+  LevelUpScreen onlyLevelUpScreen = new LevelUpScreen(screenWidth, screenHeight);
   int count;
   int secondOnes;
   int secondsTens;
@@ -99,6 +106,7 @@ public class Game extends JPanel implements Runnable{
 
       public static int seconds = 0;
       public static int frameCount = 0;
+      public static int FPStimer = 0;
 
       
     @Override
@@ -111,7 +119,17 @@ public class Game extends JPanel implements Runnable{
       long currentTime;
       double delta = 0;
       int FPScount = 0;
-      int FPStimer = 0;
+      new Card("Add +1 DMG");
+      new Card("Get another sword");
+      new Card("More speed");
+      new Card("Jerma bahablast");
+      new Card("HELP");
+      new Card("HELP");
+
+
+
+
+
 
 
 
@@ -179,29 +197,30 @@ public class Game extends JPanel implements Runnable{
         People peoples = People.peopleList.get(x);  
         if(!player.iFrame && !peoples.iFrame){        
             CD.checkPlay(peoples, player);
-            if(peoples.isDead){
-              System.out.println("YES");
-              People.peopleList.remove(x);
-            }
+            doDeath(peoples.isDead, x);
           }
         }
 
         //Always check this.
         for(InvisWall walls: InvisWall.wallList){
-          CD.checkWalls(walls, player);
+          CD.checkPlayWall(walls, player);
         }
         int pSpeed = player.playerMove();
-        sword.swingSword(player);
+        for(int z = Sword.swordList.size()-1; z >= 0; z--){
+          Sword swords = Sword.swordList.get(z); 
+          swords.swingSword(player);
+        }
         
 
+      for(int z = Sword.swordList.size()-1; z >= 0; z--){
+        Sword swords = Sword.swordList.get(z);
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
-          for(Item item: Item.itemList){
-            if(CD.checkItem(People.peopleList.get(x), item)){
-              System.out.println("YES");
-              People.peopleList.remove(x);
+          People peoples = People.peopleList.get(x);
+            if(CD.checkItem(peoples, swords)){
+              doDeath(peoples.isDead, x);
             }
-          }
         }
+      }
         
 
         for(Spawner spawner: Spawner.spawnerList){
@@ -217,11 +236,7 @@ public class Game extends JPanel implements Runnable{
             peoples.collides = false;
             if(!peoples.iFrame){
               CD.checkObj(player, peoples);
-              if(peoples.isDead){
-                System.out.println("YES");
-                // People.peopleList.set(x, null);
-                People.peopleList.remove(x);
-              }
+              doDeath(peoples.isDead, x);
             }
             for(InvisWall walls: InvisWall.wallList){
               CD.checkWalls(walls, peoples); //People vs walls
@@ -263,7 +278,16 @@ public class Game extends JPanel implements Runnable{
 
           
           break;
-        case deathState: // pause
+        case deathState:
+
+
+
+
+          
+          break;
+        case levelUpState:
+          Card.changeIsSelected(keyChecker, this);
+          // new Card("HELP");
 
 
 
@@ -293,6 +317,33 @@ public class Game extends JPanel implements Runnable{
 
   }
 
+  public void doDeath(boolean dead, int index){
+    if(dead){
+      System.out.println("YES");
+      player.gainEXP(People.peopleList.get(index).expWorth);
+      People.peopleList.remove(index);
+    }
+  }
+
+  public void playStateDrawMethod(Graphics2D g2){
+    for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+      People peoples = People.peopleList.get(x);
+      peoples.draw(g2);
+    }
+       //need this to move less, moving 60 times per second
+       for(Item items: Item.itemList){
+         items.draw(g2);
+       }
+      // sword.draw(g2);
+      player.draw(g2);
+
+      for(InvisWall walls: InvisWall.wallList){
+        walls.drawWalls(g2);
+      }
+      // peopleSpawner.drawAllSpawnerHitboxes(g2);
+      drawTime(g2);
+  }
+
   
     
     public void paintComponent(Graphics g){
@@ -305,7 +356,9 @@ public class Game extends JPanel implements Runnable{
         case pauseState: // default playing thing
 
           // test.drawPolyHitbox(g2);
-          sword.drawAniHitbox(g2);
+          for(Item items: Item.itemList){
+            items.drawAniHitbox(g2);
+          }
           for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
             People peoples = People.peopleList.get(x);
             peoples.drawHitboxes(g2);
@@ -327,22 +380,7 @@ public class Game extends JPanel implements Runnable{
 
           break;
         case playState: // pause
-        for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
-          People peoples = People.peopleList.get(x);
-          peoples.draw(g2);
-        }
-           //need this to move less, moving 60 times per second
-           for(Item items: Item.itemList){
-             items.draw(g2);
-           }
-          // sword.draw(g2);
-          player.draw(g2);
-
-          for(InvisWall walls: InvisWall.wallList){
-            walls.drawWalls(g2);
-          }
-          // peopleSpawner.drawAllSpawnerHitboxes(g2);
-          drawTime(g2);
+          playStateDrawMethod(g2);
           break;
 
 
@@ -356,6 +394,19 @@ public class Game extends JPanel implements Runnable{
         g2.setFont(new Font("impact", Font.PLAIN, size/2));
         g2.drawString("" + minutesTens + minutesOnes + ":" + secondsTens + secondOnes, (int) ((screenWidth/2) - size/2), (screenHeight/2) + size);
         //Add the time here as it is the score be like your final time is:
+        break;
+      case levelUpState:
+        playStateDrawMethod(g2);
+        onlyLevelUpScreen.draw(g2);
+        // System.out.println(Card.cardList.size());
+        for(int x = Card.cardList.size()-1; x >= 0 ; x--){
+          Card currentCard = Card.cardList.get(x);
+          // System.out.println(currentCard.abilityCard.getX());
+          currentCard.draw(g2);
+        }
+
+
+
         break;
     }
 

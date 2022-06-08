@@ -1,8 +1,10 @@
-// import java.awt.Graphics2D;
+import java.awt.Graphics2D;
 import java.io.IOException;
 // import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 // import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Color;
 
 public class PlayerData extends Entity{
 
@@ -11,6 +13,9 @@ public class PlayerData extends Entity{
     public KeyHandler key;
     // public BufferedImage sprite; // this one for the "character frames" ig
     public String imageFilePathUp, imageFilePathDown, imageFilePathLeft, imageFilePathRight;
+    public int exp;
+    public int levelUpEXP;
+    public Rectangle expBar;
 
     // public PlayerData(KeyHandler k, Game g){
     //     super();
@@ -37,11 +42,18 @@ public class PlayerData extends Entity{
         this.health = 10;
         healthMax = health;
         this.eSpeed = 20;
+        this.iFrameTime = 1;
+        exp = 0;
+        levelUpEXP = 100;
+
+
         game = g;
         key = k;
         this.setSprite(imageFilePathUp);
         this.type = "Player";
+        expBar = new Rectangle(0,0,0,(int) greenHPBar.getHeight()/2);
         this.moveHPBars();
+
     }
 
     public int playerMove(){
@@ -64,12 +76,25 @@ public class PlayerData extends Entity{
         }
         return 0;
 
-
-
-
-
-
     }
+
+    public void moveHPBars(){
+        super.moveHPBars();
+        System.out.println("didwork");
+        expBar.x = greenHPBar.x;
+        expBar.y = greenHPBar.y - 10;
+    }
+
+    public void gainEXP(int expGained){
+        exp += expGained;
+        if(exp >= levelUpEXP){
+            exp = 0;
+            // new Sword(new int[] {posX, posX + sizeX+400, posX + sizeX+400, posX}, new int[] {posY+30, posY+30, posY + sizeY-30, posY +sizeY-30} );
+            game.gameState = game.levelUpState;
+        }
+        expBar.width = (int) (hitbox.getWidth() * (1.0 *exp/levelUpEXP));
+    }
+
 
     public void getPlayerImage(int direction){
         try{
@@ -93,6 +118,15 @@ public class PlayerData extends Entity{
 
             e.getStackTrace();
 
+        }
+    }
+
+    public void draw(Graphics2D g3){
+        super.draw(g3);
+        if(expBar.width != 0){
+            g3.setColor(Color.CYAN);
+            g3.fill(this.expBar);
+            g3.draw(this.expBar);
         }
     }
 }

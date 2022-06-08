@@ -25,6 +25,7 @@ public class People extends Entity{
         this.setSprite(filePath);
         this.type = "enemy1";
         this.moveHPBars();
+        this.expWorth = 5;
         peopleList.add(this);
     }
 
@@ -38,6 +39,7 @@ public class People extends Entity{
         defaultFilePath = filePath;
         this.setSprite(filePath);
         this.type = "enemy1";
+        this.expWorth = 5;
         this.moveHPBars();
         peopleList.add(this);
     }

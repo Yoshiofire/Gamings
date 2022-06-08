@@ -1,9 +1,11 @@
 import java.awt.image.AffineTransformOp;
-
+import java.util.ArrayList;
 
 
 public class Sword extends Item{
-
+    public static ArrayList <Sword> swordList = new ArrayList<>();
+    static int amount = 0;
+    int thisNumber;
     boolean doRotate = false;
     int startFrame;
     int endFrame = 0;
@@ -13,6 +15,8 @@ public class Sword extends Item{
 
     public Sword(int[] x, int[] y){
         super(x, y);
+        amount++;
+        thisNumber = amount+1;
         this.setSprite("/Player_Images/Sword.png");
         cooldownSeconds = cooldownFrames * Game.FPS; 
         //currently sword is better rectangle, as it can rotate 360 in incrments of 1 compared to rectangles and their 90 only.
@@ -40,13 +44,13 @@ public class Sword extends Item{
 
         double spriteWidthAfterScalingAgainstHitbox = hitbox.getBounds().getWidth()/sprite.getWidth(); //Because swords are going to be scaled x-coordinate wise, we really don't need a y one
 
-        spriteAt.scale(spriteWidthAfterScalingAgainstHitbox, spriteHeightAfterScalingAgainstHitbox );
+        spriteAt.scale(spriteWidthAfterScalingAgainstHitbox, spriteHeightAfterScalingAgainstHitbox);
         //^^ spriteAt is what transformations you need to do onto the sprite of the item.
 
         AffineTransformOp a = new AffineTransformOp(spriteAt, AffineTransformOp.TYPE_BILINEAR);
         sprite = a.filter(sprite, null);
         a = null; //< don't know if this removes the amount of memory it'd be using?
-
+        swordList.add(this);
     }
 
     public void swingSword(PlayerData player){ //not awake enough to fix this, but I need this to change when FPS changes.
@@ -68,6 +72,7 @@ public class Sword extends Item{
                     rotationS = 180;  
                     break;
             }
+            rotationS += thisNumber*(360/amount);
             doRotate = true;
             endFrame = startFrame + 5*sFrame; //<- the 5 is the waiting time after each rotation
             cooldownTime = endFrame + cooldownSeconds;
