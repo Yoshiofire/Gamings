@@ -21,7 +21,7 @@ public class PlayerData extends Entity{
     //     super();
     //     game = g;
     //     key = k;
-    //     this.setSprite("/Player_Images/JermaUp.png");
+    //     this.setSprite("/player_images/JermaUp.png");
     //     this.type = "player";
     // }
 
@@ -29,16 +29,16 @@ public class PlayerData extends Entity{
     //     super(startingX, startingY, playerS);
     //     game = g;
     //     key = k;
-    //     this.setSprite("/Player_Images/JermaUp.png");
+    //     this.setSprite("/player_images/JermaUp.png");
     //     this.type = "player";
     // }
 
     public PlayerData(KeyHandler k, Game g, int startingX, int startingY, int playerS, int sizeX, int sizeY){
         super(startingX, startingY, playerS, sizeX, sizeY);
-        imageFilePathUp = "/Player_Images/JermaUp.png";
-        imageFilePathDown = "/Player_Images/JermaDown.png";
-        imageFilePathLeft = "/Player_Images/JermaLeft.png";
-        imageFilePathRight = "/Player_Images/JermaRight.png";
+        imageFilePathUp = "/player_images/JermaUp.png";
+        imageFilePathDown = "/player_images/JermaDown.png";
+        imageFilePathLeft = "/player_images/JermaLeft.png";
+        imageFilePathRight = "/player_images/JermaRight.png";
         this.health = 10;
         healthMax = health;
         this.eSpeed = 20;
