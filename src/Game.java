@@ -221,9 +221,10 @@ public class Game extends JPanel implements Runnable{
         }
 
         //Always check this.
-        for(InvisWall walls: InvisWall.wallList){
-          CD.checkPlayWall(walls, player);
-        }
+        // for(InvisWall walls: InvisWall.wallList){
+        //   CD.checkPlayWall(walls, player);
+        // }
+
         int pSpeed = player.playerMove();
         for(int z = Sword.swordList.size()-1; z >= 0; z--){
           Sword swords = Sword.swordList.get(z); 
@@ -390,7 +391,9 @@ public class Game extends JPanel implements Runnable{
             walls.drawWalls(g2);
           }
           drawTime(g2);
-          peopleSpawner.drawAllSpawnerHitboxes(g2);
+          for(Spawner spawner: Spawner.spawnerList){
+            spawner.drawAllSpawnerHitboxes(g2); 
+          }
 
 
 

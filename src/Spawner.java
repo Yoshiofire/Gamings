@@ -29,8 +29,8 @@ public class Spawner {
 
         spawningHitbox = new Rectangle
             (
-            (entity.hitbox.x + (int) InvisWall.wallList.get(0).hitbox.getX()),
-            (entity.hitbox.y + (int) InvisWall.wallList.get(0).hitbox.getX()),
+            ((int) InvisWall.wallList.get(0).hitbox.getX()),
+            ((int) InvisWall.wallList.get(0).hitbox.getX()),
             (entity.hitbox.width),
             (entity.hitbox.height)
             );
