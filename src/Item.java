@@ -1,3 +1,4 @@
+package src;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -32,7 +33,7 @@ public class Item{
         dmg = 5;
         try{
 
-            sprite = ImageIO.read(getClass().getResourceAsStream("people_images/shirt.jpg"));
+            sprite = ImageIO.read(getClass().getResourceAsStream("/people_images/shirt.jpg"));
             
 
         }catch(IOException e){

@@ -1,3 +1,4 @@
+package src;
 import java.awt.Graphics2D;
 import java.io.IOException;
 // import java.awt.image.BufferedImage;

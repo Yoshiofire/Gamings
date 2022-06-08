@@ -1,3 +1,4 @@
+package src;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -53,9 +54,9 @@ public class Game extends JPanel implements Runnable{
   
 
 //Enemy types
-  People people = new People("people_images/people.jpg");
-  People people2 = new People("people_images/shirt.jpg");
-  People people3 = new People("people_images/people.jpg");
+  People people = new People("/people_images/people.jpg");
+  People people2 = new People("/people_images/shirt.jpg");
+  People people3 = new People("/people_images/people.jpg");
 
 //Spawner Types, need to be before the different enemies.  
   Spawner peopleSpawner = new Spawner(people, player);

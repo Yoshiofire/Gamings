@@ -1,3 +1,5 @@
+package src;
+
 import java.util.ArrayList;
 
 public class CollisionDetect{ // this is going t

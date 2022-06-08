@@ -17,7 +17,7 @@
  * 
  */
 
-
+package src;
 import java.io.*;
 import java.net.URL;
 import javax.sound.sampled.*;

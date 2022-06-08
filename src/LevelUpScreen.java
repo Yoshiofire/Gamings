@@ -1,3 +1,4 @@
+package src;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -64,6 +65,7 @@ public class LevelUpScreen {
                     }
                 }
             }
+            tries = 0;
             createMoreCards = false;
         }
     }

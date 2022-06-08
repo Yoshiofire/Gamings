@@ -1,3 +1,4 @@
+package src;
 import java.awt.image.AffineTransformOp;
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public class Sword extends Item{
         super(x, y);
         amount++;
         thisNumber = amount+1;
-        this.setSprite("/player_images/sword.png");
+        this.setSprite("/player_images/Sword.png");
         cooldownSeconds = cooldownFrames * Game.FPS; 
         //currently sword is better rectangle, as it can rotate 360 in incrments of 1 compared to rectangles and their 90 only.
         /*
