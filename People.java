@@ -29,6 +29,8 @@ public class People extends Entity{
         peopleList.add(this);
     }
 
+    
+
     public People(String filePath, int x, int y){ //DOESNT NEED TO BE A STRING, I AM JUST LAZY SO INSTEAD OF SENDING A BUFFEREDIMAGE I FORCE PEOPLE TO SEND IN STRING
         super(
             x,
