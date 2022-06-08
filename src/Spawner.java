@@ -6,24 +6,27 @@ import java.awt.Graphics2D;
 
 
 public class Spawner {
-    private Rectangle spawningArea;
+    public Rectangle spawningArea;
     private Rectangle spawningHitbox;
     private Rectangle dontSpawnHitbox;
     public Entity entitySpawnedData;
     private int nextSpawn = -1;
     private int spawningCooldown;
+    private int type;
     public static ArrayList <Spawner> spawnerList = new ArrayList<>();
 
 
 
-    public Spawner(Entity entity, PlayerData player){
+    public Spawner(Entity entity, PlayerData player, int type){
+
+        this.type = type;
         
         spawningArea = new Rectangle
         (
         (entity.hitbox.width + 30 + (int) InvisWall.wallList.get(0).hitbox.getX()),
-        (entity.hitbox.height + 30 + (int) InvisWall.wallList.get(0).hitbox.getX()),
-        (Game.leftBounds - entity.hitbox.width*2 - 180),
-        (Game.leftBounds - entity.hitbox.height*2 - 180)
+        (entity.hitbox.height + 30 + (int) InvisWall.wallList.get(0).hitbox.getY()),
+        (Game.leftBounds - entity.hitbox.width*4),
+        (Game.leftBounds - entity.hitbox.height*4)
         );
 
 
@@ -43,6 +46,8 @@ public class Spawner {
         (int) entity.hitbox.getWidth(),
         (int) entity.hitbox.getHeight()
         );
+        entitySpawnedData.defaultFilePath = entity.defaultFilePath;
+        entitySpawnedData.setSprite(entitySpawnedData.defaultFilePath);
 
         dontSpawnHitbox = new Rectangle
             (
@@ -114,9 +119,14 @@ public class Spawner {
                 }
 
                 if(spawnedCheck && !(spawningHitbox.intersects(dontSpawnHitbox))){
-                    People tempPeople = new People(entitySpawnedData.defaultFilePath, (int) spawningHitbox.getMinX(), (int) spawningHitbox.getMinY());
+                    People tempPeople = null;
+                    if(type == 1){
+                        tempPeople = new People(entitySpawnedData.defaultFilePath, (int) spawningHitbox.getMinX(), (int) spawningHitbox.getMinY());
+                    }
+                    else if(type == 2){
+                        tempPeople = new People(entitySpawnedData.defaultFilePath, (int) spawningHitbox.getMinX(), (int) spawningHitbox.getMinY());
+                    }
                     tempPeople.setStats(entitySpawnedData);
-                    tempPeople.setSprite(entitySpawnedData.defaultFilePath);
                     spawned = true;
                     // for(People peoples: People.peopleList){
                     //     People.peopleList.remove(peoples);
