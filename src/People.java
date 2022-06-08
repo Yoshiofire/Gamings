@@ -16,8 +16,8 @@ public class People extends Entity{
     
     public People(String filePath){ //DOESNT NEED TO BE A STRING, I AM JUST LAZY SO INSTEAD OF SENDING A BUFFEREDIMAGE I FORCE PEOPLE TO SEND IN STRING
         super(
-            500 + (int) (Math.random() * 100),
-            500 + (int) (Math.random() * 100),
+            500,
+            500,
             7,
             60,
             60);
