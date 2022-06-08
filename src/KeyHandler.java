@@ -118,7 +118,7 @@ public class KeyHandler implements KeyListener{
         attackKey = false;
         break;
       case KeyEvent.VK_ENTER:
-        enterKey = true;
+        enterKey = false;
         break;
     }
     // }
