@@ -56,9 +56,11 @@ public class Game extends JPanel implements Runnable{
   People people = new People("people_images/people.jpg");
   People people2 = new People("people_images/shirt.png");
   People people3 = new People("people_images/people.jpg");
+  People2 redfella  = new People2("people_images/redshirt.png");
 
 //Spawner Types, need to be before the different enemies.  
   Spawner peopleSpawner = new Spawner(people, player);
+  Spawner redshirtspawner = new Spawner(people2, player);
   // Spawner peopleSpawner2 = new Spawner(people, player);
   // Spawner peopleSpawne3r = new Spawner(people, player);
   // Spawner peopleSpawner4 = new Spawner(people, player);
