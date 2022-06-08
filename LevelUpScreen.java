@@ -44,7 +44,7 @@ public class LevelUpScreen {
 
     public void draw(Graphics2D g3){
         g3.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .5f));
-        g3.setColor(Color.BLACK);
+        g3.setColor(Color.GRAY);
         g3.fill(wholeScreen);
         g3.draw(wholeScreen);
         g3.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));

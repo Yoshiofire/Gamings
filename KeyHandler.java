@@ -15,15 +15,39 @@ public class KeyHandler implements KeyListener{
 
   @Override
   public void keyTyped(KeyEvent e){
-    // System.out.println();
     
   }
   
   @Override
   public void keyPressed(KeyEvent e){
     // imo we use if statements because of the fact if we were to use switch it would only detect one key and not two keys pressed at once????
-
     int code = e.getKeyCode();
+    // System.out.println(code);
+
+    // if(code == KeyEvent.VK_W){
+    //   upKey = true;
+    // }
+    // if(code == KeyEvent.VK_A){
+    //   leftKey = true;
+    // }
+    // if(code == KeyEvent.VK_S){
+    //   downKey = true;
+    // }
+    // if(code == KeyEvent.VK_D){
+    //   rightKey = true;
+    // }
+    // if(code == KeyEvent.VK_Q){
+    //   attackKey = true;
+    // }
+    // if(code == KeyEvent.VK_ESCAPE){
+    //   if(game.gameState == game.playState){ //if its on play state then pause it
+    //     game.gameState = game.pauseState;
+    //   }
+    //   else if(game.gameState == game.pauseState){// opposite of the first thing
+    //     game.gameState = game.playState;
+    //     game.setBackground(Color.BLACK);
+    //   }
+    // }
     switch(code){
       case KeyEvent.VK_W:
         upKey = true;
@@ -58,6 +82,21 @@ public class KeyHandler implements KeyListener{
   public void keyReleased(KeyEvent e){
 
     int code = e.getKeyCode();
+    // if(code == KeyEvent.VK_W){
+    //   upKey = false;
+    // }
+    // if(code == KeyEvent.VK_A){
+    //   leftKey = false;
+    // }
+    // if(code == KeyEvent.VK_S){
+    //   downKey = false;
+    // }
+    // if(code == KeyEvent.VK_D){
+    //   rightKey = false;
+
+    // if(code == KeyEvent.VK_Q){
+    //   attackKey = false;
+    // }
     switch(code){
       case KeyEvent.VK_W:
         upKey = false;
@@ -75,7 +114,8 @@ public class KeyHandler implements KeyListener{
         attackKey = false;
         break;
     }
-    
+    // }
+
   }
 
 

@@ -66,7 +66,7 @@ public class Game extends JPanel implements Runnable{
 
 
   //Game states
-  public int gameState = 1; // for now we can say that. 
+  public int gameState = 4; // for now we can say that. 
   public final int playState = 1;
   public final int pauseState = 2;
   public final int deathState = 3;
@@ -106,6 +106,7 @@ public class Game extends JPanel implements Runnable{
 
       public static int seconds = 0;
       public static int frameCount = 0;
+      public static int FPStimer = 0;
 
       
     @Override
@@ -118,7 +119,17 @@ public class Game extends JPanel implements Runnable{
       long currentTime;
       double delta = 0;
       int FPScount = 0;
-      int FPStimer = 0;
+      new Card("Add +1 DMG");
+      new Card("Get another sword");
+      new Card("More speed");
+      new Card("Jerma bahablast");
+      new Card("HELP");
+      new Card("HELP");
+
+
+
+
+
 
 
 
@@ -192,7 +203,7 @@ public class Game extends JPanel implements Runnable{
 
         //Always check this.
         for(InvisWall walls: InvisWall.wallList){
-          CD.checkWalls(walls, player);
+          CD.checkPlayWall(walls, player);
         }
         int pSpeed = player.playerMove();
         for(int z = Sword.swordList.size()-1; z >= 0; z--){
@@ -275,6 +286,8 @@ public class Game extends JPanel implements Runnable{
           
           break;
         case levelUpState:
+          Card.changeIsSelected(keyChecker, this);
+          // new Card("HELP");
 
 
 
@@ -385,6 +398,12 @@ public class Game extends JPanel implements Runnable{
       case levelUpState:
         playStateDrawMethod(g2);
         onlyLevelUpScreen.draw(g2);
+        // System.out.println(Card.cardList.size());
+        for(int x = Card.cardList.size()-1; x >= 0 ; x--){
+          Card currentCard = Card.cardList.get(x);
+          // System.out.println(currentCard.abilityCard.getX());
+          currentCard.draw(g2);
+        }
 
 
 
