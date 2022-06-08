@@ -58,7 +58,7 @@ public class Game extends JPanel implements Runnable{
   People people3 = new People("people_images/people.jpg");
 
 //Spawner Types, need to be before the different enemies.  
-  Spawner peopleSpawner = new Spawner(people, player);
+  Spawner peopleSpawner = new Spawner(people, player, 1);
   // Spawner peopleSpawner2 = new Spawner(people, player);
   // Spawner peopleSpawne3r = new Spawner(people, player);
   // Spawner peopleSpawner4 = new Spawner(people, player);
@@ -194,9 +194,9 @@ public class Game extends JPanel implements Runnable{
         if(Game.frameCount % (FPS * 5) == 0 && Game.frameCount != 0){
           player.healHP(500);
         }
-        if(Game.frameCount % (FPS * 10) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
+        if(Game.frameCount % (FPS * 20) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
           if(Spawner.spawnerList.size() < 7){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
-            new Spawner(peopleSpawner.entitySpawnedData, player);
+            new Spawner(peopleSpawner.entitySpawnedData, player, 1); //1 being people/ basic enemy
           }
         }
         if(Game.frameCount % (FPS * 30) == 0 && Game.frameCount != 0){ //Every 3 minutes we decrease the spawning cooldown of everything by 1?
@@ -393,6 +393,9 @@ public class Game extends JPanel implements Runnable{
           drawTime(g2);
           for(Spawner spawner: Spawner.spawnerList){
             spawner.drawAllSpawnerHitboxes(g2); 
+            // System.out.println(spawner.spawningArea.getX());
+            System.out.println(spawner.spawningArea.getWidth());
+
           }
 
 
