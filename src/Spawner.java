@@ -19,6 +19,7 @@ public class Spawner {
     public Spawner(Entity entity, PlayerData player, int type){
 
         this.type = type;
+
         
         spawningArea = new Rectangle
         (
@@ -45,8 +46,9 @@ public class Spawner {
         (int) entity.hitbox.getWidth(),
         (int) entity.hitbox.getHeight()
         );
-        entitySpawnedData.defaultFilePath = entity.defaultFilePath;
-        entitySpawnedData.setSprite(entitySpawnedData.defaultFilePath);
+        entitySpawnedData.setSprite(entity.defaultFilePath);
+
+
 
         dontSpawnHitbox = new Rectangle
             (
@@ -128,11 +130,11 @@ public class Spawner {
                 if(spawnedCheck && !(spawningHitbox.intersects(dontSpawnHitbox))){
                     People tempPeople = new People(entitySpawnedData.defaultFilePath, (int) spawningHitbox.getMinX(), (int) spawningHitbox.getMinY(), type);
                     tempPeople.setStats(entitySpawnedData);
+                    tempPeople.setSprite(entitySpawnedData.defaultFilePath);
+                    // System.out.println("Spawning: " + type);
+                    // System.out.println(tempPeople.iFrameTime);
+                    // System.out.println(entitySpawnedData.iFrameTime);
                     spawned = true;
-                    // for(People peoples: People.peopleList){
-                    //     People.peopleList.remove(peoples);
-                    //     People.peopleList.add(peoples);
-                    // }
                     break;
                 }
 

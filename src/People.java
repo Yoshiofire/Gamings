@@ -12,9 +12,7 @@ public class People extends Entity{
     public int type;
     public static ArrayList <People> peopleList = new ArrayList<>();
     // public static List<People> peopleList = Collections.synchronizedList(new ArrayList<>());
-    // public BufferedImage sprite; // this one for the "character frames" ig
-    
-    
+
     // public People(String filePath){ //DOESNT NEED TO BE A STRING, I AM JUST LAZY SO INSTEAD OF SENDING A BUFFEREDIMAGE I FORCE PEOPLE TO SEND IN STRING
     //     super(
     //         500,
@@ -38,7 +36,7 @@ public class People extends Entity{
             7,
             60,
             60);
-        defaultFilePath = filePath;
+        this.defaultFilePath = filePath;
         this.setSprite(filePath);
         this.type = type;
         // this.type = "enemy1";
@@ -56,8 +54,10 @@ public class People extends Entity{
         this.moveHPBars();
         peopleList.add(this);
 
-
-
     }
+
+
+
+
 
 }

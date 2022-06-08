@@ -126,7 +126,7 @@ public class Entity{
     }
 
         public void setSprite(String filePath){
-
+            this.defaultFilePath = filePath;
             try{
 
                 sprite = ImageIO.read(getClass().getResourceAsStream(filePath));
@@ -147,7 +147,10 @@ public class Entity{
         }
 
         public void changeIFrame(int iFrameTimeAdded){
-            iFrameTime += iFrameTimeAdded;
+            if(iFrameTime > 0 || iFrameTimeAdded >= 0){
+                iFrameTime += iFrameTimeAdded;
+                iFrame = false;
+            }
         }
 
         public void changeContactDMG(int contactDMGAdded){
@@ -158,7 +161,7 @@ public class Entity{
             this.health = baseEntity.health;
             this.healthMax = this.health;
             this.contactDMG = baseEntity.contactDMG;
-            this.iFrame = baseEntity.iFrame;
+            this.iFrameTime = baseEntity.iFrameTime;
 
         }
 

@@ -11,6 +11,7 @@ public class LevelUpScreen {
     public static ArrayList <Integer> dontCallAbilities = new ArrayList <Integer>();
     public static boolean createMoreCards = true;
     static int tries = 0;
+    static boolean firstAbilities = true;
 
     //Creating New Swords Cap
     static int swordLimit = 5;
@@ -24,6 +25,7 @@ public class LevelUpScreen {
     public void testCreateCards(){
         tries++;
         if(tries >= 15){
+            if(!firstAbilities){
             tries = 0;
             int range = (int) (Math.random()*5)+1;
             if(createMoreCards){
@@ -43,7 +45,7 @@ public class LevelUpScreen {
                                 new Card("Get a new Sword", 0);
                                 break;
                             case 1:
-                                new Card("Remove All Enemy I-Frames by 1 Second", 1);
+                                new Card("Remove I-Frames by 1 Second", 1);
                                 break;
                             default:
                                 new Card("You made a mistake with the randomNumber Variable", 777);
@@ -60,9 +62,13 @@ public class LevelUpScreen {
                             default:
                                 new Card("Unlucky", -666);
                                 break;
+                            }
                         }
                     }
                 }
+            }
+            else if(firstAbilities && createMoreCards){//Creates the starter abilites, because its the easiest way currenly
+                new Card("Get a starter Sword", 0);
             }
             tries = 0;
             createMoreCards = false;
@@ -74,7 +80,7 @@ public class LevelUpScreen {
         switch(abilityID){
             case-666:
                 break;
-            case -1:
+            case -1: //Increase player maxHP by 10
                 player.healthMax += 10;
                 player.health += 10;
                 break;

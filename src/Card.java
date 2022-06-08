@@ -118,7 +118,7 @@ public class Card{
                 LevelUpScreen.createMoreCards = true;
                 break;
             }
-            if(key.leftKey && currentCard.isSelected && tries >= 3){// Meaning that the currentCard is the selected one, and we are moving left
+            if(key.leftKey && currentCard.isSelected && tries >= 5){// Meaning that the currentCard is the selected one, and we are moving left
                 currentCard.isSelected = false;
                 tries = 0;
                 if(x == 0){ //if it is already at the end of the "list" meaning being the first card;
@@ -131,7 +131,7 @@ public class Card{
 
                 }
             }
-            if(key.rightKey && currentCard.isSelected & tries >= 3){//like the left one, but we are moving right
+            if(key.rightKey && currentCard.isSelected & tries >= 5){//like the left one, but we are moving right
                 currentCard.isSelected = false;
                 tries = 0;
                 if(currentCard.equals(Card.cardList.get(Card.cardList.size()-1))){//if we are at the end of the "list" on the right side.

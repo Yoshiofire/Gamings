@@ -57,7 +57,6 @@ public class Game extends JPanel implements Runnable{
   People people2 = new People("people_images/redshirt.png", 500, 500, 2);
 
 
-
 //Spawner Types, need to be before the different enemies.  
   Spawner peopleSpawner = new Spawner(people, player, 1);
   Spawner peopleSpawner2 = new Spawner(people2, player, 2);
@@ -99,6 +98,10 @@ public class Game extends JPanel implements Runnable{
   
 
     public void startGameThread(){
+      for(int x = People.peopleList.size()-1; x >= 0; x--){
+        People.peopleList.set(x, null);
+        People.peopleList.remove(x);
+      }
       gameThread = new Thread(this);
       gameThread.start();
 
@@ -224,14 +227,16 @@ public class Game extends JPanel implements Runnable{
         }
 
         //Always check this.
-        // for(InvisWall walls: InvisWall.wallList){
-        //   CD.checkPlayWall(walls, player);
-        // }
-
+        for(InvisWall walls: InvisWall.wallList){
+          CD.checkPlayWall(walls, player);
+        }
         int pSpeed = player.playerMove();
+        //Check all types of children items here.
         for(int z = Sword.swordList.size()-1; z >= 0; z--){
           Sword swords = Sword.swordList.get(z); 
-          swords.swingSword(player);
+          if(swords.playerHas){
+            swords.swingSword(player);
+          }
         }
         
 

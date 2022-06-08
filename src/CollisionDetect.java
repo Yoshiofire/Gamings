@@ -368,7 +368,7 @@ public class CollisionDetect{ // this is going t
     
                     if(entity.health <= 0){
                         entity.isDead = true;
-                        // entity = null;
+                        entity = null;
                     }
                     else{
                         // System.out.println("Entity 1: " + entity);
@@ -378,7 +378,7 @@ public class CollisionDetect{ // this is going t
     
                     if(entity2.health <= 0){
                         entity2.isDead = true;
-                        // entity2 = null;
+                        entity2 = null;
 
                     }
                     else{

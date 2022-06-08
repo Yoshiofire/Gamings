@@ -21,6 +21,7 @@ public class Item{
     public BufferedImage sprite;
     public Shape animationHitbox;
     public int dmg;
+    public boolean playerHas = false;
 
 
     public AffineTransform at = new AffineTransform();
@@ -52,6 +53,7 @@ public class Item{
     public void setSprite(String filePath){
 
         try{
+
 
             sprite = ImageIO.read(getClass().getResourceAsStream(filePath));
 
