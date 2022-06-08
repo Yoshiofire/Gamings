@@ -9,7 +9,7 @@ public class Spawner {
     private Rectangle spawningArea;
     private Rectangle spawningHitbox;
     private Rectangle dontSpawnHitbox;
-    private Entity entitySpawnedData;
+    public Entity entitySpawnedData;
     private int nextSpawn = -1;
     private int spawningCooldown;
     public static ArrayList <Spawner> spawnerList = new ArrayList<>();

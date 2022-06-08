@@ -107,6 +107,8 @@ public class Game extends JPanel implements Runnable{
       public static int seconds = 0;
       public static int frameCount = 0;
       public static int FPStimer = 0;
+      public static int FPScount = 0;
+
 
       
     @Override
@@ -119,12 +121,12 @@ public class Game extends JPanel implements Runnable{
       long currentTime;
       double delta = 0;
       int FPScount = 0;
-      new Card("Add +1 DMG");
-      new Card("Get another sword");
-      new Card("More speed");
-      new Card("Jerma bahablast");
-      new Card("HELP");
-      new Card("HELP");
+      // new Card("Add +1 DMG");
+      // new Card("Get another sword");
+      // new Card("More speed");
+      // new Card("Jerma bahablast");
+      // new Card("HELP");
+      // new Card("HELP");
 
 
 
@@ -286,7 +288,8 @@ public class Game extends JPanel implements Runnable{
           
           break;
         case levelUpState:
-          Card.changeIsSelected(keyChecker, this);
+          Card.changeIsSelected(keyChecker, this, player);
+          onlyLevelUpScreen.testCreateCards();
           // new Card("HELP");
 
 

@@ -56,7 +56,7 @@ public class Entity{
         isDead = false;
         
         iFrame = false; // <-
-        iFrameTime = 0; // <-
+        iFrameTime = 1; // <-
 
         eSpeed = 10;
         movementCooldown = 6; // <-

@@ -13,10 +13,12 @@ public class Card{
     int cardNumberID;
     String abilityText;
     Boolean isSelected = false;
+    int abilityID;
+    static int tries = 0;
     public static ArrayList <Card> cardList = new ArrayList<>();
 
 
-    public Card(String text){
+    public Card(String text, int abilityID){
 
         int borderSizeBothSides = 20;
         cardNumberID = totalAmountOfCardsCreated;
@@ -24,6 +26,7 @@ public class Card{
         int cardWidth = 150 - borderSizeBothSides;
         int cardHeight = (int)(cardWidth*1.8);
         abilityText = text;
+        this.abilityID = abilityID;
 
 
         abilityCard = new Rectangle(0,0, cardWidth, cardHeight);
@@ -49,13 +52,13 @@ public class Card{
         // 3- 683 - 300 - 50 = 333;
 
 
-        System.out.println(("CARD NUMBER: " + cardNumberID));
+        // System.out.println(("CARD NUMBER: " + cardNumberID));
 
-        System.out.println((Game.screenWidth/2));
-        System.out.println((cardNumberID * cardWidthTemp));
-        System.out.println((abilityCard.getWidth()/2));
-        System.out.println(halfOfTheScreen);
-        System.out.println();
+        // System.out.println((Game.screenWidth/2));
+        // System.out.println((cardNumberID * cardWidthTemp));
+        // System.out.println((abilityCard.getWidth()/2));
+        // System.out.println(halfOfTheScreen);
+        // System.out.println();
 
         if(cardNum == 0){
             // int cardXPos = (int) (cardList.get(cardNum).abilityCard.getX()) + (cardNum*cardWidthTemp);
@@ -86,47 +89,64 @@ public class Card{
         abilityCard.x = cardXPos;
         abilityCard.y = cardYPos;
 
-        System.out.println(cardXPos);
-        System.out.println();
+        // System.out.println(cardXPos);
+        // System.out.println();
 
 
 
     }
-    public static void changeIsSelected(KeyHandler key, Game game){
-            for(int x = Card.cardList.size()-1 ; x >= 0; x--){
-                Card currentCard = Card.cardList.get(x);
-                if(key.attackKey && currentCard.isSelected){
-                    System.out.println("Chosen");
-                    System.out.println(currentCard.abilityText);
-                    game.gameState = game.playState;
+
+    public static void clearCards(){
+        for(int y = Card.cardList.size()-1 ; y >= 0; y--){
+            Card.cardList.remove(y);
+        }
+    }
+
+
+    public static void changeIsSelected(KeyHandler key, Game game, PlayerData player){
+        tries++;// determines the speed of the movement of whatever
+        for(int x = Card.cardList.size()-1 ; x >= 0; x--){
+            Card currentCard = Card.cardList.get(x);
+            if(key.attackKey && currentCard.isSelected){
+                System.out.println("Chosen");
+                System.out.println(currentCard.abilityText);
+                game.gameState = game.playState;
+                LevelUpScreen.testCreateAbilities(currentCard.abilityID, player);
+                //Resets everything.
+                clearCards();
+                totalAmountOfCardsCreated = 1;
+                LevelUpScreen.createMoreCards = true;
+                break;
+            }
+            if(key.leftKey && currentCard.isSelected && tries >= 3){// Meaning that the currentCard is the selected one, and we are moving left
+                currentCard.isSelected = false;
+                tries = 0;
+                if(x == 0){ //if it is already at the end of the "list" meaning being the first card;
+                    Card.cardList.get(Card.cardList.size()-1).isSelected = true; //Meaning that the one all the way on the right is now selected
                     break;
+
+                }else{
+                    Card.cardList.get(x-1).isSelected = true;
+                    break;
+
                 }
-                if(key.leftKey && currentCard.isSelected){// Meaning that the currentCard is the selected one, and we are moving left
-                    currentCard.isSelected = false;
-                    if(x == 0){ //if it is already at the end of the "list" meaning being the first card;
-                        Card.cardList.get(Card.cardList.size()-1).isSelected = true; //Meaning that the one all the way on the right is now selected
-                        break;
+            }
+            if(key.rightKey && currentCard.isSelected & tries >= 3){//like the left one, but we are moving right
+                currentCard.isSelected = false;
+                tries = 0;
+                if(currentCard.equals(Card.cardList.get(Card.cardList.size()-1))){//if we are at the end of the "list" on the right side.
+                    Card.cardList.get(0).isSelected = true; //Beginning of the list card thing is equal to true
+                    break;
 
-                    }else{
-                        Card.cardList.get(x-1).isSelected = true;
-                        break;
+                }else{
+                    Card.cardList.get(x+1).isSelected = true;
+                    break;
 
-                    }
-                }
-                if(key.rightKey && currentCard.isSelected){//like the left one, but we are moving right
-                    currentCard.isSelected = false;
-                    if(currentCard.equals(Card.cardList.get(Card.cardList.size()-1))){//if we are at the end of the "list" on the right side.
-                        Card.cardList.get(0).isSelected = true; //Beginning of the list card thing is equal to true
-                        break;
-
-                    }else{
-                        Card.cardList.get(x+1).isSelected = true;
-                        break;
-
-                    }
                 }
             }
         }
+    }
+
 
     public void changeCardBorder(int borderSize){
 
