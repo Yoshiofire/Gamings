@@ -42,13 +42,14 @@ public class People extends Entity{
         // this.type = "enemy1";
         switch(type){
             case 1:
-                this.expWorth = 5;
+                expWorth = 5;
                 break;
             case 2:
-                this.eSpeed *= 2;
-                this.expWorth = 20;
-                this.health = 40;
-                this.healthMax = this.health;
+                eSpeed *= 2;
+                expWorth = 20;
+                health = 40;
+                healthMax = health;
+                contactDMG *= 2;
                 break;
         }
         this.moveHPBars();

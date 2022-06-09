@@ -8,11 +8,12 @@ public class Spawner {
     public Rectangle spawningArea;
     private Rectangle spawningHitbox;
     private Rectangle dontSpawnHitbox;
-    public Entity entitySpawnedData;
+    public Entity entitySpawnedData;// WE DONT EVEN USE THE ENTITY, WE ONLY USE THE FILE PATH THING FOR IT <<<<<<<<<<<<<
     private int nextSpawn = -1;
     private int spawningCooldown;
     private int type;
     public static ArrayList <Spawner> spawnerList = new ArrayList<>();
+
 
 
 
@@ -129,7 +130,9 @@ public class Spawner {
 
                 if(spawnedCheck && !(spawningHitbox.intersects(dontSpawnHitbox))){
                     People tempPeople = new People(entitySpawnedData.defaultFilePath, (int) spawningHitbox.getMinX(), (int) spawningHitbox.getMinY(), type);
-                    tempPeople.setStats(entitySpawnedData);
+                    tempPeople.addStatChanges();
+                    
+
                     tempPeople.setSprite(entitySpawnedData.defaultFilePath);
                     // System.out.println("Spawning: " + type);
                     // System.out.println(tempPeople.iFrameTime);
@@ -145,6 +148,8 @@ public class Spawner {
             }
             }// Entity.entityList
         }// People.peopleList
+
+
 
 
     public void drawAllSpawnerHitboxes(Graphics2D g4){

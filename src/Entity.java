@@ -43,6 +43,16 @@ public class Entity{
     public int movementCooldown;
     public int expWorth;
 
+    // Stat increase/ decrease for all new entites
+    public static int eSpeedStatAddition = 0;
+    public static int healthStatAddition = 0;
+    public static int iFrameTimeStatAddition = 0;
+    public static int contactDMGStatAddition = 0;
+    public static int expWorthStatAddition = 0;
+            
+            
+
+
 
     // public String direction; 
 
@@ -141,28 +151,61 @@ public class Entity{
 
         }
 
-        public void changeHP(int HPAdded){
-            healthMax += HPAdded;
-            health += HPAdded;
-        }
+        // public void changeHP(int HPAdded){
+        //     healthMax += HPAdded;
+        //     health += HPAdded;
+        // }
 
-        public void changeIFrame(int iFrameTimeAdded){
-            if(iFrameTime > 0 || iFrameTimeAdded >= 0){
-                iFrameTime += iFrameTimeAdded;
-                iFrame = false;
-            }
-        }
+
 
         public void changeContactDMG(int contactDMGAdded){
             contactDMG += contactDMGAdded;
         }
 
-        public void setStats(Entity baseEntity){
-            this.health = baseEntity.health;
-            this.healthMax = this.health;
-            this.contactDMG = baseEntity.contactDMG;
-            this.iFrameTime = baseEntity.iFrameTime;
 
+        public void moveHPBars(){
+            greenHPBar.x = posX;
+            greenHPBar.y = posY-30;
+            redHPBar.x = ((int) (greenHPBar.getX()+greenHPBar.getWidth()));
+            redHPBar.y = (int) greenHPBar.getMinY();
+        }
+
+        public void takeDMG(int DMG){//starts at 100
+            // System.out.println((DMG/10.0));
+            // System.out.println((int) (hitbox.getWidth() * (DMG/10.0)));
+            // System.out.println((int) greenHPBar.getWidth() - (int) (hitbox.getWidth() * (DMG/10.0)));
+
+
+            // System.out.println("________DONE________");
+            this.health -= DMG;
+            greenHPBar.width = (int) (hitbox.getWidth() * (1.0 *health/healthMax));
+            redHPBar.x = ((int) (greenHPBar.getX()+greenHPBar.getWidth()));
+            redHPBar.width = (int) (hitbox.getWidth() - (hitbox.getWidth() * (1.0 * health/healthMax)));
+            if(health <= 0){
+                this.isDead = true;
+            }
+        }
+
+        public void healHP(int healing){//only does healing when HP is less than max, for now because I'll want to add another bar of hp like yellow color ontop the yellow and green?
+            if(this.health < healthMax){
+                this.isDead = false;
+                this.health += healing;
+                greenHPBar.width = (int) (hitbox.getWidth() * (1.0 *health/healthMax));
+                redHPBar.x = ((int) (greenHPBar.getX()+greenHPBar.getWidth()));
+                redHPBar.width = (int) (hitbox.getWidth() - (hitbox.getWidth() * (1.0 * health/healthMax)));
+            }
+
+        }
+
+        public void addStatChanges(){//We need this because the previous method overides the people stats and makes then a generic entity.
+            this.eSpeed += eSpeedStatAddition;
+            if(iFrameTime + iFrameTimeStatAddition >= 0){
+                this.iFrameTime += iFrameTimeStatAddition;
+                this.iFrame = false;
+            }
+            this.health += healthStatAddition;
+            this.contactDMG += contactDMGStatAddition;
+            this.expWorth += expWorthStatAddition;
         }
 
         public String numToStringDirection(int num){
@@ -278,41 +321,6 @@ public class Entity{
                 }
             // }
             return movement;
-        }
-
-        public void moveHPBars(){
-            greenHPBar.x = posX;
-            greenHPBar.y = posY-30;
-            redHPBar.x = ((int) (greenHPBar.getX()+greenHPBar.getWidth()));
-            redHPBar.y = (int) greenHPBar.getMinY();
-        }
-
-        public void takeDMG(int DMG){//starts at 100
-            // System.out.println((DMG/10.0));
-            // System.out.println((int) (hitbox.getWidth() * (DMG/10.0)));
-            // System.out.println((int) greenHPBar.getWidth() - (int) (hitbox.getWidth() * (DMG/10.0)));
-
-
-            // System.out.println("________DONE________");
-            this.health -= DMG;
-            greenHPBar.width = (int) (hitbox.getWidth() * (1.0 *health/healthMax));
-            redHPBar.x = ((int) (greenHPBar.getX()+greenHPBar.getWidth()));
-            redHPBar.width = (int) (hitbox.getWidth() - (hitbox.getWidth() * (1.0 * health/healthMax)));
-        }
-
-        public void healHP(int healing){//only does healing when HP is less than max, for now because I'll want to add another bar of hp like yellow color ontop the yellow and green?
-            if(this.health < healthMax){
-                this.isDead = false;
-                this.health += healing;
-                greenHPBar.width = (int) (hitbox.getWidth() * (1.0 *health/healthMax));
-                redHPBar.x = ((int) (greenHPBar.getX()+greenHPBar.getWidth()));
-                redHPBar.width = (int) (hitbox.getWidth() - (hitbox.getWidth() * (1.0 * health/healthMax)));
-            }
-
-        }
-
-        public void setHP(){
-            
         }
 
         public int entityRandomDirection(){

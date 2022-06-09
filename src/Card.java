@@ -9,6 +9,7 @@ public class Card{
 
     Rectangle abilityCard;
     Rectangle abilityCardBorder;
+    Rectangle abilityPicture;
     static int totalAmountOfCardsCreated = 1;
     int cardNumberID;
     String abilityText;
@@ -20,11 +21,11 @@ public class Card{
 
     public Card(String text, int abilityID){
 
-        int borderSizeBothSides = 20;
+        int borderSizeBothSides = 10;
         cardNumberID = totalAmountOfCardsCreated;
         totalAmountOfCardsCreated++;
-        int cardWidth = 150 - borderSizeBothSides;
-        int cardHeight = (int)(cardWidth*1.8);
+        int cardWidth = 170 - borderSizeBothSides;
+        int cardHeight = (int)(cardWidth*1.7);
         abilityText = text;
         this.abilityID = abilityID;
 
@@ -36,6 +37,7 @@ public class Card{
         for(Card cards: Card.cardList){
             cards.changePosition(borderSizeBothSides);
             cards.changeCardBorder(borderSizeBothSides);
+            cards.createAbilityFrame(borderSizeBothSides);
         }
 
 
@@ -62,15 +64,15 @@ public class Card{
 
         if(cardNum == 0){
             // int cardXPos = (int) (cardList.get(cardNum).abilityCard.getX()) + (cardNum*cardWidthTemp);
-            cardXPos = (int) halfOfTheScreen + (cardNum*cardWidthTemp);
+            cardXPos = halfOfTheScreen + (cardNum * totalAmountOfCardsCreated); //Yes it doesn't affect the cards position alot, but whatever WHY IS IT EVEN HERE
             if(totalAmountOfCardsCreated == 2){
                 isSelected = true;
-
                 cardXPos += spaceBetweenCards*(totalAmountOfCardsCreated);
             }else{
                 cardXPos += (int) spaceBetweenCards*(totalAmountOfCardsCreated - (totalAmountOfCardsCreated/3.0));
+                cardXPos += (borderSize * 4);
+
             }
-            // 1- 333 + 100 = 433;
         }
         else{
 
@@ -79,6 +81,7 @@ public class Card{
             // 3- 633 + 200 = 833;
 
         }
+
 
         int cardYPos = (int) ((Game.screenHeight/2 - abilityCard.getHeight()/2));
 
@@ -89,7 +92,7 @@ public class Card{
         abilityCard.x = cardXPos;
         abilityCard.y = cardYPos;
 
-        // System.out.println(cardXPos);
+        System.out.println(cardXPos);
         // System.out.println();
 
 
@@ -100,6 +103,18 @@ public class Card{
         for(int y = Card.cardList.size()-1 ; y >= 0; y--){
             Card.cardList.remove(y);
         }
+    }
+
+    public void createAbilityFrame(int borderSize){
+        int spaceBetweenWalls = 7;
+        abilityPicture = new Rectangle
+        (
+            (int) abilityCard.getX() + spaceBetweenWalls,
+            (int) abilityCard.getY()+spaceBetweenWalls,
+            (int) abilityCard.getWidth() - spaceBetweenWalls*2,
+            (int) (abilityCard.getHeight()/2.0) -spaceBetweenWalls*2
+            );
+        //abilityCard.y + (abilityCard.y/2)
     }
 
 
@@ -173,8 +188,22 @@ public class Card{
         g3.fill(abilityCard);
         g3.draw(abilityCard);
         g3.setColor(Color.WHITE);
-        g3.setFont(new Font("Arial", Font.BOLD, (int) ((abilityCard.width/abilityText.length())*1.6)));
-        g3.drawString(abilityText, abilityCard.x + (int) abilityText.length() , abilityCard.y + (abilityCard.y/2));
+        g3.setFont(new Font("Arial", Font.BOLD, 15));
+
+        //Can be created into its own set up method, where we make a Arraylist of Strings and the strings are all 19 or less long.
+        int letterCount = 0;
+        int totalAmountOfLettersleft = abilityText.length();
+        int currentYPos = abilityCard.y + (abilityCard.y/2) + 30;
+        while(totalAmountOfLettersleft >= 19){
+            // System.out.println(abilityText.substring(letterCount, letterCount+19));
+            //I have no idea how to change the abilityCard.x + 5 into something more dynamic when changing the card borderLength.
+            g3.drawString(abilityText.substring(letterCount, letterCount+19), abilityCard.x + 10, currentYPos);
+            currentYPos += 30;
+            letterCount += 19;
+            totalAmountOfLettersleft -= 19;
+        }
+        g3.drawString(abilityText.substring(letterCount, abilityText.length()), abilityCard.x + 10, currentYPos);
+        g3.draw(abilityPicture);
 
     }
 

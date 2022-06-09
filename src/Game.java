@@ -196,14 +196,15 @@ public class Game extends JPanel implements Runnable{
 
 
 
-        //CHECK COLLISION BETWEEN PLAYER AND CURRENT OBJECTS (INVISIBLE WALLS, PEOPLE) 
+        //START OF DYNAMIC CHALLENGE THING
         if(Game.frameCount % (FPS * 5) == 0 && Game.frameCount != 0){
-          player.healHP(500);
+          player.healHP(5);
         }
         if(Game.frameCount % (FPS * 120) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
           if(Spawner.spawnerList.size() < 7){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
             new Spawner(peopleSpawner.entitySpawnedData, player, 1); //1 being people/ basic enemy
           }
+          Entity.healthStatAddition += 4;
         }
         if(Game.frameCount % (FPS * 30) == 0 && Game.frameCount != 0){ //Every 3 minutes we decrease the spawning cooldown of everything by 1?
           for(int x = Spawner.spawnerList.size()-1; x >= 0; x--){//What happens is that the new spawner will be at the default cooldown.
@@ -214,8 +215,11 @@ public class Game extends JPanel implements Runnable{
              */
             Spawner currentSpawner = Spawner.spawnerList.get(x);
             currentSpawner.setSpawnerCooldown(currentSpawner.getSpawnerCooldown()-1);
+            Entity.contactDMGStatAddition += 1;
           }
         }
+        //END OF DYNAMIC CHALLENGE THING
+
         
         player.collides = false;
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
@@ -262,6 +266,7 @@ public class Game extends JPanel implements Runnable{
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
             People peoples = People.peopleList.get(x);
             peoples.collides = false;
+            // CD.checkIFrame(peoples); //normally needed, becasue most methods that reset I-frame are behind an I-Frame conditional, but I just added a checkIFrame on the walls method.
             if(!peoples.iFrame){
               CD.checkObj(player, peoples);
               doDeath(peoples.isDead, x);
@@ -458,14 +463,6 @@ public class Game extends JPanel implements Runnable{
 
 
 
-  //Added pause() method to allow keystrokes to slow down!
-	public static void pause(final int milliseconds) {
-		try {
-			Thread.sleep(milliseconds);
-		} catch (final Exception e) {
-			// ignore
-		}
-	}
 
 
 

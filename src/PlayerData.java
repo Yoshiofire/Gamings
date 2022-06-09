@@ -78,6 +78,13 @@ public class PlayerData extends Entity{
 
     }
 
+    public void changeIFrame(int iFrameTimeAdded){
+        if(iFrameTime + iFrameTimeAdded >= 0){
+            iFrameTime += iFrameTimeAdded;
+            iFrame = false;
+        }
+    }
+
     public void moveHPBars(){
         super.moveHPBars();
         System.out.println("didwork");
@@ -89,6 +96,12 @@ public class PlayerData extends Entity{
         exp += expGained;
         if(exp >= levelUpEXP){
             exp = 0;
+            levelUpEXP += 50;
+            if(levelUpEXP % 300 == 0){
+                for(int x = 0; x < Item.itemList.size(); x++){
+                    Item.itemList.get(x).dmg += 1;
+                }
+            }
             // new Sword(new int[] {posX, posX + sizeX+400, posX + sizeX+400, posX}, new int[] {posY+30, posY+30, posY + sizeY-30, posY +sizeY-30} );
             game.gameState = game.levelUpState;
         }

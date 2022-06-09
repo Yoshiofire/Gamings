@@ -30,7 +30,7 @@ public class Item{
     public Item(int[] x, int[] y){//Need to set cooldownSeconds in your own constructors
         hitbox = new Polygon(x, y, x.length);
         cooldownFrames = 1;
-        dmg = 5;
+        dmg = 10;
         try{
 
             sprite = ImageIO.read(getClass().getResourceAsStream("people_images/shirt.png"));

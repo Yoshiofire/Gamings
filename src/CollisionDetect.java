@@ -88,7 +88,6 @@ public class CollisionDetect{ // this is going t
             }
             checkIFrame(entity);
             checkIFrame(entity2);
-
         }
 
         public void checkWalls(InvisWall wall, Entity entity2){
@@ -138,6 +137,7 @@ public class CollisionDetect{ // this is going t
                     entity2.hitbox.x -= entity2.eSpeed;
                     break;
                 }
+                checkIFrame(entity2);
                 //IDEA
                 // if(doesCollideWithWall){
                 //     if(!entity2.type.equals("Player")){
@@ -358,11 +358,12 @@ public class CollisionDetect{ // this is going t
 
 
         public void checkDMGAgainstEntities(Entity entity, Entity entity2){
-            checkIFrame(entity);
-            checkIFrame(entity2);
             if((entity2.collides)){
                 if(!entity.iFrame && !entity2.iFrame){
-                    
+                    System.out.println(entity.contactDMG);
+                    System.out.println(entity2.contactDMG);
+
+
                     entity2.takeDMG(entity.contactDMG);
                     entity.takeDMG(entity2.contactDMG);
     
@@ -387,6 +388,12 @@ public class CollisionDetect{ // this is going t
                         entity2.iFrame = true;
                     }
                 }
+            }
+            if(entity2 != null){
+                checkIFrame(entity2);
+            }
+            if(entity != null){
+                checkIFrame(entity);
             }
         }
 
