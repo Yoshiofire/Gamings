@@ -96,6 +96,7 @@ public class PlayerData extends Entity{
         exp += expGained;
         if(exp >= levelUpEXP){
             exp = 0;
+            healHP(healthMax - health);
             levelUpEXP += 50;
             if(levelUpEXP % 300 == 0){
                 for(int x = 0; x < Item.itemList.size(); x++){

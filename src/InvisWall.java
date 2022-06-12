@@ -1,3 +1,4 @@
+// import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class InvisWall extends Entity {
@@ -7,6 +8,12 @@ public class InvisWall extends Entity {
     
     public InvisWall(int x, int y, int sizeX, int sizeY){
         super(x-30, y-30, 0, sizeX+30, sizeY+30);
+        // hitbox = new Rectangle(posX, posY, sizeX, sizeY);
+        // collides = false;
+
+        //Curently can't make InvisWall its own thing, because I'd have to change up the way player is made up too, and they practically work on
+        //Entity's methods, and sort of is in a' is a' relationship.
+
         switch(count){
             case 0:
                 this.type = "Top_Wall";

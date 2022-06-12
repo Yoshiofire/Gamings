@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
+// import java.awt.AlphaComposite;
 
 public class Game extends JPanel implements Runnable{
   // will i need to setup a whole tile system? If so what is a good size?
@@ -68,11 +69,13 @@ public class Game extends JPanel implements Runnable{
 
 
   //Game states
-  public int gameState = 4; // for now we can say that. 
+  public int gameState = 5; // for now we can say that. 
   public final int playState = 1;
   public final int pauseState = 2;
   public final int deathState = 3;
   public final int levelUpState = 4;
+  public final int titleScreenState = 5;
+
   LevelUpScreen onlyLevelUpScreen = new LevelUpScreen(screenWidth, screenHeight);
   int count;
   int secondOnes;
@@ -205,6 +208,7 @@ public class Game extends JPanel implements Runnable{
             new Spawner(peopleSpawner.entitySpawnedData, player, 1); //1 being people/ basic enemy
           }
           Entity.healthStatAddition += 4;
+
         }
         if(Game.frameCount % (FPS * 30) == 0 && Game.frameCount != 0){ //Every 3 minutes we decrease the spawning cooldown of everything by 1?
           for(int x = Spawner.spawnerList.size()-1; x >= 0; x--){//What happens is that the new spawner will be at the default cooldown.
@@ -215,8 +219,8 @@ public class Game extends JPanel implements Runnable{
              */
             Spawner currentSpawner = Spawner.spawnerList.get(x);
             currentSpawner.setSpawnerCooldown(currentSpawner.getSpawnerCooldown()-1);
-            Entity.contactDMGStatAddition += 1;
           }
+          Entity.contactDMGStatAddition += 1;
         }
         //END OF DYNAMIC CHALLENGE THING
 
@@ -311,6 +315,7 @@ public class Game extends JPanel implements Runnable{
           gameState = deathState;
         }
           break;
+
         case pauseState: // pause
 
           // People help = new People("people_images/People.jpg", keyChecker);
@@ -318,6 +323,7 @@ public class Game extends JPanel implements Runnable{
 
           
           break;
+
         case deathState:
 
 
@@ -325,9 +331,10 @@ public class Game extends JPanel implements Runnable{
 
           
           break;
+
         case levelUpState:
           Card.changeIsSelected(keyChecker, this, player);
-          onlyLevelUpScreen.testCreateCards();
+          Card.createCards();
           // new Card("HELP");
 
 
@@ -336,7 +343,17 @@ public class Game extends JPanel implements Runnable{
           
           break;
 
+        case titleScreenState:
+        if(keyChecker.enterKey){
+          gameState = levelUpState;
+        }
 
+
+
+
+
+          
+          break;
       } 
 
   }
@@ -396,27 +413,36 @@ public class Game extends JPanel implements Runnable{
       switch(gameState){
         case pauseState: // default playing thing
 
-          // test.drawPolyHitbox(g2);
-          for(Item items: Item.itemList){
-            items.drawAniHitbox(g2);
-          }
-          for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
-            People peoples = People.peopleList.get(x);
-            peoples.drawHitboxes(g2);
-          }
+          // // test.drawPolyHitbox(g2);
+          // for(Item items: Item.itemList){
+          //   items.drawAniHitbox(g2);
+          // }
+          // for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
+          //   People peoples = People.peopleList.get(x);
+          //   peoples.drawHitboxes(g2);
+          // }
 
-          player.drawHitboxes(g2);
+          // player.drawHitboxes(g2);
 
-          for(InvisWall walls: InvisWall.wallList){
-            walls.drawWalls(g2);
-          }
-          drawTime(g2);
-          for(Spawner spawner: Spawner.spawnerList){
-            spawner.drawAllSpawnerHitboxes(g2); 
-            // System.out.println(spawner.spawningArea.getX());
-            System.out.println(spawner.spawningArea.getWidth());
+          // for(InvisWall walls: InvisWall.wallList){
+          //   walls.drawWalls(g2);
+          // }
+          // drawTime(g2);
 
-          }
+          // // for(Spawner spawner: Spawner.spawnerList){
+          //   // spawner.drawAllSpawnerHitboxes(g2); 
+          //   // System.out.println(spawner.spawningArea.getX());
+          //   // System.out.println(spawner.spawningArea.getWidth());
+
+          // // }
+          //Everything above is for debugging hitboxes
+          playStateDrawMethod(g2);
+          onlyLevelUpScreen.draw(g2);
+          g2.setColor(Color.WHITE);
+          g2.setFont(new Font("impact", Font.PLAIN, 300));
+          g2.drawString("PAUSED", (screenWidth/2) - (int) (300*1.5) , (screenHeight/2) + 300/3);
+
+
 
 
 
@@ -425,6 +451,7 @@ public class Game extends JPanel implements Runnable{
 
 
           break;
+
         case playState: // pause
           playStateDrawMethod(g2);
           break;
@@ -441,6 +468,7 @@ public class Game extends JPanel implements Runnable{
         g2.drawString("" + minutesTens + minutesOnes + ":" + secondsTens + secondOnes, (int) ((screenWidth/2) - size/2), (screenHeight/2) + size);
         //Add the time here as it is the score be like your final time is:
         break;
+
       case levelUpState:
         playStateDrawMethod(g2);
         onlyLevelUpScreen.draw(g2);
@@ -453,6 +481,17 @@ public class Game extends JPanel implements Runnable{
 
 
 
+        break;
+
+      case titleScreenState:
+
+        onlyLevelUpScreen.drawStartScreen(g2);
+
+
+
+
+
+          
         break;
     }
 

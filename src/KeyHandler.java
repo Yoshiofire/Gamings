@@ -62,7 +62,7 @@ public class KeyHandler implements KeyListener{
       case KeyEvent.VK_D:
         rightKey = true;
         break;
-      case KeyEvent.VK_Q:
+      case KeyEvent.VK_SPACE:
         attackKey = true;
         break;
       case KeyEvent.VK_ENTER:
@@ -74,7 +74,7 @@ public class KeyHandler implements KeyListener{
         }
         else if(game.gameState == game.pauseState){// opposite of the first thing
           game.gameState = game.playState;
-          game.setBackground(Color.BLACK);
+          // game.setBackground(Color.BLACK);
         }
         break;
       
@@ -114,7 +114,7 @@ public class KeyHandler implements KeyListener{
       case KeyEvent.VK_D:
         rightKey = false;
         break;
-      case KeyEvent.VK_Q:
+      case KeyEvent.VK_SPACE:
         attackKey = false;
         break;
       case KeyEvent.VK_ENTER:

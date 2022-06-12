@@ -47,6 +47,7 @@ public class Spawner {
         (int) entity.hitbox.getWidth(),
         (int) entity.hitbox.getHeight()
         );
+
         entitySpawnedData.setSprite(entity.defaultFilePath);
 
 
@@ -58,7 +59,9 @@ public class Spawner {
             (player.hitbox.width + 240),
             (player.hitbox.height + 240)
             );
-            spawningCooldown = -1;
+
+        spawningCooldown = -1;
+
         switch(type){
             case 1:
                 spawningCooldown = 3; //<-- in seconds.
@@ -67,8 +70,8 @@ public class Spawner {
                 spawningCooldown = 20;//<-- in seconds.
                 break;
         }
-        spawnerList.add(this);
 
+        spawnerList.add(this);
         
     }
     //Entities playerInfluencedMovement, but only for the spawning Area, because.
