@@ -18,6 +18,16 @@ public class Card{
     static int tries = 0;
     public static ArrayList <Card> cardList = new ArrayList<>();
 
+    //FOR ABILITES AND STUFF
+    public static ArrayList <Integer> dontCallAbilities = new ArrayList <Integer>();
+    public static boolean createMoreCards = true;
+    static boolean firstAbilities = true;
+    static int time = 0;
+
+    //Creating New Swords Cap
+    static int swordLimit = 5;
+    static int currentAmountOfSwords = 0;
+
 
     public Card(String text, int abilityID){
 
@@ -117,20 +127,29 @@ public class Card{
         //abilityCard.y + (abilityCard.y/2)
     }
 
+    public void changeCardBorder(int borderSize){
+
+        abilityCardBorder.width = (int) ((borderSize) + abilityCard.getWidth());
+        abilityCardBorder.height = (int) ((borderSize) + abilityCard.getHeight());
+
+        abilityCardBorder.setLocation((int) (abilityCard.getX()-(borderSize/2)),(int) (abilityCard.getY()-(borderSize/2)));
+    }
+
+    //START OF GENERAL METHODS
 
     public static void changeIsSelected(KeyHandler key, Game game, PlayerData player){
         tries++;// determines the speed of the movement of whatever
         for(int x = Card.cardList.size()-1 ; x >= 0; x--){
             Card currentCard = Card.cardList.get(x);
             if(key.enterKey && currentCard.isSelected){
-                System.out.println("Chosen");
-                System.out.println(currentCard.abilityText);
+                // System.out.println("Chosen");
+                // System.out.println(currentCard.abilityText);
                 game.gameState = game.playState;
-                LevelUpScreen.testCreateAbilities(currentCard.abilityID, player);
+                createAbilities(currentCard.abilityID, player);
                 //Resets everything.
                 clearCards();
                 totalAmountOfCardsCreated = 1;
-                LevelUpScreen.createMoreCards = true;
+                createMoreCards = true;
                 break;
             }
             if(key.leftKey && currentCard.isSelected && tries >= 5){// Meaning that the currentCard is the selected one, and we are moving left
@@ -162,14 +181,128 @@ public class Card{
         }
     }
 
+    public static void createCards(){
+        time++;
+        if(time >= 15){
+            if(!firstAbilities){
+            time = 0;
+            int range = (int) (Math.random()*5)+1;
+            if(createMoreCards){
+                for(int x = 0; x < range; x++){
+                    int randomNumber = (int) (Math.random()*2) +1;
+                    // int randomNumber = 0;
+                    boolean canCreateCard = true;
 
-    public void changeCardBorder(int borderSize){
-
-        abilityCardBorder.width = (int) ((borderSize) + abilityCard.getWidth());
-        abilityCardBorder.height = (int) ((borderSize) + abilityCard.getHeight());
-
-        abilityCardBorder.setLocation((int) (abilityCard.getX()-(borderSize/2)),(int) (abilityCard.getY()-(borderSize/2)));
+                    for(int y = 0; y<dontCallAbilities.size(); y++){
+                        if(dontCallAbilities.get(y).equals(Integer.valueOf(randomNumber))){
+                            canCreateCard = false;
+                        }
+                    }
+                    if(canCreateCard){
+                        switch(randomNumber){
+                            case 0:
+                                new Card("Get a new Sword", 0);
+                                break;
+                            case 1:
+                                new Card("All I-Frames -1    Seconds", 1);
+                                break;
+                            case 2:
+                                new Card("Gain +2 Seconds    I-Frame, But lose  50HP", 2);
+                                break;
+                            default:
+                                new Card("You made a mistake with the randomNumber Variable", 777);
+                                break;
+    
+    
+                        }
+                    }
+                    else{//If you can't create the good cards because they are already used?
+                        switch(randomNumber){
+                            case 0:
+                                new Card("Gain +10 Max HP", -1);
+                                break;
+                            case 1:
+                                new Card("Gain +2 DMG", -2);
+                                break;
+                            case 2:
+                                new Card("Deal your contact  DMG to enemies", -3);
+                                break;
+                            default:
+                                new Card("Unlucky", -666);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else if(firstAbilities && createMoreCards){//Creates the starter abilites, because its the easiest way currenly 
+                new Card("Get a starter Sword", 0);
+                new Card("Gain +20 Contact   DMG", -100);
+                firstAbilities = false;
+            }
+            time = 0;
+            createMoreCards = false;
+        }
     }
+
+    public static void createAbilities(int abilityID, PlayerData player){
+        time = 0;
+        switch(abilityID){
+            case-666:
+                break;
+            case -100: //Increase player contactDMG by 20
+                player.contactDMG += 20;
+                break;
+            case -3: //Does player.ContactDMG to all peoples
+                for(int x = 0; x < People.peopleList.size(); x++){
+                    People tempPeople = People.peopleList.get(x);
+                    tempPeople.takeDMG(player.contactDMG);
+                }
+                break;
+            case -2: //Increase player item DMG by 2
+                for(int x = 0; x < Item.itemList.size(); x++){
+                    Item tempItem = Item.itemList.get(x);
+                    tempItem.dmg += 2;
+                }
+                player.contactDMG += 2;
+                break;
+            case -1: //Increase player maxHP by 10
+                player.healthMax += 10;
+                player.health += 10;
+                break;
+            case 0: //Gain a new Sword.
+                new Sword(new int[] {player.posX, player.posX + player.sizeX+400, player.posX + player.sizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + player.sizeY-30, player.posY + player.sizeY-30} );
+                currentAmountOfSwords++;
+                if(currentAmountOfSwords == swordLimit){
+                    dontCallAbilities.add(abilityID);
+                }
+                break;
+            case 1: //Works?
+                Entity.iFrameTimeStatAddition -= 1;
+                for(int x = 0; x < People.peopleList.size(); x++){
+                    People.peopleList.get(x).iFrameTime -= 1;
+                    People.peopleList.get(x).iFrame = false;
+                }
+                player.changeIFrame(-1);
+                dontCallAbilities.add(1);
+                dontCallAbilities.add(2);
+                break;
+            case 2: //Works?
+                player.changeIFrame(2);
+                player.healthMax -=50;
+                player.health -=50;
+                dontCallAbilities.add(1);
+                dontCallAbilities.add(2);
+                break;
+            case 777:
+                break;
+            
+        }
+
+        
+    }
+
+
 
     public void draw(Graphics2D g3){
         if(!isSelected){
