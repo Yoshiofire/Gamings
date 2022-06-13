@@ -87,7 +87,7 @@ public class PlayerData extends Entity{
 
     public void moveHPBars(){
         super.moveHPBars();
-        System.out.println("didwork");
+        // System.out.println("didwork");
         expBar.x = greenHPBar.x;
         expBar.y = greenHPBar.y - 10;
     }
