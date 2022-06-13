@@ -102,6 +102,7 @@ public class PlayerData extends Entity{
                 for(int x = 0; x < Item.itemList.size(); x++){
                     Item.itemList.get(x).dmg += 1;
                 }
+                addHealth(3);
             }
             // new Sword(new int[] {posX, posX + sizeX+400, posX + sizeX+400, posX}, new int[] {posY+30, posY+30, posY + sizeY-30, posY +sizeY-30} );
             game.gameState = game.levelUpState;
