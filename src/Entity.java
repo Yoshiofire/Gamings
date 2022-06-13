@@ -70,7 +70,7 @@ public class Entity{
 
         eSpeed = 10;
         movementCooldown = 6; // <-
-        health = 20; // <-
+        health = 20; // <- changes the difficulty of the game
         contactDMG = 2;
 
 
