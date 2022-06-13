@@ -46,11 +46,11 @@ public class People extends Entity{
                 expWorth = 5;
                 break;
             case 2:
-                eSpeed *= 2;
-                expWorth += 20;
-                health += 40;
+                eSpeed *= 3;
+                expWorth += 100;
+                health += 50;
                 healthMax = health;
-                contactDMG *= 2;
+                contactDMG *= 4;
                 break;
         }
         this.moveHPBars();
