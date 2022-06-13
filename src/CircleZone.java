@@ -8,10 +8,11 @@ import java.util.ArrayList;
 
 public class CircleZone extends Item{
 
-    public int currentSize = 300;
+    public int currentSize = 375;
     public Arc2D circleZone;
     public int centerPosX;
     public int centerPosY;
+    public Color color = Color.YELLOW;
     public static ArrayList <CircleZone> circleZoneList = new ArrayList<>();
 
 
@@ -19,7 +20,7 @@ public class CircleZone extends Item{
 
     public CircleZone(PlayerData player){
         super();
-        dmg = player.contactDMG;
+        dmg = 2;
         centerPosX = (int) player.hitbox.getCenterX()-(currentSize/2);
         centerPosY = (int) player.hitbox.getCenterY()-(currentSize/2);
         circleZone = new Arc2D.Double
@@ -54,7 +55,7 @@ public class CircleZone extends Item{
     }
 
     public void draw(Graphics2D g3){
-        g3.setColor(Color.YELLOW);
+        g3.setColor(color);
         g3.draw(circleZone);
         // g3.draw(animationHitbox);
         g3.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .1f));

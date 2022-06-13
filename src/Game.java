@@ -208,8 +208,10 @@ public class Game extends JPanel implements Runnable{
             new Spawner(peopleSpawner.entitySpawnedData, player, 1); //1 being people/ basic enemy
           }
           Entity.healthStatAddition += 30;
-          Entity.eSpeedStatAddition += 2;
           Entity.expWorthStatAddition += 1;
+        }
+        if(Game.frameCount % (FPS * 120) == 0 && Game.frameCount != 0){
+          Entity.eSpeedStatAddition += 2;
         }
 
         if(Game.frameCount % (FPS * 30) == 0 && Game.frameCount != 0){ //Every 3 minutes we decrease the spawning cooldown of everything by 1?
@@ -222,7 +224,7 @@ public class Game extends JPanel implements Runnable{
             Spawner currentSpawner = Spawner.spawnerList.get(x);
             currentSpawner.setSpawnerCooldown(currentSpawner.getSpawnerCooldown()-1);
           }
-          Entity.contactDMGStatAddition += 3;
+          Entity.contactDMGStatAddition += 2;
         }
         //END OF DYNAMIC CHALLENGE THING
 

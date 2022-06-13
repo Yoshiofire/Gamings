@@ -197,14 +197,18 @@ public class Entity{
 
         }
 
+        public void addHealth(int healthAdded){
+            this.health += healthAdded;
+            this.healthMax = health;
+        }
+
         public void addStatChanges(){//We need this because the previous method overides the people stats and makes then a generic entity.
             this.eSpeed += eSpeedStatAddition;
             if(iFrameTime + iFrameTimeStatAddition >= 0){
                 this.iFrameTime += iFrameTimeStatAddition;
                 this.iFrame = false;
             }
-            this.health += healthStatAddition;
-            this.healthMax = this.health;
+            this.addHealth(healthStatAddition);
             this.contactDMG += contactDMGStatAddition;
             this.expWorth += expWorthStatAddition;
         }
