@@ -29,8 +29,8 @@ public class Card{
     static int currentAmountOfSwords = 0;
 
     //Creating CircleZone Diameter Cap;
-    static int circleZoneLimit = 1;
-    static int currentAmountOfcircleZones = 0;
+    static int circleZoneSizeLimit = 6;//Currently like a 300+ size bonus
+    static int currentAmountOfcircleZoneSizeCalls = 0;
 
 
 
@@ -191,7 +191,7 @@ public class Card{
         if(time >= 15){
             if(!firstAbilities){
             time = 0;
-            int range = (int) (Math.random()*3)+2;
+            int range = (int) (Math.random()*2)+3;
             if(createMoreCards){
                 for(int x = 0; x < range; x++){
                     int randomNumber = (int) (Math.random()*4);
@@ -209,13 +209,14 @@ public class Card{
                                 new Card("Get a new Sword", 0);
                                 break;
                             case 1:
-                                new Card("Double DMG, But    lose your I-Frames", 1);
+                                new Card("Double current DMG But lose your      I-Frames", 1);
                                 break;
                             case 2:
                                 new Card("Gain +2 Seconds    I-Frame, But lose  50HP", 2);
                                 break;
                             case 3:
                                 new Card("Get a damaging areaaround you", 3);
+                                break;
                             default:
                                 new Card("You made a mistake with the randomNumber Variable", 777);
                                 break;
@@ -240,7 +241,20 @@ public class Card{
                                 new Card("Deal your contact  DMG to enemies", -3);
                                 break;
                             case 3:
-                                new Card("Increase your       damaging zone size", -5);
+                                if(currentAmountOfcircleZoneSizeCalls < circleZoneSizeLimit){
+                                    new Card("Damaging zone size +50", -5);
+                                }
+                                else if(currentAmountOfcircleZoneSizeCalls == circleZoneSizeLimit){
+                                    if(range >= 1){
+                                        range--;
+                                    }
+                                    new Card("Damaging zone size +100", -6);
+                                    new Card("Damaging zone      size/2, but 2.5x   DMG", -7);
+                                }
+                                else{
+                                    range++;//because there are no other things I can add, I just add another range so it creates another type of card.
+                                }
+                                break;
                             default:
                                 new Card("Unlucky", -666);
                                 break;
@@ -251,8 +265,11 @@ public class Card{
             }
             else if(firstAbilities && createMoreCards){//Creates the starter abilites, because its the easiest way currenly 
                 new Card("Get a starter Sword", 0);
-                new Card("Gain +20 Contact   DMG", -100);
+                new Card("Gain +60 Contact   DMG", -100);
                 new Card("Start with a       damaging field", 3);
+
+
+
 
                 firstAbilities = false;
             }
@@ -267,13 +284,32 @@ public class Card{
             case-666:
                 break;
             case -100: //Increase player contactDMG by 20
-                player.contactDMG += 20;
+                player.contactDMG += 60;
                 break;
-            case -5: //Increase circleZone by 30?
+            case -7: //Increase circleZone by 50?
                 for(int x = 0; x < CircleZone.circleZoneList.size(); x++){
                     CircleZone legitTheOnlyCircleZone =  CircleZone.circleZoneList.get(x);
-                    legitTheOnlyCircleZone.increaseSize(30);
+                    legitTheOnlyCircleZone.increaseSize(-1*(legitTheOnlyCircleZone.currentSize/2));
+                    legitTheOnlyCircleZone.color = Color.MAGENTA;
                 }
+                currentAmountOfcircleZoneSizeCalls++;
+
+                break;
+            case -6: //Increase circleZone by 50?
+                for(int x = 0; x < CircleZone.circleZoneList.size(); x++){
+                    CircleZone legitTheOnlyCircleZone =  CircleZone.circleZoneList.get(x);
+                    legitTheOnlyCircleZone.increaseSize(100);
+                    legitTheOnlyCircleZone.color = Color.ORANGE;
+                }
+                currentAmountOfcircleZoneSizeCalls++;
+
+                break;
+            case -5: //Increase circleZone by 50?
+                for(int x = 0; x < CircleZone.circleZoneList.size(); x++){
+                    CircleZone legitTheOnlyCircleZone =  CircleZone.circleZoneList.get(x);
+                    legitTheOnlyCircleZone.increaseSize(50);
+                }
+                currentAmountOfcircleZoneSizeCalls++;
                 break;
             case -4: //Increase ALL sword length by 50
                 for(int x = 0; x < Sword.swordList.size(); x++){
@@ -304,8 +340,7 @@ public class Card{
                 player.contactDMG += 4;
                 break;
             case -1: //Increase player maxHP by 10
-                player.healthMax += 15;
-                player.health += 15;
+                player.addHealth(15);
                 break;
             case 0: //Gain a new Sword.
                 new Sword(new int[] {player.posX, player.posX + player.sizeX+400, player.posX + player.sizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + player.sizeY-30, player.posY + player.sizeY-30} );
@@ -342,11 +377,6 @@ public class Card{
             case 3:
                 new CircleZone(player);
                 dontCallAbilities.add(abilityID);
-                //Why would you ever need to have more than 1?
-                // currentAmountOfcircleZones++;
-                // if(currentAmountOfcircleZones == circleZoneLimit){
-                //     dontCallAbilities.add(abilityID);
-                // }
                 break;
             case 777:
                 break;
