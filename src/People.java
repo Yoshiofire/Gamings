@@ -39,6 +39,7 @@ public class People extends Entity{
         this.defaultFilePath = filePath;
         this.setSprite(filePath);
         this.type = type;
+        this.iFrameTime = 0;
         // this.type = "enemy1";
         switch(type){
             case 1:
@@ -46,8 +47,8 @@ public class People extends Entity{
                 break;
             case 2:
                 eSpeed *= 2;
-                expWorth = 20;
-                health = 40;
+                expWorth += 20;
+                health += 40;
                 healthMax = health;
                 contactDMG *= 2;
                 break;

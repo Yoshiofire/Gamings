@@ -39,7 +39,7 @@ public class PlayerData extends Entity{
         imageFilePathDown = "player_images/JermaDown.png";
         imageFilePathLeft = "player_images/JermaLeft.png";
         imageFilePathRight = "player_images/JermaRight.png";
-        this.health = 100;
+        this.health = 110;
         healthMax = health;
         this.eSpeed = 20;
         this.iFrameTime = 1;
@@ -87,7 +87,7 @@ public class PlayerData extends Entity{
 
     public void moveHPBars(){
         super.moveHPBars();
-        System.out.println("didwork");
+        // System.out.println("didwork");
         expBar.x = greenHPBar.x;
         expBar.y = greenHPBar.y - 10;
     }
@@ -102,6 +102,7 @@ public class PlayerData extends Entity{
                 for(int x = 0; x < Item.itemList.size(); x++){
                     Item.itemList.get(x).dmg += 1;
                 }
+                addHealth(3);
             }
             // new Sword(new int[] {posX, posX + sizeX+400, posX + sizeX+400, posX}, new int[] {posY+30, posY+30, posY + sizeY-30, posY +sizeY-30} );
             game.gameState = game.levelUpState;

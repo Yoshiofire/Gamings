@@ -54,10 +54,10 @@ public class Spawner {
 
         dontSpawnHitbox = new Rectangle
             (
-            (player.hitbox.x - 120),
-            (player.hitbox.y - 120),
-            (player.hitbox.width + 240),
-            (player.hitbox.height + 240)
+            (player.hitbox.x - 200),
+            (player.hitbox.y - 200),
+            (player.hitbox.width + 400),
+            (player.hitbox.height + 400)
             );
 
         spawningCooldown = -1;
@@ -157,7 +157,7 @@ public class Spawner {
 
     public void drawAllSpawnerHitboxes(Graphics2D g4){
         g4.setColor(Color.BLUE);
-        g4.fill(spawningArea);
+        // g4.fill(spawningArea);
         g4.draw(spawningArea);
         g4.draw(dontSpawnHitbox);
 

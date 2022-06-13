@@ -360,8 +360,8 @@ public class CollisionDetect{ // this is going t
         public void checkDMGAgainstEntities(Entity entity, Entity entity2){
             if((entity2.collides)){
                 if(!entity.iFrame && !entity2.iFrame){
-                    System.out.println(entity.contactDMG);
-                    System.out.println(entity2.contactDMG);
+                    // System.out.println(entity.contactDMG);
+                    // System.out.println(entity2.contactDMG);
 
 
                     entity2.takeDMG(entity.contactDMG);

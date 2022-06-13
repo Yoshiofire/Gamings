@@ -28,6 +28,11 @@ public class Card{
     static int swordLimit = 5;
     static int currentAmountOfSwords = 0;
 
+    //Creating CircleZone Diameter Cap;
+    static int circleZoneSizeLimit = 6;//Currently like a 300+ size bonus
+    static int currentAmountOfcircleZoneSizeCalls = 0;
+
+
 
     public Card(String text, int abilityID){
 
@@ -102,7 +107,7 @@ public class Card{
         abilityCard.x = cardXPos;
         abilityCard.y = cardYPos;
 
-        System.out.println(cardXPos);
+        // System.out.println(cardXPos);
         // System.out.println();
 
 
@@ -186,10 +191,10 @@ public class Card{
         if(time >= 15){
             if(!firstAbilities){
             time = 0;
-            int range = (int) (Math.random()*5)+1;
+            int range = (int) (Math.random()*2)+3;
             if(createMoreCards){
                 for(int x = 0; x < range; x++){
-                    int randomNumber = (int) (Math.random()*2) +1;
+                    int randomNumber = (int) (Math.random()*4);
                     // int randomNumber = 0;
                     boolean canCreateCard = true;
 
@@ -204,10 +209,13 @@ public class Card{
                                 new Card("Get a new Sword", 0);
                                 break;
                             case 1:
-                                new Card("All I-Frames -1    Seconds", 1);
+                                new Card("Double current DMG But lose your      I-Frames", 1);
                                 break;
                             case 2:
                                 new Card("Gain +2 Seconds    I-Frame, But lose  50HP", 2);
+                                break;
+                            case 3:
+                                new Card("Get a damaging areaaround you", 3);
                                 break;
                             default:
                                 new Card("You made a mistake with the randomNumber Variable", 777);
@@ -218,14 +226,34 @@ public class Card{
                     }
                     else{//If you can't create the good cards because they are already used?
                         switch(randomNumber){
-                            case 0:
-                                new Card("Gain +10 Max HP", -1);
+                            case 0://Because this is for when you have the max amount of swords I'll also add a thing for swords.
+                                int tempRandom = (int) (Math.random()*2);
+                                if(tempRandom == 0){
+                                    new Card("Gain +15 Max HP", -1);
+                                }else{
+                                    new Card("Haha longer sword", -4);
+                                }
                                 break;
                             case 1:
-                                new Card("Gain +2 DMG", -2);
+                                new Card("Gain +4 DMG", -2);
                                 break;
                             case 2:
                                 new Card("Deal your contact  DMG to enemies", -3);
+                                break;
+                            case 3:
+                                if(currentAmountOfcircleZoneSizeCalls < circleZoneSizeLimit){
+                                    new Card("Damaging zone size +50", -5);
+                                }
+                                else if(currentAmountOfcircleZoneSizeCalls == circleZoneSizeLimit){
+                                    if(range >= 1){
+                                        range--;
+                                    }
+                                    new Card("Damaging zone size +100", -6);
+                                    new Card("Damaging zone      size/2, but 2.5x   DMG", -7);
+                                }
+                                else{
+                                    range++;//because there are no other things I can add, I just add another range so it creates another type of card.
+                                }
                                 break;
                             default:
                                 new Card("Unlucky", -666);
@@ -237,7 +265,12 @@ public class Card{
             }
             else if(firstAbilities && createMoreCards){//Creates the starter abilites, because its the easiest way currenly 
                 new Card("Get a starter Sword", 0);
-                new Card("Gain +20 Contact   DMG", -100);
+                new Card("Gain +60 Contact   DMG", -100);
+                new Card("Start with a       damaging field", 3);
+
+
+
+
                 firstAbilities = false;
             }
             time = 0;
@@ -251,24 +284,63 @@ public class Card{
             case-666:
                 break;
             case -100: //Increase player contactDMG by 20
-                player.contactDMG += 20;
+                player.contactDMG += 60;
+                break;
+            case -7: //Increase circleZone by 50?
+                for(int x = 0; x < CircleZone.circleZoneList.size(); x++){
+                    CircleZone legitTheOnlyCircleZone =  CircleZone.circleZoneList.get(x);
+                    legitTheOnlyCircleZone.increaseSize(-1*(legitTheOnlyCircleZone.currentSize/2));
+                    legitTheOnlyCircleZone.color = Color.MAGENTA;
+                }
+                currentAmountOfcircleZoneSizeCalls++;
+
+                break;
+            case -6: //Increase circleZone by 50?
+                for(int x = 0; x < CircleZone.circleZoneList.size(); x++){
+                    CircleZone legitTheOnlyCircleZone =  CircleZone.circleZoneList.get(x);
+                    legitTheOnlyCircleZone.increaseSize(100);
+                    legitTheOnlyCircleZone.color = Color.ORANGE;
+                }
+                currentAmountOfcircleZoneSizeCalls++;
+
+                break;
+            case -5: //Increase circleZone by 50?
+                for(int x = 0; x < CircleZone.circleZoneList.size(); x++){
+                    CircleZone legitTheOnlyCircleZone =  CircleZone.circleZoneList.get(x);
+                    legitTheOnlyCircleZone.increaseSize(50);
+                }
+                currentAmountOfcircleZoneSizeCalls++;
+                break;
+            case -4: //Increase ALL sword length by 50
+                for(int x = 0; x < Sword.swordList.size(); x++){
+                    Sword tempSword = Sword.swordList.get(x);
+                    tempSword.makeSwordLonger(100);
+                }
                 break;
             case -3: //Does player.ContactDMG to all peoples
+                boolean noIFrame = false;
+                if(player.iFrameTime == 0){
+                    noIFrame = true;
+                }
                 for(int x = 0; x < People.peopleList.size(); x++){
                     People tempPeople = People.peopleList.get(x);
-                    tempPeople.takeDMG(player.contactDMG);
+                    if(!noIFrame){
+                        tempPeople.takeDMG(player.contactDMG);
+                    }
+                    else{
+                        tempPeople.takeDMG((int) (player.contactDMG*1.5));
+                    }
                 }
                 break;
-            case -2: //Increase player item DMG by 2
+            case -2: //Increase player item DMG by 4
                 for(int x = 0; x < Item.itemList.size(); x++){
                     Item tempItem = Item.itemList.get(x);
-                    tempItem.dmg += 2;
+                    tempItem.dmg += 4;
                 }
-                player.contactDMG += 2;
+                player.contactDMG += 4;
                 break;
             case -1: //Increase player maxHP by 10
-                player.healthMax += 10;
-                player.health += 10;
+                player.addHealth(15);
                 break;
             case 0: //Gain a new Sword.
                 new Sword(new int[] {player.posX, player.posX + player.sizeX+400, player.posX + player.sizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + player.sizeY-30, player.posY + player.sizeY-30} );
@@ -278,12 +350,20 @@ public class Card{
                 }
                 break;
             case 1: //Works?
-                Entity.iFrameTimeStatAddition -= 1;
-                for(int x = 0; x < People.peopleList.size(); x++){
-                    People.peopleList.get(x).iFrameTime -= 1;
-                    People.peopleList.get(x).iFrame = false;
-                }
+
+                // Entity.iFrameTimeStatAddition -= 1;
+                // for(int x = 0; x < People.peopleList.size(); x++){
+                //     People.peopleList.get(x).iFrameTime -= 1;
+                //     People.peopleList.get(x).iFrame = false;
+                // }
+
                 player.changeIFrame(-1);
+                player.contactDMG *= 2;
+                for(int x = 0; x < Item.itemList.size(); x++){
+                    Item tempItem = Item.itemList.get(x);
+                    tempItem.dmg *= 2;
+                }
+
                 dontCallAbilities.add(1);
                 dontCallAbilities.add(2);
                 break;
@@ -293,6 +373,10 @@ public class Card{
                 player.health -=50;
                 dontCallAbilities.add(1);
                 dontCallAbilities.add(2);
+                break;
+            case 3:
+                new CircleZone(player);
+                dontCallAbilities.add(abilityID);
                 break;
             case 777:
                 break;
