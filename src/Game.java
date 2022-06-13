@@ -204,8 +204,12 @@ public class Game extends JPanel implements Runnable{
           player.healHP(5);
         }
         if(Game.frameCount % (FPS * 60) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
-          if(Spawner.spawnerList.size() < 10){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
+          if(Spawner.spawnerList.size() < 5){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
             new Spawner(peopleSpawner.entitySpawnedData, player, 1); //1 being people/ basic enemy
+          }else{
+            Entity.eSpeedStatAddition += 2;
+            Entity.healthStatAddition += 5;
+            Entity.contactDMGStatAddition += 1;
           }
           Entity.healthStatAddition += 30;
           Entity.expWorthStatAddition += 1;
@@ -432,12 +436,12 @@ public class Game extends JPanel implements Runnable{
           // }
           // drawTime(g2);
 
-          // for(Spawner spawner: Spawner.spawnerList){
-          //   spawner.drawAllSpawnerHitboxes(g2); 
-          //   // System.out.println(spawner.spawningArea.getX());
-          //   // System.out.println(spawner.spawningArea.getWidth());
+          for(Spawner spawner: Spawner.spawnerList){
+            spawner.drawAllSpawnerHitboxes(g2); 
+            // System.out.println(spawner.spawningArea.getX());
+            // System.out.println(spawner.spawningArea.getWidth());
 
-          // }
+          }
           //Everything above is for debugging hitboxes
           playStateDrawMethod(g2);
           onlyLevelUpScreen.draw(g2);
