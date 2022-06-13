@@ -95,7 +95,7 @@ public class PlayerData extends Entity{
     public void gainEXP(int expGained){
         exp += expGained;
         if(exp >= levelUpEXP){
-            exp = 0;
+            exp = 1;
             healHP(healthMax - health);
             levelUpEXP += 50;
             if(levelUpEXP % 300 == 0){
