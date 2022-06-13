@@ -70,7 +70,7 @@ public class Entity{
 
         eSpeed = 10;
         movementCooldown = 6; // <-
-        health = 20; // <- changes the difficulty of the game
+        health = 80; // <- changes the difficulty of the game
         contactDMG = 2;
 
 
@@ -204,6 +204,7 @@ public class Entity{
                 this.iFrame = false;
             }
             this.health += healthStatAddition;
+            this.healthMax = this.health;
             this.contactDMG += contactDMGStatAddition;
             this.expWorth += expWorthStatAddition;
         }
