@@ -50,7 +50,8 @@ public class Game extends JPanel implements Runnable{
   public InvisWall left = new InvisWall(0, 0, 0, leftBounds);
   public InvisWall right = new InvisWall(leftBounds, 0, 0, leftBounds);
 
-
+  //yea it plays music
+  public WavPlayer maketune = new WavPlayer("music_zone/tune.wav");
   
 
 //Enemy types
@@ -129,7 +130,7 @@ public class Game extends JPanel implements Runnable{
       long lastTime = System.nanoTime();
       long currentTime;
       double delta = 0;
-      int FPScount = 0;
+      //Wavplayer.play("music_zone/tune.wav");
       // new Card("Add +1 DMG");
       // new Card("Get another sword");
       // new Card("More speed");
@@ -152,7 +153,7 @@ public class Game extends JPanel implements Runnable{
           // System.out.println("Holder");
 
           currentTime = System.nanoTime();
-
+          maketune.keepLooping(); //this should loop the song infinitely..
           delta += (currentTime - lastTime) / bootlegFPS;
           // seconds += (currentTime - lastTime); //This is because I used an old system AND I suck.
           FPStimer += (currentTime - lastTime);

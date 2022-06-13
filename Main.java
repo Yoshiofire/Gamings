@@ -7,8 +7,7 @@ public class Main extends JFrame {
       window.setResizable(false); // can be changed maybe?
       window.setTitle(""); // sdadsadsasd
 
-      //things we probably need.
-
+      //things we p
       //1. Eniity collision, gotta know when something hits (practically done)
 
       //2.
