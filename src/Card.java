@@ -191,7 +191,7 @@ public class Card{
         if(time >= 15){
             if(!firstAbilities){
             time = 0;
-            int range = (int) (Math.random()*4)+2;
+            int range = (int) (Math.random()*3)+2;
             if(createMoreCards){
                 for(int x = 0; x < range; x++){
                     int randomNumber = (int) (Math.random()*4);
