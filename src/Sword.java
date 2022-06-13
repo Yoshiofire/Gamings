@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 
 
+
 public class Sword extends Item{
     public static ArrayList <Sword> swordList = new ArrayList<>();
     static int amount = 0;
@@ -82,7 +83,9 @@ public class Sword extends Item{
         int sFrame = Game.FPS/15; // 2 at 30 FPS and 4 at 60FPS
         startFrame = Game.frameCount;
 
-        if(player.key.attackKey && startFrame > endFrame && cooldownTime < Game.frameCount){ //1. if button is pressed, 2. if animation is done 3. if its off CD
+        if(player.key.attackKey && startFrame > endFrame && cooldownTime < Game.frameCount){
+            WavPlayer.play("music_zone/sword.wav");
+            //1. if button is pressed, 2. if animation is done 3. if its off CD
             switch(player.movement){
                 case 87: // W
                     rotationS = 90;
