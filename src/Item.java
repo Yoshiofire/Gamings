@@ -16,21 +16,37 @@ public class Item{
 
     public int cooldownFrames;
     public int cooldownSeconds;
-    public Polygon hitbox;
+    public Shape hitbox;
     public static ArrayList <Item> itemList = new ArrayList<>();
     public BufferedImage sprite;
     public Shape animationHitbox;
     public int dmg;
-    public boolean playerHas = false;
 
 
     public AffineTransform at = new AffineTransform();
     public AffineTransform spriteAt = new AffineTransform();
 
+    public Item(){//Need to set cooldownSeconds in your own constructors
+        cooldownFrames = 1;
+        dmg = 20;
+        try{
+
+            sprite = ImageIO.read(getClass().getResourceAsStream("people_images/shirt.png"));
+            
+
+        }catch(IOException e){
+
+            e.getStackTrace();
+
+        }
+
+        itemList.add(this);
+    }
+
     public Item(int[] x, int[] y){//Need to set cooldownSeconds in your own constructors
         hitbox = new Polygon(x, y, x.length);
         cooldownFrames = 1;
-        dmg = 10;
+        dmg = 20;
         try{
 
             sprite = ImageIO.read(getClass().getResourceAsStream("people_images/shirt.png"));
@@ -73,17 +89,14 @@ public class Item{
 
     public void draw(Graphics2D g3){
         if(animationHitbox != null){
-            g3.setColor(Color.YELLOW);
-            g3.fill(animationHitbox);
+            // g3.setColor(Color.YELLOW);
+            // g3.fill(animationHitbox);
             g3.drawImage(sprite, at, null);
+
         }
     }
 
 
-    public void drawPolyHitbox(Graphics2D g3){
-        g3.drawPolygon(this.hitbox);
-
-    }
 
     public void drawAniHitbox(Graphics2D g3){
         if(animationHitbox != null){
