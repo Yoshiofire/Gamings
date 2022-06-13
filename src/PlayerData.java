@@ -39,7 +39,7 @@ public class PlayerData extends Entity{
         imageFilePathDown = "player_images/JermaDown.png";
         imageFilePathLeft = "player_images/JermaLeft.png";
         imageFilePathRight = "player_images/JermaRight.png";
-        this.health = 16;
+        this.health = 110;
         healthMax = health;
         this.eSpeed = 20;
         this.iFrameTime = 1;
@@ -95,7 +95,7 @@ public class PlayerData extends Entity{
     public void gainEXP(int expGained){
         exp += expGained;
         if(exp >= levelUpEXP){
-            exp = 1;
+            exp = 0;
             healHP(healthMax - health);
             levelUpEXP += 50;
             if(levelUpEXP % 300 == 0){

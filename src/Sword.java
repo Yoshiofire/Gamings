@@ -84,7 +84,6 @@ public class Sword extends Item{
         startFrame = Game.frameCount;
 
         if(player.key.attackKey && startFrame > endFrame && cooldownTime < Game.frameCount){
-            WavPlayer.play("music_zone/sword.wav");
             //1. if button is pressed, 2. if animation is done 3. if its off CD
             switch(player.movement){
                 case 87: // W
