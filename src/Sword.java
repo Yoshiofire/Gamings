@@ -22,7 +22,7 @@ public class Sword extends Item{
         swordHitbox = (Polygon) hitbox;
         amount++;
         thisNumber = amount+1;
-        setSprite("player_images/sword.png");
+        setSprite("player_images/Sword.png");
         cooldownSeconds = cooldownFrames * Game.FPS;
         //currently sword is better rectangle, as it can rotate 360 in incrments of 1 compared to rectangles and their 90 only.
         /*
