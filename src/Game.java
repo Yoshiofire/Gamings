@@ -33,7 +33,7 @@ public class Game extends JPanel implements Runnable{
   // Sword sword4 = new Sword(new int[] {player.posX, player.posX + playerSizeX+400, player.posX + playerSizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
   // Sword sword5 = new Sword(new int[] {player.posX, player.posX + playerSizeX+400, player.posX + playerSizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
   // Sword sword6 = new Sword(new int[] {player.posX, player.posX + playerSizeX+400, player.posX + playerSizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
-
+  // CircleZone test = new CircleZone(player);
 
 
 
@@ -203,13 +203,15 @@ public class Game extends JPanel implements Runnable{
         if(Game.frameCount % (FPS * 5) == 0 && Game.frameCount != 0){
           player.healHP(5);
         }
-        if(Game.frameCount % (FPS * 120) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
-          if(Spawner.spawnerList.size() < 7){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
+        if(Game.frameCount % (FPS * 60) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
+          if(Spawner.spawnerList.size() < 10){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
             new Spawner(peopleSpawner.entitySpawnedData, player, 1); //1 being people/ basic enemy
           }
-          Entity.healthStatAddition += 4;
-
+          Entity.healthStatAddition += 30;
+          Entity.eSpeedStatAddition += 2;
+          Entity.expWorthStatAddition += 1;
         }
+
         if(Game.frameCount % (FPS * 30) == 0 && Game.frameCount != 0){ //Every 3 minutes we decrease the spawning cooldown of everything by 1?
           for(int x = Spawner.spawnerList.size()-1; x >= 0; x--){//What happens is that the new spawner will be at the default cooldown.
             /*
@@ -220,7 +222,7 @@ public class Game extends JPanel implements Runnable{
             Spawner currentSpawner = Spawner.spawnerList.get(x);
             currentSpawner.setSpawnerCooldown(currentSpawner.getSpawnerCooldown()-1);
           }
-          Entity.contactDMGStatAddition += 1;
+          Entity.contactDMGStatAddition += 3;
         }
         //END OF DYNAMIC CHALLENGE THING
 
@@ -242,17 +244,15 @@ public class Game extends JPanel implements Runnable{
         //Check all types of children items here.
         for(int z = Sword.swordList.size()-1; z >= 0; z--){
           Sword swords = Sword.swordList.get(z); 
-          if(swords.playerHas){
-            swords.swingSword(player);
-          }
+          swords.swingSword(player);
         }
         
 
-      for(int z = Sword.swordList.size()-1; z >= 0; z--){
-        Sword swords = Sword.swordList.get(z);
+      for(int z = Item.itemList.size()-1; z >= 0; z--){
+        Item items = Item.itemList.get(z);
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
           People peoples = People.peopleList.get(x);
-            if(CD.checkItem(peoples, swords)){
+            if(CD.checkItem(peoples, items)){
               doDeath(peoples.isDead, x);
             }
         }
@@ -377,8 +377,9 @@ public class Game extends JPanel implements Runnable{
 
   public void doDeath(boolean dead, int index){
     if(dead){
-      System.out.println("YES");
+      // System.out.println("YES");
       player.gainEXP(People.peopleList.get(index).expWorth);
+      People.peopleList.get(index).sprite.flush();
       People.peopleList.remove(index);
     }
   }
@@ -429,12 +430,12 @@ public class Game extends JPanel implements Runnable{
           // }
           // drawTime(g2);
 
-          // // for(Spawner spawner: Spawner.spawnerList){
-          //   // spawner.drawAllSpawnerHitboxes(g2); 
+          // for(Spawner spawner: Spawner.spawnerList){
+          //   spawner.drawAllSpawnerHitboxes(g2); 
           //   // System.out.println(spawner.spawningArea.getX());
           //   // System.out.println(spawner.spawningArea.getWidth());
 
-          // // }
+          // }
           //Everything above is for debugging hitboxes
           playStateDrawMethod(g2);
           onlyLevelUpScreen.draw(g2);
