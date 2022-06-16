@@ -71,7 +71,7 @@ public class Entity{
         eSpeed = 10;
         movementCooldown = 6; // <-
         health = 80; // <- changes the difficulty of the game
-        contactDMG = 2;
+        contactDMG = 4;
 
 
 
