@@ -17,7 +17,7 @@ public class Game extends JPanel implements Runnable{
 
 
 
-  Thread gameThread; // why we need a thread is because of the fact that if we dont use a thread then it will become more akin to a turn based rpg where we do our thing then another person will do their thing.
+  public Thread gameThread; // why we need a thread is because of the fact that if we dont use a thread then it will become more akin to a turn based rpg where we do our thing then another person will do their thing.
   // With a thread what happens is that is runs through it top to bottom while we have another thing also running I think?
   KeyHandler keyChecker = new KeyHandler(this);
   
@@ -27,6 +27,7 @@ public class Game extends JPanel implements Runnable{
   int playerStartingX = (int) (screenWidth/2) - playerSizeX/2;
   int playerStartingY = (int) (screenHeight/2) - playerSizeY/2;
   PlayerData player = new PlayerData(keyChecker, this, playerStartingX ,playerStartingY, 15, playerSizeX, playerSizeY);
+  int pSpeed = 0;
   // Sword sword = new Sword(new int[] {player.posX, player.posX + playerSizeX+400, player.posX + playerSizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
   // Sword sword2 = new Sword(new int[] {player.posX, player.posX + playerSizeX+400, player.posX + playerSizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
   // Sword sword3 = new Sword(new int[] {player.posX, player.posX + playerSizeX+400, player.posX + playerSizeX+400, player.posX}, new int[] {player.posY+30, player.posY+30, player.posY + playerSizeY-30, player.posY + playerSizeY-30} );
@@ -57,8 +58,8 @@ public class Game extends JPanel implements Runnable{
 
 
 //Spawner Types, need to be before the different enemies.  
-  Spawner peopleSpawner = new Spawner(people, player, 1);
-  Spawner peopleSpawner2 = new Spawner(people2, player, 2);
+  public Spawner peopleSpawner = new Spawner(people, player, 1);
+  public Spawner peopleSpawner2 = new Spawner(people2, player, 2);
 
   // Spawner peopleSpawner2 = new Spawner(people, player);
   // Spawner peopleSpawne3r = new Spawner(people, player);
@@ -80,7 +81,10 @@ public class Game extends JPanel implements Runnable{
   int secondsTens;
   int minutesOnes;
   int minutesTens;
-  // boolean isStillPlaying = true;
+
+
+  SpawnerController onlySpawnerController = new SpawnerController(this, player, keyChecker);
+
 
 
 
@@ -99,12 +103,15 @@ public class Game extends JPanel implements Runnable{
   
 
     public void startGameThread(){
+
+
       for(int x = People.peopleList.size()-1; x >= 0; x--){
         People.peopleList.set(x, null);
         People.peopleList.remove(x);
       }
       gameThread = new Thread(this);
       gameThread.start();
+      onlySpawnerController.startSpawnerControllerThread();    
 
     }
 
@@ -177,15 +184,7 @@ public class Game extends JPanel implements Runnable{
             FPScount = 0;
             FPStimer = 0;
           }
-
-
-          
-
       }
-
-
-
-
     }
 
   
@@ -194,41 +193,21 @@ public class Game extends JPanel implements Runnable{
       switch(gameState){
         case playState: // default playing thing
 
+        //Check SpawnerController for entity stat changes and other things 
+        onlySpawnerController.canRun = true;
 
-
-        //START OF DYNAMIC CHALLENGE THING
-        if(Game.frameCount % (FPS * 5) == 0 && Game.frameCount != 0){
-          player.healHP(5);
-        }
-        if(Game.frameCount % (FPS * 60) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
-          if(Spawner.spawnerList.size() < 5){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
-            new Spawner(peopleSpawner.entitySpawnedData, player, 1); //1 being people/ basic enemy
-          }else{
-            Entity.eSpeedStatAddition += 2;
-            Entity.healthStatAddition += 5;
-            Entity.contactDMGStatAddition += 1;
+        //Can't run this in the other thread because it doesn't 'make it' properly, unless I really don't care.
+        if(Game.frameCount % (Game.FPS * 60) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
+          if(Spawner.spawnerList.size() < 15){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
+              new Spawner(peopleSpawner.entitySpawnedData, player, 1); //1 being people/ basic enemy
           }
-          Entity.healthStatAddition += 30;
-          Entity.expWorthStatAddition += 1;
         }
-        if(Game.frameCount % (FPS * 120) == 0 && Game.frameCount != 0){
-          Entity.eSpeedStatAddition += 2;
-        }
-
-        if(Game.frameCount % (FPS * 30) == 0 && Game.frameCount != 0){ //Every 3 minutes we decrease the spawning cooldown of everything by 1?
-          for(int x = Spawner.spawnerList.size()-1; x >= 0; x--){//What happens is that the new spawner will be at the default cooldown.
-            /*
-             * Actually, at 3:00, the first spawner will have -3 seconds removed from the cooldown, then a new spawner will be created.
-             * That spawner will have the default cooldown of (lets say the defualt is 3).
-             * Therefore we have one spawner at -3 seconds, to another at 0 seconds removed.
-             */
-            Spawner currentSpawner = Spawner.spawnerList.get(x);
-            currentSpawner.setSpawnerCooldown(currentSpawner.getSpawnerCooldown()-1);
+        
+        if(Game.frameCount % (Game.FPS * 120) == 0 && Game.frameCount != 0){
+          if(Spawner.spawnerList.size() < 15){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
+            new Spawner(peopleSpawner2.entitySpawnedData, player, 2); //1 being people/ basic enemy
           }
-          Entity.contactDMGStatAddition += 2;
         }
-        //END OF DYNAMIC CHALLENGE THING
-
         
         player.collides = false;
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
@@ -243,7 +222,9 @@ public class Game extends JPanel implements Runnable{
         for(InvisWall walls: InvisWall.wallList){
           CD.checkPlayWall(walls, player);
         }
-        int pSpeed = player.playerMove();
+
+        pSpeed = player.playerMove();
+
         //Check all types of children items here.
         for(int z = Sword.swordList.size()-1; z >= 0; z--){
           Sword swords = Sword.swordList.get(z); 
@@ -260,14 +241,12 @@ public class Game extends JPanel implements Runnable{
             }
         }
       }
-        
 
-        for(Spawner spawner: Spawner.spawnerList){
-          spawner.independentSpawnerMovement(pSpeed, keyChecker); // <-- ALWAYS NEEDED
-          if(People.peopleList.size() + Spawner.spawnerList.size() < 1000){
-            spawner.basicSpawnPeople();
-          }
-        }
+      for(int x = Spawner.spawnerList.size()-1; x >= 0; x--){
+        Spawner currentSpawner = Spawner.spawnerList.get(x);
+        currentSpawner.independentSpawnerMovement(pSpeed, keyChecker); // <-- ALWAYS NEEDED
+      }
+        
 
           // CHECKS COLLISION BETWEEN PEOPLE AND OTHER OBJECTS CURRENTLY CREATED (INVISIBLE WALLS, PLAYER)
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
@@ -418,9 +397,7 @@ public class Game extends JPanel implements Runnable{
         case pauseState: // default playing thing
 
           // // test.drawPolyHitbox(g2);
-          // for(Item items: Item.itemList){
-          //   items.drawAniHitbox(g2);
-          // }
+
           // for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){
           //   People peoples = People.peopleList.get(x);
           //   peoples.drawHitboxes(g2);
@@ -433,12 +410,7 @@ public class Game extends JPanel implements Runnable{
           // }
           // drawTime(g2);
 
-          for(Spawner spawner: Spawner.spawnerList){
-            spawner.drawAllSpawnerHitboxes(g2); 
-            // System.out.println(spawner.spawningArea.getX());
-            // System.out.println(spawner.spawningArea.getWidth());
 
-          }
           //Everything above is for debugging hitboxes
           playStateDrawMethod(g2);
           onlyLevelUpScreen.draw(g2);
@@ -457,7 +429,14 @@ public class Game extends JPanel implements Runnable{
           break;
 
         case playState: // pause
+        for(Item items: Item.itemList){
+          items.drawAniHitbox(g2);
+        }
           playStateDrawMethod(g2);
+          for(int x = Spawner.spawnerList.size()-1; x >= 0; x--){
+            Spawner spawners = Spawner.spawnerList.get(x);
+            spawners.drawAllSpawnerHitboxes(g2); 
+          }
           break;
 
 
