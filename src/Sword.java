@@ -17,6 +17,8 @@ public class Sword extends Item{
     int rotationS;
     int rotationE = 11;
     int cooldownTime;
+    int totalWidthIncrease = 0;
+    int totalHeightIncrease = 0;
 
     public Sword(int[] x, int[] y){
         super(x, y);
@@ -43,6 +45,7 @@ public class Sword extends Item{
     }
 
     public void makeSwordLonger(int widthIncrease){
+        totalWidthIncrease += widthIncrease;
         swordHitbox.xpoints[1] += widthIncrease;
         swordHitbox.xpoints[2] += widthIncrease;
         resetSprite(widthIncrease, 0);
@@ -59,9 +62,9 @@ public class Sword extends Item{
         spriteAt.setToTranslation(swordHitbox.xpoints[0], swordHitbox.ypoints[0]);//set this to the top left coord of polygon
 
         // double spriteHeightAfterScalingAgainstHitbox = hitbox.getBounds().getHeight()/ hitbox.getBounds().getWidth();
-        double spriteHeightAfterScalingAgainstHitbox = (hitbox.getBounds().getHeight()+heightIncrease)/sprite.getHeight();
+        double spriteHeightAfterScalingAgainstHitbox = (swordHitbox.getBounds().getHeight()+totalHeightIncrease)/sprite.getHeight();
 
-        double spriteWidthAfterScalingAgainstHitbox = (hitbox.getBounds().getWidth()+widthIncrease)/sprite.getWidth(); //Because swords are going to be scaled x-coordinate wise, we really don't need a y one
+        double spriteWidthAfterScalingAgainstHitbox = (swordHitbox.getBounds().getWidth()+totalWidthIncrease)/sprite.getWidth(); //Because swords are going to be scaled x-coordinate wise, we really don't need a y one
        
         spriteAt.scale(spriteWidthAfterScalingAgainstHitbox, spriteHeightAfterScalingAgainstHitbox);
         //^^ spriteAt is what transformations you need to do onto the sprite of the item.
