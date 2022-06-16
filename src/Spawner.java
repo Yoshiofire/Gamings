@@ -21,13 +21,12 @@ public class Spawner {
 
         this.type = type;
 
-        
         spawningArea = new Rectangle
         (
-        (entity.hitbox.width + 30 + (int) InvisWall.wallList.get(0).hitbox.getX()),
-        (entity.hitbox.height + 30 + (int) InvisWall.wallList.get(0).hitbox.getY()),
-        (Game.leftBounds - entity.hitbox.width*4),
-        (Game.leftBounds - entity.hitbox.height*4)
+        (entity.hitbox.width + (player.eSpeed * 4) + (int) InvisWall.wallList.get(0).hitbox.getX()),
+        (entity.hitbox.height + (player.eSpeed * 4) + (int) InvisWall.wallList.get(0).hitbox.getY()),
+        ((Game.leftBounds - entity.hitbox.width*4) - player.eSpeed*2),
+        ((Game.leftBounds - entity.hitbox.height*4) - player.eSpeed*2)
         );
 
 
