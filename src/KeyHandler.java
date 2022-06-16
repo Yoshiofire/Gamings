@@ -6,7 +6,14 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener{
   
   public Game game;
-  public boolean upKey, downKey, leftKey, rightKey, pauseKey, attackKey, enterKey;
+  public boolean 
+  upKey = false,
+  downKey = false,
+  leftKey = false,
+  rightKey = false,
+  pauseKey = false,
+  attackKey = false,
+  enterKey = false;
 
   public KeyHandler(Game g){
     game = g;
