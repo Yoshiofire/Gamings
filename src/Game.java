@@ -134,6 +134,7 @@ public class Game extends JPanel implements Runnable{
       long lastTime = System.nanoTime();
       long currentTime;
       double delta = 0;
+      
       //Wavplayer.play("music_zone/tune.wav");
       // new Card("Add +1 DMG");
       // new Card("Get another sword");
@@ -197,17 +198,17 @@ public class Game extends JPanel implements Runnable{
         onlySpawnerController.canRun = true;
 
         //Can't run this in the other thread because it doesn't 'make it' properly, unless I really don't care.
-        if(Game.frameCount % (Game.FPS * 60) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
-          if(Spawner.spawnerList.size() < 15){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
-              new Spawner(peopleSpawner.entitySpawnedData, player, 1); //1 being people/ basic enemy
-          }
-        }
+        // if(Game.frameCount % (Game.FPS * 60) == 0 && Game.frameCount != 0){ //Every 3 minutes we add another spawner?
+        //   if(Spawner.spawnerList.size() < 15){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
+        //       new Spawner(peopleSpawner.entitySpawnedData, player, 1); //1 being people/ basic enemy
+        //   }
+        // }
         
-        if(Game.frameCount % (Game.FPS * 120) == 0 && Game.frameCount != 0){
-          if(Spawner.spawnerList.size() < 15){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
-            new Spawner(peopleSpawner2.entitySpawnedData, player, 2); //1 being people/ basic enemy
-          }
-        }
+        // if(Game.frameCount % (Game.FPS * 120) == 0 && Game.frameCount != 0){
+        //   if(Spawner.spawnerList.size() < 15){//Because we only have one type of enemy, I think setting the limit to 7 spawners is good enough for now.
+        //     new Spawner(peopleSpawner2.entitySpawnedData, player, 2); //1 being people/ basic enemy
+        //   }
+        // }
         
         player.collides = false;
         for(int x = People.peopleList.size()-1; x >= 0 ;x-- ){

@@ -50,7 +50,7 @@ public class People extends Entity{
                 expWorth += 100;
                 health += 50;
                 healthMax = health;
-                contactDMG *= 4;
+                contactDMG *= 3;
                 break;
         }
         this.moveHPBars();
